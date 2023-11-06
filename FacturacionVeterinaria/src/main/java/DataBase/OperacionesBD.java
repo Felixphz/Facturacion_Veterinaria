@@ -10,11 +10,11 @@ package DataBase;
  */
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import Model.Persona;
+import Model.Customer;
 
 public class OperacionesBD {
     
-    public static void agregarPersona(Connection conexion, Persona persona) {
+    public static void agregarPersona(Connection conexion, Customer persona) {
         try {
             String insercion = "INSERT INTO persona (Nombres, Apellidos, telefono, email, direccion) VALUES (?, ?, ?, ?, ?)";
             PreparedStatement preparedStatement = conexion.prepareStatement(insercion);
@@ -44,7 +44,7 @@ public class OperacionesBD {
         Connection conexion = ConexionBD.obtenerConexion();
         
         if (conexion != null) {
-            Persona nuevaPersona = new Persona("juan", "felipe", 3214545, "sdf@sdf", "2345465ui");
+            Customer nuevaPersona = new Customer("juan", "felipe", 3214545, "sdf@sdf", "2345465ui");
             agregarPersona(conexion, nuevaPersona);
             ConexionBD.cerrarConexion(conexion);
         }

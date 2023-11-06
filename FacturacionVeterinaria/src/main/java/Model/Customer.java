@@ -8,18 +8,18 @@ package Model;
  *
  * @author David Gomez
  */
-public class Persona {
+public class Customer {
     private String nombre;
     private String apellidos;
     private int telefono;
     private String correo;
     private String direccion;
     
-    public Persona(){
+    public Customer(){
         
     }
     
-    public Persona(String nombres, String apellidos, int telefono, String correo, String direccion) {
+    public Customer(String nombres, String apellidos, int telefono, String correo, String direccion) {
         this.nombre = nombres;
         this.apellidos = apellidos;
         this.telefono = telefono;
