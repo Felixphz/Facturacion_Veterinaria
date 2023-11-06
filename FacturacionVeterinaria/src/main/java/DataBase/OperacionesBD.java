@@ -44,7 +44,7 @@ public class OperacionesBD {
         Connection conexion = ConexionBD.obtenerConexion();
         
         if (conexion != null) {
-            Customer nuevaPersona = new Customer("juan", "felipe", 3214545, "sdf@sdf", "2345465ui");
+            Customer nuevaPersona = new Customer("1000344432","juan", "felipe", 3214545, "sdf@sdf", "2345465ui");
             agregarPersona(conexion, nuevaPersona);
             ConexionBD.cerrarConexion(conexion);
         }
