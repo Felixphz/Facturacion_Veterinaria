@@ -26,7 +26,7 @@ public class Facturacion extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        dateChooserDialog1 = new org.netbeans.modules.form.InvalidComponent();
+        dateChooserDialog1 = new datechooser.beans.DateChooserDialog();
         jPanel1 = new javax.swing.JPanel();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel3 = new javax.swing.JPanel();
@@ -36,7 +36,7 @@ public class Facturacion extends javax.swing.JFrame {
         label17 = new java.awt.Label();
         jComboBox2 = new javax.swing.JComboBox<>();
         label18 = new java.awt.Label();
-        dateChooserCombo5 = new org.netbeans.modules.form.InvalidComponent();
+        dateChooserCombo5 = new datechooser.beans.DateChooserCombo();
         label19 = new java.awt.Label();
         label20 = new java.awt.Label();
         label21 = new java.awt.Label();
@@ -53,7 +53,7 @@ public class Facturacion extends javax.swing.JFrame {
         jPanel4 = new javax.swing.JPanel();
         label8 = new java.awt.Label();
         label12 = new java.awt.Label();
-        dateChooserCombo2 = new org.netbeans.modules.form.InvalidComponent();
+        dateChooserCombo2 = new datechooser.beans.DateChooserCombo();
         label9 = new java.awt.Label();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
@@ -61,8 +61,8 @@ public class Facturacion extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         label10 = new java.awt.Label();
         label13 = new java.awt.Label();
-        dateChooserCombo3 = new org.netbeans.modules.form.InvalidComponent();
-        dateChooserCombo4 = new org.netbeans.modules.form.InvalidComponent();
+        dateChooserCombo3 = new datechooser.beans.DateChooserCombo();
+        dateChooserCombo4 = new datechooser.beans.DateChooserCombo();
         label14 = new java.awt.Label();
         label15 = new java.awt.Label();
         jButton1 = new javax.swing.JButton();
@@ -470,11 +470,11 @@ public class Facturacion extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private org.netbeans.modules.form.InvalidComponent dateChooserCombo2;
-    private org.netbeans.modules.form.InvalidComponent dateChooserCombo3;
-    private org.netbeans.modules.form.InvalidComponent dateChooserCombo4;
-    private org.netbeans.modules.form.InvalidComponent dateChooserCombo5;
-    private org.netbeans.modules.form.InvalidComponent dateChooserDialog1;
+    private datechooser.beans.DateChooserCombo dateChooserCombo2;
+    private datechooser.beans.DateChooserCombo dateChooserCombo3;
+    private datechooser.beans.DateChooserCombo dateChooserCombo4;
+    private datechooser.beans.DateChooserCombo dateChooserCombo5;
+    private datechooser.beans.DateChooserDialog dateChooserDialog1;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;

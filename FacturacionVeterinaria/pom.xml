@@ -7,14 +7,16 @@
     <packaging>jar</packaging>
     <dependencies>
         <dependency>
-            <groupId>Fecha</groupId>
-            <artifactId>1234</artifactId>
+            <groupId>Date</groupId>
+            <artifactId>DateChooser</artifactId>
             <version>1.0.0</version>
+            <type>jar</type>
         </dependency>
         <dependency>
-            <groupId>fechas</groupId>
-            <artifactId>fecha</artifactId>
-            <version>1.0.0</version>
+            <groupId>unknown.binary</groupId>
+            <artifactId>SelectorTiempo</artifactId>
+            <version>SNAPSHOT</version>
+            <type>jar</type>
         </dependency>
     </dependencies>
     <properties>

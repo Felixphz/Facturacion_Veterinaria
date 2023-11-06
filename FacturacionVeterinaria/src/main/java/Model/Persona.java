@@ -9,7 +9,7 @@ package Model;
  * @author David Gomez
  */
 public class Persona {
-    private String nombres;
+    private String nombre;
     private String apellidos;
     private int telefono;
     private String correo;
@@ -20,7 +20,7 @@ public class Persona {
     }
     
     public Persona(String nombres, String apellidos, int telefono, String correo, String direccion) {
-        this.nombres = nombres;
+        this.nombre = nombres;
         this.apellidos = apellidos;
         this.telefono = telefono;
         this.correo = correo;
@@ -28,11 +28,11 @@ public class Persona {
     }
 
     public String getNombres() {
-        return nombres;
+        return nombre;
     }
 
     public void setNombres(String nombres) {
-        this.nombres = nombres;
+        this.nombre = nombres;
     }
 
     public String getApellidos() {
