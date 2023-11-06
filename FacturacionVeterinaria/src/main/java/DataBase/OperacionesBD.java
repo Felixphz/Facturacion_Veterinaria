@@ -10,6 +10,7 @@ package DataBase;
  */
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import Model.Persona;
 
 public class OperacionesBD {
     
