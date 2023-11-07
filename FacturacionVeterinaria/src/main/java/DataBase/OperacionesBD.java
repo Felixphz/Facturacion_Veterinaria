@@ -8,23 +8,30 @@ package DataBase;
  *
  * @author David Gomez
  */
+import Control.BDcontrol;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import Model.Customer;
 
-public class OperacionesBD {
+public class OperacionesBD implements BDcontrol{
+    Connection conexion = ConexionBD.obtenerConexion();
+    public OperacionesBD(){
+        
+    }
     
-    public static void agregarPersona(Connection conexion, Customer persona) {
+    @Override
+    public void agregarPersona( Customer persona) {
         try {
-            String insercion = "INSERT INTO persona (Nombres, Apellidos, telefono, email, direccion) VALUES (?, ?, ?, ?, ?)";
+            String insercion = "INSERT INTO persona (cedula, Nombres, Apellidos, telefono, email, direccion) VALUES (?, ?, ?, ?, ?, ?)";
             PreparedStatement preparedStatement = conexion.prepareStatement(insercion);
 
             // Establece los valores de los parámetros
-            preparedStatement.setString(1, persona.getNombres());
-            preparedStatement.setString(2, persona.getApellidos());
-            preparedStatement.setInt(3, persona.getTelefono());
-            preparedStatement.setString(4, persona.getCorreo());
-            preparedStatement.setString(5, persona.getDireccion());
+            preparedStatement.setInt(1, persona.getCedula());
+            preparedStatement.setString(2, persona.getNombres());
+            preparedStatement.setString(3, persona.getApellidos());
+            preparedStatement.setInt(4, persona.getTelefono());
+            preparedStatement.setString(5, persona.getCorreo());
+            preparedStatement.setString(6, persona.getDireccion());
 
             // Ejecuta la inserción
             int filasAfectadas = preparedStatement.executeUpdate();
@@ -39,7 +46,7 @@ public class OperacionesBD {
             System.err.println("Error al agregar persona: " + e.getMessage());
         }
     }
-
+/*
     public static void main(String[] args) {
         Connection conexion = ConexionBD.obtenerConexion();
         
@@ -48,5 +55,7 @@ public class OperacionesBD {
             agregarPersona(conexion, nuevaPersona);
             ConexionBD.cerrarConexion(conexion);
         }
-    }
+    }*/
+
+    
 }

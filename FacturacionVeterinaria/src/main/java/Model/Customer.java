@@ -9,7 +9,7 @@ package Model;
  * @author David Gomez
  */
 public class Customer {
-    private String cedula;
+    private int cedula;
     private String nombre;
     private String apellidos;
     private int telefono;
@@ -20,7 +20,7 @@ public class Customer {
         
     }
     
-    public Customer(String cedula, String nombres, String apellidos, int telefono, String correo, String direccion) {
+    public Customer(int cedula, String nombres, String apellidos, int telefono, String correo, String direccion) {
         this.cedula = cedula;
         this.nombre = nombres;
         this.apellidos = apellidos;
@@ -29,11 +29,11 @@ public class Customer {
         this.direccion = direccion;
     }
 
-    public String getCedula() {
+    public int getCedula() {
         return cedula;
     }
 
-    public void setCedula(String cedula) {
+    public void setCedula(int cedula) {
         this.cedula = cedula;
     }
     

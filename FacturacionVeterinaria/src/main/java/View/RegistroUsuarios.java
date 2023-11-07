@@ -4,6 +4,8 @@
  */
 package View;
 
+import Control.BDcontrol;
+import DataBase.OperacionesBD;
 import Model.Customer;
 import javax.swing.JOptionPane;
 
@@ -12,7 +14,7 @@ import javax.swing.JOptionPane;
  * @author juani
  */
 public class RegistroUsuarios extends javax.swing.JFrame {
-
+    
     /**
      * Creates new form RegistroUsuarios
      */
@@ -40,7 +42,7 @@ public class RegistroUsuarios extends javax.swing.JFrame {
         label5 = new java.awt.Label();
         lastname = new java.awt.TextField();
         label6 = new java.awt.Label();
-        tel = new java.awt.TextField();
+        telNum = new java.awt.TextField();
         label7 = new java.awt.Label();
         email = new java.awt.TextField();
         adress = new java.awt.TextField();
@@ -106,10 +108,10 @@ public class RegistroUsuarios extends javax.swing.JFrame {
         label6.setName(""); // NOI18N
         label6.setText("Número de telefono");
 
-        tel.setFont(new java.awt.Font("Times New Roman", 1, 16)); // NOI18N
-        tel.addActionListener(new java.awt.event.ActionListener() {
+        telNum.setFont(new java.awt.Font("Times New Roman", 1, 16)); // NOI18N
+        telNum.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                telActionPerformed(evt);
+                telNumActionPerformed(evt);
             }
         });
 
@@ -164,7 +166,7 @@ public class RegistroUsuarios extends javax.swing.JFrame {
                             .addComponent(label8, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(adress, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(label6, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(tel, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(telNum, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(name, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(93, 93, 93))
             .addGroup(layout.createSequentialGroup()
@@ -198,7 +200,7 @@ public class RegistroUsuarios extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(label6, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(5, 5, 5)
-                        .addComponent(tel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(telNum, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(31, 31, 31)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
@@ -225,19 +227,20 @@ public class RegistroUsuarios extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_lastnameActionPerformed
 
-    private void telActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_telActionPerformed
+    private void telNumActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_telNumActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_telActionPerformed
+    }//GEN-LAST:event_telNumActionPerformed
 
     private void button2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button2ActionPerformed
         // TODO add your handling code here:
-        if (id.getText().equals("") || name.getText().equals("") || lastname.getText().equals("") || tel.getText().equals("") ||
+        BDcontrol BD = new OperacionesBD();
+        if (id.getText().equals("") || name.getText().equals("") || lastname.getText().equals("") || telNum.getText().equals("") ||
                  email.getText().equals("") || adress.getText().equals("")) {
             JOptionPane.showMessageDialog(null, "Por favor complete todo el formulario para poder continuar", "Error", JOptionPane.ERROR_MESSAGE);
         }else{
-            int telnum = Integer.parseInt(tel.getText());
             //Aquí se puede agregar el código para la bd
-            Customer cst = new Customer(id.getText(), name.getText(), lastname.getText(), telnum,  email.getText(), adress.getText());
+            Customer cst = new Customer(Integer.parseInt(id.getText()), name.getText(), lastname.getText(), Integer.parseInt(telNum.getText()),  email.getText(), adress.getText());
+            BD.agregarPersona(cst);
             setEmpty(); //Reinicia todos los campos
             JOptionPane.showMessageDialog(null, "Se ha registrado al usuario correctamente", "Listo!", JOptionPane.INFORMATION_MESSAGE);
         }
@@ -252,7 +255,7 @@ public class RegistroUsuarios extends javax.swing.JFrame {
         id.setText("");
         name.setText("");
         lastname.setText("");
-        tel.setText("");
+        telNum.setText("");
         email.setText("");
         adress.setText("");
     }
@@ -309,6 +312,6 @@ public class RegistroUsuarios extends javax.swing.JFrame {
     private java.awt.Label label8;
     private java.awt.TextField lastname;
     private java.awt.TextField name;
-    private java.awt.TextField tel;
+    private java.awt.TextField telNum;
     // End of variables declaration//GEN-END:variables
 }

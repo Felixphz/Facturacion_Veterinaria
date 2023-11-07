@@ -54,7 +54,7 @@
                           <Component id="label8" alignment="0" min="-2" pref="270" max="-2" attributes="0"/>
                           <Component id="adress" alignment="0" min="-2" pref="270" max="-2" attributes="0"/>
                           <Component id="label6" alignment="0" min="-2" pref="270" max="-2" attributes="0"/>
-                          <Component id="tel" alignment="0" min="-2" pref="270" max="-2" attributes="0"/>
+                          <Component id="telNum" alignment="0" min="-2" pref="270" max="-2" attributes="0"/>
                           <Component id="name" min="-2" pref="270" max="-2" attributes="0"/>
                       </Group>
                   </Group>
@@ -97,7 +97,7 @@
                   <Group type="102" attributes="0">
                       <Component id="label6" min="-2" pref="25" max="-2" attributes="0"/>
                       <EmptySpace min="5" pref="5" max="-2" attributes="0"/>
-                      <Component id="tel" min="-2" max="-2" attributes="0"/>
+                      <Component id="telNum" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
@@ -224,14 +224,14 @@
         <Property name="text" type="java.lang.String" value="N&#xfa;mero de telefono"/>
       </Properties>
     </Component>
-    <Component class="java.awt.TextField" name="tel">
+    <Component class="java.awt.TextField" name="telNum">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Times New Roman" size="16" style="1"/>
         </Property>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="telActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="telNumActionPerformed"/>
       </Events>
     </Component>
     <Component class="java.awt.Label" name="label7">
