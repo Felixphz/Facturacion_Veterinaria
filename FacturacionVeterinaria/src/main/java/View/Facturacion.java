@@ -4,6 +4,15 @@
  */
 package View;
 
+import Control.BDcontrol;
+import DataBase.OperacionesBD;
+import Model.Customer;
+import Model.Factura;
+import datechooser.beans.DateChooserCombo;
+import java.sql.Date;
+import java.util.Calendar;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author juani
@@ -426,6 +435,13 @@ public class Facturacion extends javax.swing.JFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
+        BDcontrol BD = new OperacionesBD();
+        Calendar fechaUtil = dateChooserCombo5.getSelectedDate();
+        java.util.Date utilDate = fechaUtil.getTime(); // Obtener el java.util.Date directamente
+        java.sql.Date fechaSQL = new java.sql.Date(utilDate.getTime()); // C
+        Factura fct=new Factura(33,"central",fechaSQL,"pagada");
+        BD.agregarFactura(fct);
+        
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed

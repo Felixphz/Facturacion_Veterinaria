@@ -5,6 +5,7 @@
 package Control;
 
 import Model.Customer;
+import Model.Factura;
 
 /**
  *
@@ -12,4 +13,5 @@ import Model.Customer;
  */
 public interface BDcontrol {
     public void agregarPersona( Customer persona);
+    public void agregarFactura( Factura factura);
 }

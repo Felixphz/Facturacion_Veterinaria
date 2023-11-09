@@ -12,6 +12,7 @@ import Control.BDcontrol;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import Model.Customer;
+import Model.Factura;
 
 public class OperacionesBD implements BDcontrol{
     Connection conexion = ConexionBD.obtenerConexion();
@@ -44,6 +45,32 @@ public class OperacionesBD implements BDcontrol{
             preparedStatement.close();
         } catch (Exception e) {
             System.err.println("Error al agregar persona: " + e.getMessage());
+        }
+    }
+    
+    @Override
+    public void agregarFactura( Factura factura) {
+        try {
+            String insercion = "INSERT INTO facturas (id_persona, sucursal, estado, fecha) VALUES (?, ?, ?, ?)";
+            PreparedStatement preparedStatement = conexion.prepareStatement(insercion);
+
+            // Establece los valores de los parámetros
+            preparedStatement.setInt(1, factura.getId_persona());
+            preparedStatement.setString(2, factura.getSucursal());
+            preparedStatement.setDate(4, factura.getFecha());
+            preparedStatement.setString(3, factura.getEstado());
+
+            // Ejecuta la inserción
+            int filasAfectadas = preparedStatement.executeUpdate();
+            if (filasAfectadas > 0) {
+                System.out.println("factura agregada exitosamente a la base de datos.");
+            } else {
+                System.err.println("Error al agregar factura a la base de datos.");
+            }
+
+            preparedStatement.close();
+        } catch (Exception e) {
+            System.err.println("Error al agregar factura: " + e.getMessage());
         }
     }
 /*
