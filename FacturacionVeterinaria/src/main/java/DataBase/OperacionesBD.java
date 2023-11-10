@@ -13,6 +13,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import Model.Customer;
 import Model.Factura;
+import Model.Producto;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class OperacionesBD implements BDcontrol{
     Connection conexion = ConexionBD.obtenerConexion();
@@ -73,6 +78,31 @@ public class OperacionesBD implements BDcontrol{
             System.err.println("Error al agregar factura: " + e.getMessage());
         }
     }
+    
+    @Override
+    public List<Producto> obtenerProductos() {
+    List<Producto> productos = new ArrayList<>();
+    try {
+        String consulta = "SELECT nombre, precio, descripcion FROM productos";
+        PreparedStatement preparedStatement = conexion.prepareStatement(consulta);
+        ResultSet resultSet = preparedStatement.executeQuery();
+
+        while (resultSet.next()) {
+            String nombre = resultSet.getString("nombre");
+            int precio = resultSet.getInt("precio");
+            String descripcion = resultSet.getString("descripcion");
+
+            Producto producto = new Producto(nombre, precio, descripcion);
+            productos.add(producto);
+        }
+
+        resultSet.close();
+        preparedStatement.close();
+    } catch (SQLException e) {
+        System.err.println("Error al obtener productos: " + e.getMessage());
+    }
+    return productos;
+}
 /*
     public static void main(String[] args) {
         Connection conexion = ConexionBD.obtenerConexion();

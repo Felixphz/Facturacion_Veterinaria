@@ -8,9 +8,12 @@ import Control.BDcontrol;
 import DataBase.OperacionesBD;
 import Model.Customer;
 import Model.Factura;
+import Model.Producto;
 import datechooser.beans.DateChooserCombo;
 import java.sql.Date;
 import java.util.Calendar;
+import java.util.List;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 
 /**
@@ -18,12 +21,26 @@ import javax.swing.JOptionPane;
  * @author juani
  */
 public class Facturacion extends javax.swing.JFrame {
-
+    
+    
     /**
      * Creates new form Facturacion
      */
     public Facturacion() {
+        BDcontrol BD = new OperacionesBD();
+        
+        
+        List<Producto> productos = BD.obtenerProductos();
         initComponents();
+        DefaultComboBoxModel<String> shareModel = new DefaultComboBoxModel<>();
+        shareModel.addElement("Seleccione...");
+        for (Producto producto : productos) {
+             shareModel.addElement(producto.getNombre());
+        }
+       jComboBox4.setModel(shareModel);
+        jComboBox5.setModel(shareModel);
+        jComboBox3.setModel(shareModel);
+        jComboBox6.setModel(shareModel);
     }
 
     /**
@@ -115,7 +132,7 @@ public class Facturacion extends javax.swing.JFrame {
         label21.setText("Producto");
 
         jComboBox3.setFont(new java.awt.Font("Berlin Sans FB", 0, 18)); // NOI18N
-        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione..." }));
         jComboBox3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBox3ActionPerformed(evt);
@@ -435,6 +452,8 @@ public class Facturacion extends javax.swing.JFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
+        
+      
         BDcontrol BD = new OperacionesBD();
         Calendar fechaUtil = dateChooserCombo5.getSelectedDate();
         java.util.Date utilDate = fechaUtil.getTime(); // Obtener el java.util.Date directamente
