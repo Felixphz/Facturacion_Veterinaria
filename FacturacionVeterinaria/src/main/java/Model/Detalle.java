@@ -12,12 +12,22 @@ public class Detalle {
     private int id_detalle;
     private int id_producto;
     private int id_factura;
+    private int cantidad;
     
     
-    public Detalle(int id_producto, int id_factura) {
+    public Detalle(int id_producto, int id_factura, int cantidad) {
         this.id_producto = id_producto;
         this.id_factura = id_factura;
+        this.cantidad = cantidad;
     }        
+
+    public int getCantidad() {
+        return cantidad;
+    }
+
+    public void setCantidad(int cantidad) {
+        this.cantidad = cantidad;
+    }
 
     public int getId_detalle() {
         return id_detalle;

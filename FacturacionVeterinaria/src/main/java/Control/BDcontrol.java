@@ -8,6 +8,7 @@ import Model.Customer;
 import Model.Detalle;
 import Model.Factura;
 import Model.Producto;
+import java.sql.Date;
 import java.util.List;
 
 /**
@@ -21,8 +22,9 @@ public interface BDcontrol {
     public List<Producto> obtenerProductos();
     public List<Factura> obtenerFacturas();
     public List<Detalle> obtenerDetalles();
-    public List<Integer> obtenerDetallesPorIdFactura(int idFactura);
+    public List<Detalle> obtenerDetallesPorIdFactura(int idFactura);
     public Producto obtenerProductoPorId(int idProducto);
     public Customer obtenerPersonaPorId(int idPersona);
+    public List<Factura> obtenerBalance(Date fechaInicio, Date fechaFin);
             
 }

@@ -135,17 +135,19 @@ public class OperacionesBD implements BDcontrol {
     }
     
     @Override
-    public List<Integer> obtenerDetallesPorIdFactura(int idFactura){
-        List<Integer> productList = new ArrayList<>();
+    public List<Detalle> obtenerDetallesPorIdFactura(int idFactura){
+        List<Detalle> productList = new ArrayList<>();
         try {
-            String consulta = "SELECT id_producto1 FROM detalles WHERE id_factura1 = ?";
+            String consulta = "SELECT id_producto1,cantidad FROM detalles WHERE id_factura1 = ?";
             PreparedStatement preparedStatement = conexion.prepareStatement(consulta);
             preparedStatement.setInt(1, idFactura);
             ResultSet resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
                 int idProducto = resultSet.getInt("id_producto1");
-                productList.add(idProducto);
+                int cantidad = resultSet.getInt("cantidad");
+                Detalle detalle=new Detalle(idFactura,idProducto,cantidad);
+                productList.add(detalle);
             }
 
             resultSet.close();
@@ -250,9 +252,10 @@ public Customer obtenerPersonaPorId(int idPersona) {
 
             while (resultSet.next()) {
                 int idProducto = resultSet.getInt("id_producto1");
-                int idFactura = resultSet.getInt("id_factura");
+                int idFactura = resultSet.getInt("id_factura1");
+                int cantidad = resultSet.getInt("cantidad");
 
-                Detalle detalle = new Detalle(idProducto, idFactura);
+                Detalle detalle = new Detalle(idProducto, idFactura,cantidad);
                 detalle.setId_detalle(idFactura);
                 detalles.add(detalle);
             }
@@ -264,6 +267,36 @@ public Customer obtenerPersonaPorId(int idPersona) {
         }
         return detalles;
     }
+    
+    @Override
+    public List<Factura> obtenerBalance(Date fechaInicio, Date fechaFin) {
+    List<Factura> facturasEnRango = new ArrayList<>();
+    try {
+        String consulta = "SELECT id_factura, id_persona, sucursal, estado, fecha FROM facturas WHERE fecha BETWEEN ? AND ?";
+        PreparedStatement preparedStatement = conexion.prepareStatement(consulta);
+        preparedStatement.setDate(1, fechaInicio);
+        preparedStatement.setDate(2, fechaFin);
+        ResultSet resultSet = preparedStatement.executeQuery();
+
+        while (resultSet.next()) {
+            int idFactura = resultSet.getInt("id_factura");
+            int idPersona = resultSet.getInt("id_persona");
+            String sucursal = resultSet.getString("sucursal");
+            String estado = resultSet.getString("estado");
+            Date fecha = resultSet.getDate("fecha");
+
+            Factura factura = new Factura( idPersona, sucursal, fecha,estado);
+            factura.setId_factura(idFactura);
+            facturasEnRango.add(factura);
+        }
+
+        resultSet.close();
+        preparedStatement.close();
+    } catch (SQLException e) {
+        System.err.println("Error al obtener facturas en rango de tiempo: " + e.getMessage());
+    }
+    return facturasEnRango;
+}
     /*
     public static void main(String[] args) {
         Connection conexion = ConexionBD.obtenerConexion();
