@@ -213,7 +213,34 @@ public Customer obtenerPersonaPorId(int idPersona) {
     }
     return persona;
 }
-    
+    @Override
+    public List<Factura> buscarFacturasPorFecha(Date fecha) {
+        List<Factura> facturasEnFecha = new ArrayList<>();
+        try {
+            String consulta = "SELECT id_factura, id_persona, sucursal, estado, fecha FROM facturas WHERE fecha = ?";
+            PreparedStatement preparedStatement = conexion.prepareStatement(consulta);
+            preparedStatement.setDate(1, fecha);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                int idFactura = resultSet.getInt("id_factura");
+                int idPersona = resultSet.getInt("id_persona");
+                String sucursal = resultSet.getString("sucursal");
+                String estado = resultSet.getString("estado");
+                Date fechaFactura = resultSet.getDate("fecha");
+
+                Factura factura = new Factura( idPersona, sucursal,fechaFactura, estado);
+                factura.setId_factura(idFactura);
+                facturasEnFecha.add(factura);
+            }
+
+            resultSet.close();
+            preparedStatement.close();
+        } catch (SQLException e) {
+            System.err.println("Error al buscar facturas por fecha: " + e.getMessage());
+        }
+        return facturasEnFecha;
+    }
     @Override
     public List<Factura> obtenerFacturas() {
         List<Factura> facturas = new ArrayList<>();

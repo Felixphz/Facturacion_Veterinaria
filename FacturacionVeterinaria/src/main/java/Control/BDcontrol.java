@@ -26,5 +26,6 @@ public interface BDcontrol {
     public Producto obtenerProductoPorId(int idProducto);
     public Customer obtenerPersonaPorId(int idPersona);
     public List<Factura> obtenerBalance(Date fechaInicio, Date fechaFin);
+    public List<Factura> buscarFacturasPorFecha(Date fecha);
             
 }

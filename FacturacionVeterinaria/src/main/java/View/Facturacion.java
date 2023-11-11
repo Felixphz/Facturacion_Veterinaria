@@ -23,16 +23,14 @@ import javax.swing.table.DefaultTableModel;
  * @author juani
  */
 public class Facturacion extends javax.swing.JFrame {
-
+    
     /**
      * Creates new form Facturacion
      */
-    public void TablaFacturaTatal(){
+    public void TablaDeFacturas(List<Factura> facturas){
         BDcontrol BD = new OperacionesBD();
         DefaultTableModel modeloFactura = (DefaultTableModel) TablaFacturas.getModel();
-        List<Factura> facturas = BD.obtenerFacturas();
-        
-         modeloFactura.setRowCount(0);
+                 modeloFactura.setRowCount(0);
 
         for (Factura factura : facturas) {
             List<Detalle> DetallesList = BD.obtenerDetallesPorIdFactura(factura.getId_factura());
@@ -65,8 +63,8 @@ public class Facturacion extends javax.swing.JFrame {
         jComboBox5.setModel(shareModel);
         jComboBox3.setModel(shareModel);
         jComboBox6.setModel(shareModel);
-
-         TablaFacturaTatal();
+        List<Factura> facturas = BD.obtenerFacturas();
+        TablaDeFacturas(facturas);
         
       /*  
         DefaultTableModel modeloFactura = (DefaultTableModel) TablaFacturas.getModel();
@@ -125,7 +123,7 @@ public class Facturacion extends javax.swing.JFrame {
         jPanel4 = new javax.swing.JPanel();
         label8 = new java.awt.Label();
         label12 = new java.awt.Label();
-        dateChooserCombo2 = new datechooser.beans.DateChooserCombo();
+        FechaObj = new datechooser.beans.DateChooserCombo();
         label9 = new java.awt.Label();
         jScrollPane1 = new javax.swing.JScrollPane();
         TablaFacturas = new javax.swing.JTable();
@@ -344,8 +342,8 @@ public class Facturacion extends javax.swing.JFrame {
         label12.setText("Seleccione la fecha que desea consultar");
         jPanel4.add(label12);
         label12.setBounds(52, 71, 457, 31);
-        jPanel4.add(dateChooserCombo2);
-        dateChooserCombo2.setBounds(90, 120, 293, 30);
+        jPanel4.add(FechaObj);
+        FechaObj.setBounds(90, 120, 293, 30);
 
         label9.setAlignment(java.awt.Label.CENTER);
         label9.setFont(new java.awt.Font("Berlin Sans FB", 0, 30)); // NOI18N
@@ -539,21 +537,20 @@ public class Facturacion extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
 
         BDcontrol BD = new OperacionesBD();
         Calendar fechaUtil = dateChooserCombo5.getSelectedDate();
-        java.util.Date utilDate = fechaUtil.getTime(); // Obtener el java.util.Date directamente
-        java.sql.Date fechaSQL = new java.sql.Date(utilDate.getTime()); // C
+        java.util.Date utilDate = fechaUtil.getTime(); 
+        java.sql.Date fechaSQL = new java.sql.Date(utilDate.getTime()); 
         Factura fct = new Factura(33, "central", fechaSQL, "pagada");
         BD.agregarFactura(fct);
 
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        // TODO add your handling code here:
-        
-        TablaFacturaTatal();
+       
+        BDcontrol BD = new OperacionesBD();
+        TablaDeFacturas(BD.obtenerFacturas());
         
     }//GEN-LAST:event_jButton4ActionPerformed
 
@@ -567,6 +564,11 @@ public class Facturacion extends javax.swing.JFrame {
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         // TODO add your handling code here:
+        BDcontrol BD = new OperacionesBD();
+        Calendar fechaUtil = FechaObj.getSelectedDate();
+        java.util.Date utilDate = fechaUtil.getTime(); 
+        java.sql.Date fecha = new java.sql.Date(utilDate.getTime());
+        TablaDeFacturas(BD.buscarFacturasPorFecha(fecha));
     }//GEN-LAST:event_jButton5ActionPerformed
 
     /**
@@ -607,8 +609,8 @@ public class Facturacion extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private datechooser.beans.DateChooserCombo ComboFechaMax;
     private datechooser.beans.DateChooserCombo ComboFechaMin;
+    private datechooser.beans.DateChooserCombo FechaObj;
     private javax.swing.JTable TablaFacturas;
-    private datechooser.beans.DateChooserCombo dateChooserCombo2;
     private datechooser.beans.DateChooserCombo dateChooserCombo5;
     private datechooser.beans.DateChooserDialog dateChooserDialog1;
     private javax.swing.JButton jButton1;
