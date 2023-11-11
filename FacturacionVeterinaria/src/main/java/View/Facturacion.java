@@ -7,6 +7,7 @@ package View;
 import Control.BDcontrol;
 import DataBase.OperacionesBD;
 import Model.Customer;
+import Model.Detalle;
 import Model.Factura;
 import Model.Producto;
 import datechooser.beans.DateChooserCombo;
@@ -15,6 +16,7 @@ import java.util.Calendar;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -41,6 +43,25 @@ public class Facturacion extends javax.swing.JFrame {
         jComboBox5.setModel(shareModel);
         jComboBox3.setModel(shareModel);
         jComboBox6.setModel(shareModel);
+        
+        DefaultTableModel modeloFactura = (DefaultTableModel) TablaFacturas.getModel();
+        List<Factura> facturas= BD.obtenerFacturas();
+        
+        for(Factura factura:facturas){
+            List<Integer> productsList = BD.obtenerDetallesPorIdFactura( factura.getId_factura());
+            int Total =0;
+            for(Integer product:productsList){
+                Total+=BD.obtenerProductoPorId(product).getPrecio();
+            }
+            modeloFactura.addRow(new Object[]{
+                factura.getId_factura(),
+                BD.obtenerPersonaPorId(factura.getId_persona()).getCedula(),
+                Total,
+                factura.getFecha(),
+                factura.getEstado()    
+            });
+            TablaFacturas.setModel(modeloFactura);
+        }
     }
 
     /**
@@ -82,7 +103,7 @@ public class Facturacion extends javax.swing.JFrame {
         dateChooserCombo2 = new datechooser.beans.DateChooserCombo();
         label9 = new java.awt.Label();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        TablaFacturas = new javax.swing.JTable();
         jButton4 = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         label10 = new java.awt.Label();
@@ -305,7 +326,7 @@ public class Facturacion extends javax.swing.JFrame {
         jPanel4.add(label9);
         label9.setBounds(50, 170, 150, 38);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        TablaFacturas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null},
                 {null, null, null, null, null},
@@ -313,10 +334,10 @@ public class Facturacion extends javax.swing.JFrame {
                 {null, null, null, null, null}
             },
             new String [] {
-                "Id", "Cliente", "$ Total", "Fecha", "Acciones"
+                "Id", "Cliente", "$ Total", "Fecha", "Estado"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(TablaFacturas);
 
         jPanel4.add(jScrollPane1);
         jScrollPane1.setBounds(90, 220, 670, 259);
@@ -511,6 +532,7 @@ public class Facturacion extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTable TablaFacturas;
     private datechooser.beans.DateChooserCombo dateChooserCombo2;
     private datechooser.beans.DateChooserCombo dateChooserCombo3;
     private datechooser.beans.DateChooserCombo dateChooserCombo4;
@@ -532,7 +554,6 @@ public class Facturacion extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;

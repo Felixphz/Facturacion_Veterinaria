@@ -11,6 +11,7 @@ import java.sql.Date;
  * @author Juan Felipe
  */
 public class Factura {
+    private int id_factura;
     private int id_persona;
     private String sucursal;
     private Date fecha;
@@ -21,6 +22,14 @@ public class Factura {
         this.sucursal = sucursal;
         this.fecha = fecha;
         this.estado = estado;
+    }
+
+    public int getId_factura() {
+        return id_factura;
+    }
+
+    public void setId_factura(int id_factura) {
+        this.id_factura = id_factura;
     }
 
     public int getId_persona() {

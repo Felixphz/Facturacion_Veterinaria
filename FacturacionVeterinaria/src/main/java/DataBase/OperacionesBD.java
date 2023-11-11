@@ -15,19 +15,22 @@ import Model.Customer;
 import Model.Detalle;
 import Model.Factura;
 import Model.Producto;
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class OperacionesBD implements BDcontrol{
+public class OperacionesBD implements BDcontrol {
+
     Connection conexion = ConexionBD.obtenerConexion();
-    public OperacionesBD(){
-        
+
+    public OperacionesBD() {
+
     }
-    
+
     @Override
-    public void agregarPersona( Customer persona) {
+    public void agregarPersona(Customer persona) {
         try {
             String insercion = "INSERT INTO persona (cedula, Nombres, Apellidos, telefono, email, direccion) VALUES (?, ?, ?, ?, ?, ?)";
             PreparedStatement preparedStatement = conexion.prepareStatement(insercion);
@@ -53,9 +56,9 @@ public class OperacionesBD implements BDcontrol{
             System.err.println("Error al agregar persona: " + e.getMessage());
         }
     }
-    
+
     @Override
-    public void agregarFactura( Factura factura) {
+    public void agregarFactura(Factura factura) {
         try {
             String insercion = "INSERT INTO facturas (id_persona, sucursal, estado, fecha) VALUES (?, ?, ?, ?)";
             PreparedStatement preparedStatement = conexion.prepareStatement(insercion);
@@ -79,9 +82,9 @@ public class OperacionesBD implements BDcontrol{
             System.err.println("Error al agregar factura: " + e.getMessage());
         }
     }
-    
+
     @Override
-    public void agregarDetalles( Detalle detalle) {
+    public void agregarDetalles(Detalle detalle) {
         try {
             String insercion = "INSERT INTO detalles (id_producto1, id_factura) VALUES (?, ?)";
             PreparedStatement preparedStatement = conexion.prepareStatement(insercion);
@@ -103,32 +106,165 @@ public class OperacionesBD implements BDcontrol{
             System.err.println("Error al agregar factura: " + e.getMessage());
         }
     }
-    
+
     @Override
     public List<Producto> obtenerProductos() {
-    List<Producto> productos = new ArrayList<>();
+        List<Producto> productos = new ArrayList<>();
+        try {
+            String consulta = "SELECT id_producto, nombre, precio, descripcion FROM productos";
+            PreparedStatement preparedStatement = conexion.prepareStatement(consulta);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                int idProducto = resultSet.getInt("id_producto");
+                String nombre = resultSet.getString("nombre");
+                int precio = resultSet.getInt("precio");
+                String descripcion = resultSet.getString("descripcion");
+
+                Producto producto = new Producto(nombre, precio, descripcion);
+                producto.setId_producto(idProducto);
+                productos.add(producto);
+            }
+
+            resultSet.close();
+            preparedStatement.close();
+        } catch (SQLException e) {
+            System.err.println("Error al obtener productos: " + e.getMessage());
+        }
+        return productos;
+    }
+    
+    @Override
+    public List<Integer> obtenerDetallesPorIdFactura(int idFactura){
+        List<Integer> productList = new ArrayList<>();
+        try {
+            String consulta = "SELECT id_producto1 FROM detalles WHERE id_factura = ?";
+            PreparedStatement preparedStatement = conexion.prepareStatement(consulta);
+            preparedStatement.setInt(1, idFactura);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                int idProducto = resultSet.getInt("id_producto1");
+                productList.add(idProducto);
+            }
+
+            resultSet.close();
+            preparedStatement.close();
+        } catch (SQLException e) {
+            System.err.println("Error al obtener detalles: " + e.getMessage());
+        }
+        return productList;
+    }
+    
+    
+    @Override
+    public Producto obtenerProductoPorId(int idProducto) {
+    Producto producto = null;
     try {
-        String consulta = "SELECT nombre, precio, descripcion FROM productos";
+        String consulta = "SELECT nombre, precio, descripcion FROM productos WHERE id_producto = ?";
         PreparedStatement preparedStatement = conexion.prepareStatement(consulta);
+        preparedStatement.setInt(1, idProducto);
         ResultSet resultSet = preparedStatement.executeQuery();
 
-        while (resultSet.next()) {
+        if (resultSet.next()) {
             String nombre = resultSet.getString("nombre");
             int precio = resultSet.getInt("precio");
             String descripcion = resultSet.getString("descripcion");
 
-            Producto producto = new Producto(nombre, precio, descripcion);
-            productos.add(producto);
+            producto = new Producto(nombre, precio, descripcion);
+            producto.setId_producto(idProducto); // Establecemos la id del producto
         }
 
         resultSet.close();
         preparedStatement.close();
     } catch (SQLException e) {
-        System.err.println("Error al obtener productos: " + e.getMessage());
+        System.err.println("Error al obtener producto: " + e.getMessage());
     }
-    return productos;
+    return producto;
 }
-/*
+    
+    @Override
+public Customer obtenerPersonaPorId(int idPersona) {
+    Customer persona = null;
+    try {
+        String consulta = "SELECT cedula, Nombres, Apellidos, telefono, email, direccion FROM persona WHERE id_persona = ?";
+        PreparedStatement preparedStatement = conexion.prepareStatement(consulta);
+        preparedStatement.setInt(1, idPersona);
+        ResultSet resultSet = preparedStatement.executeQuery();
+
+        if (resultSet.next()) {
+            int cedula = resultSet.getInt("cedula");
+            String nombres = resultSet.getString("Nombres");
+            String apellidos = resultSet.getString("Apellidos");
+            int telefono = resultSet.getInt("telefono");
+            String email = resultSet.getString("email");
+            String direccion = resultSet.getString("direccion");
+
+            persona = new Customer(cedula, nombres, apellidos, telefono, email, direccion);
+            persona.setId_persona(idPersona); // Establecemos la id de la persona
+        }
+
+        resultSet.close();
+        preparedStatement.close();
+    } catch (SQLException e) {
+        System.err.println("Error al obtener persona: " + e.getMessage());
+    }
+    return persona;
+}
+    
+    @Override
+    public List<Factura> obtenerFacturas() {
+        List<Factura> facturas = new ArrayList<>();
+        try {
+            String consulta = "SELECT id_factura, id_persona, sucursal, estado, fecha FROM facturas";
+            PreparedStatement preparedStatement = conexion.prepareStatement(consulta);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                int idFactura = resultSet.getInt("id_factura");
+                int idPersona = resultSet.getInt("id_persona");
+                String sucursal = resultSet.getString("sucursal");
+                String estado = resultSet.getString("estado");
+                Date fecha = resultSet.getDate("fecha");
+
+                Factura factura = new Factura(idPersona, sucursal, fecha, estado);
+                factura.setId_factura(idFactura);
+                facturas.add(factura);
+            }
+
+            resultSet.close();
+            preparedStatement.close();
+        } catch (SQLException e) {
+            System.err.println("Error al obtener facturas: " + e.getMessage());
+        }
+        return facturas;
+    }
+
+    @Override
+    public List<Detalle> obtenerDetalles() {
+        List<Detalle> detalles = new ArrayList<>();
+        try {
+            String consulta = "SELECT id_producto1, id_factura FROM detalles";
+            PreparedStatement preparedStatement = conexion.prepareStatement(consulta);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                int idProducto = resultSet.getInt("id_producto1");
+                int idFactura = resultSet.getInt("id_factura");
+
+                Detalle detalle = new Detalle(idProducto, idFactura);
+                detalle.setId_detalle(idFactura);
+                detalles.add(detalle);
+            }
+
+            resultSet.close();
+            preparedStatement.close();
+        } catch (SQLException e) {
+            System.err.println("Error al obtener detalles: " + e.getMessage());
+        }
+        return detalles;
+    }
+    /*
     public static void main(String[] args) {
         Connection conexion = ConexionBD.obtenerConexion();
         
@@ -139,5 +275,4 @@ public class OperacionesBD implements BDcontrol{
         }
     }*/
 
-    
 }

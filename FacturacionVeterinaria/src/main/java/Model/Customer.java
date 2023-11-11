@@ -9,6 +9,7 @@ package Model;
  * @author David Gomez
  */
 public class Customer {
+    private int id_persona;
     private int cedula;
     private String nombre;
     private String apellidos;
@@ -16,19 +17,25 @@ public class Customer {
     private String correo;
     private String direccion;
     
-    public Customer(){
-        
-    }
     
-    public Customer(int cedula, String nombres, String apellidos, int telefono, String correo, String direccion) {
+    public Customer(int cedula, String nombre, String apellidos, int telefono, String correo, String direccion) {
         this.cedula = cedula;
-        this.nombre = nombres;
+        this.nombre = nombre;
         this.apellidos = apellidos;
         this.telefono = telefono;
         this.correo = correo;
         this.direccion = direccion;
     }
 
+    public int getId_persona() {
+        return id_persona;
+    }
+
+    public void setId_persona(int id_persona) {
+        this.id_persona = id_persona;
+    }
+
+    
     public int getCedula() {
         return cedula;
     }

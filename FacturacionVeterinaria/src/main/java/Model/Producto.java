@@ -9,10 +9,19 @@ package Model;
  * @author Juan Felipe
  */
 public class Producto {
+    private int id_producto;
     private String nombre;
     private int precio;
     private String Descripcion;
 
+    public int getId_producto() {
+        return id_producto;
+    }
+
+    public void setId_producto(int id_producto) {
+        this.id_producto = id_producto;
+    }
+    
     public String getNombre() {
         return nombre;
     }

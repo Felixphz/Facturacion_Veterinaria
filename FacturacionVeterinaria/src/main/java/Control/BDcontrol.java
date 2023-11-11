@@ -19,4 +19,10 @@ public interface BDcontrol {
     public void agregarFactura( Factura factura);
     public void agregarDetalles( Detalle detalle);
     public List<Producto> obtenerProductos();
+    public List<Factura> obtenerFacturas();
+    public List<Detalle> obtenerDetalles();
+    public List<Integer> obtenerDetallesPorIdFactura(int idFactura);
+    public Producto obtenerProductoPorId(int idProducto);
+    public Customer obtenerPersonaPorId(int idPersona);
+            
 }

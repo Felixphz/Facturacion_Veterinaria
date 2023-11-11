@@ -9,8 +9,7 @@ package Model;
  * @author David Gomez
  */
 public class Detalle {
-
-    
+    private int id_detalle;
     private int id_producto;
     private int id_factura;
     
@@ -20,6 +19,15 @@ public class Detalle {
         this.id_factura = id_factura;
     }        
 
+    public int getId_detalle() {
+        return id_detalle;
+    }
+
+    public void setId_detalle(int id_detalle) {
+        this.id_detalle = id_detalle;
+    }
+
+    
     public int getId_producto() {
         return id_producto;
     }
