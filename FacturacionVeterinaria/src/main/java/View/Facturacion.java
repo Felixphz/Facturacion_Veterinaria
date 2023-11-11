@@ -27,6 +27,30 @@ public class Facturacion extends javax.swing.JFrame {
     /**
      * Creates new form Facturacion
      */
+    public void TablaFacturaTatal(){
+        BDcontrol BD = new OperacionesBD();
+        DefaultTableModel modeloFactura = (DefaultTableModel) TablaFacturas.getModel();
+        List<Factura> facturas = BD.obtenerFacturas();
+        
+         modeloFactura.setRowCount(0);
+
+        for (Factura factura : facturas) {
+            List<Detalle> DetallesList = BD.obtenerDetallesPorIdFactura(factura.getId_factura());
+            int Total = 0;
+            for (Detalle detalle : DetallesList) {
+                Total += BD.obtenerProductoPorId(detalle.getId_producto()).getPrecio() * detalle.getCantidad();
+            }
+            modeloFactura.addRow(new Object[]{
+                factura.getId_factura(),
+                BD.obtenerPersonaPorId(factura.getId_persona()).getCedula(),
+                Total,
+                factura.getFecha(),
+                factura.getEstado()
+            });
+            TablaFacturas.setModel(modeloFactura);
+        }
+    }
+    
     public Facturacion() {
         BDcontrol BD = new OperacionesBD();
 
@@ -42,6 +66,9 @@ public class Facturacion extends javax.swing.JFrame {
         jComboBox3.setModel(shareModel);
         jComboBox6.setModel(shareModel);
 
+         TablaFacturaTatal();
+        
+      /*  
         DefaultTableModel modeloFactura = (DefaultTableModel) TablaFacturas.getModel();
         List<Factura> facturas = BD.obtenerFacturas();
 
@@ -59,7 +86,7 @@ public class Facturacion extends javax.swing.JFrame {
                 factura.getEstado()
             });
             TablaFacturas.setModel(modeloFactura);
-        }
+       }*/ 
     }
 
     /**
@@ -103,6 +130,7 @@ public class Facturacion extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         TablaFacturas = new javax.swing.JTable();
         jButton4 = new javax.swing.JButton();
+        jButton5 = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         label10 = new java.awt.Label();
         label13 = new java.awt.Label();
@@ -349,14 +377,25 @@ public class Facturacion extends javax.swing.JFrame {
 
         jButton4.setBackground(new java.awt.Color(51, 204, 255));
         jButton4.setFont(new java.awt.Font("Berlin Sans FB", 0, 14)); // NOI18N
-        jButton4.setText("Consultar");
+        jButton4.setText("Restart");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton4ActionPerformed(evt);
             }
         });
         jPanel4.add(jButton4);
-        jButton4.setBounds(390, 120, 100, 30);
+        jButton4.setBounds(650, 120, 100, 30);
+
+        jButton5.setBackground(new java.awt.Color(51, 204, 255));
+        jButton5.setFont(new java.awt.Font("Berlin Sans FB", 0, 14)); // NOI18N
+        jButton5.setText("Consultar");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
+        jPanel4.add(jButton5);
+        jButton5.setBounds(390, 120, 100, 30);
 
         jTabbedPane1.addTab("Consultas", jPanel4);
 
@@ -513,6 +552,9 @@ public class Facturacion extends javax.swing.JFrame {
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
+        
+        TablaFacturaTatal();
+        
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
@@ -522,6 +564,10 @@ public class Facturacion extends javax.swing.JFrame {
     private void jComboBox3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox3ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jComboBox3ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton5ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -569,6 +615,7 @@ public class Facturacion extends javax.swing.JFrame {
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JComboBox<String> jComboBox3;
