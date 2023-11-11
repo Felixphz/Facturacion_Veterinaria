@@ -12,6 +12,7 @@ import Control.BDcontrol;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import Model.Customer;
+import Model.Detalle;
 import Model.Factura;
 import Model.Producto;
 import java.sql.ResultSet;
@@ -64,6 +65,30 @@ public class OperacionesBD implements BDcontrol{
             preparedStatement.setString(2, factura.getSucursal());
             preparedStatement.setDate(4, factura.getFecha());
             preparedStatement.setString(3, factura.getEstado());
+
+            // Ejecuta la inserción
+            int filasAfectadas = preparedStatement.executeUpdate();
+            if (filasAfectadas > 0) {
+                System.out.println("factura agregada exitosamente a la base de datos.");
+            } else {
+                System.err.println("Error al agregar factura a la base de datos.");
+            }
+
+            preparedStatement.close();
+        } catch (Exception e) {
+            System.err.println("Error al agregar factura: " + e.getMessage());
+        }
+    }
+    
+    @Override
+    public void agregarDetalles( Detalle detalle) {
+        try {
+            String insercion = "INSERT INTO detalles (id_producto1, id_factura) VALUES (?, ?)";
+            PreparedStatement preparedStatement = conexion.prepareStatement(insercion);
+
+            // Establece los valores de los parámetros
+            preparedStatement.setInt(1, detalle.getId_producto());
+            preparedStatement.setInt(2, detalle.getId_factura());
 
             // Ejecuta la inserción
             int filasAfectadas = preparedStatement.executeUpdate();

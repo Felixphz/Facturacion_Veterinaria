@@ -5,6 +5,7 @@
 package Control;
 
 import Model.Customer;
+import Model.Detalle;
 import Model.Factura;
 import Model.Producto;
 import java.util.List;
@@ -16,5 +17,6 @@ import java.util.List;
 public interface BDcontrol {
     public void agregarPersona( Customer persona);
     public void agregarFactura( Factura factura);
+    public void agregarDetalles( Detalle detalle);
     public List<Producto> obtenerProductos();
 }
