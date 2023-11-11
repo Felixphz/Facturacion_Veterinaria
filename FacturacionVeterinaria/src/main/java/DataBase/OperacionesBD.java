@@ -138,7 +138,7 @@ public class OperacionesBD implements BDcontrol {
     public List<Integer> obtenerDetallesPorIdFactura(int idFactura){
         List<Integer> productList = new ArrayList<>();
         try {
-            String consulta = "SELECT id_producto1 FROM detalles WHERE id_factura = ?";
+            String consulta = "SELECT id_producto1 FROM detalles WHERE id_factura1 = ?";
             PreparedStatement preparedStatement = conexion.prepareStatement(consulta);
             preparedStatement.setInt(1, idFactura);
             ResultSet resultSet = preparedStatement.executeQuery();
