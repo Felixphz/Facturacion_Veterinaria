@@ -13,13 +13,11 @@ import java.sql.Date;
 public class Factura {
     private int id_factura;
     private int id_persona;
-    private String sucursal;
     private Date fecha;
     private String estado;
 
-    public Factura(int id_persona, String sucursal, Date fecha, String estado) {
+    public Factura(int id_persona, Date fecha, String estado) {
         this.id_persona = id_persona;
-        this.sucursal = sucursal;
         this.fecha = fecha;
         this.estado = estado;
     }
@@ -38,14 +36,6 @@ public class Factura {
 
     public void setId_persona(int id_persona) {
         this.id_persona = id_persona;
-    }
-
-    public String getSucursal() {
-        return sucursal;
-    }
-
-    public void setSucursal(String sucursal) {
-        this.sucursal = sucursal;
     }
 
     public Date getFecha() {
