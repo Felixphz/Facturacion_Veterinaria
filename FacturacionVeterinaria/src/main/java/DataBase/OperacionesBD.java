@@ -55,10 +55,10 @@ public class OperacionesBD implements BDcontrol {
         } catch (Exception e) {
             System.err.println("Error al agregar persona: " + e.getMessage());
         }
-    }s
+    }
 
     @Override
-    public void agregarFactura(Factura factura) {
+    public void agregarFactura(Factura factura){
         try {
             String insercion = "INSERT INTO facturas (id_persona, fecha, estado) VALUES ( ?, ?, ?)";
             PreparedStatement preparedStatement = conexion.prepareStatement(insercion);
