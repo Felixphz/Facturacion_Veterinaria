@@ -14,7 +14,7 @@ import java.sql.PreparedStatement;
 import Model.Customer;
 import Model.Detalle;
 import Model.Factura;
-import Model.Producto;
+import Model.Product;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -107,8 +107,8 @@ public class OperacionesBD implements BDcontrol {
     }
 
     @Override
-    public List<Producto> obtenerProductos() {
-        List<Producto> productos = new ArrayList<>();
+    public List<Product> obtenerProductos() {
+        List<Product> productos = new ArrayList<>();
         try {
             String consulta = "SELECT id_producto, nombre, precio, descripcion FROM productos";
             PreparedStatement preparedStatement = conexion.prepareStatement(consulta);
@@ -120,7 +120,7 @@ public class OperacionesBD implements BDcontrol {
                 int precio = resultSet.getInt("precio");
                 String descripcion = resultSet.getString("descripcion");
 
-                Producto producto = new Producto(nombre, precio, descripcion);
+                Product producto = new Product(nombre, precio, descripcion);
                 producto.setId_producto(idProducto);
                 productos.add(producto);
             }
@@ -159,8 +159,8 @@ public class OperacionesBD implements BDcontrol {
     
     
     @Override
-    public Producto obtenerProductoPorId(int idProducto) {
-    Producto producto = null;
+    public Product obtenerProductoPorId(int idProducto) {
+    Product producto = null;
     try {
         String consulta = "SELECT nombre, precio, descripcion FROM productos WHERE id_producto = ?";
         PreparedStatement preparedStatement = conexion.prepareStatement(consulta);
@@ -172,7 +172,7 @@ public class OperacionesBD implements BDcontrol {
             int precio = resultSet.getInt("precio");
             String descripcion = resultSet.getString("descripcion");
 
-            producto = new Producto(nombre, precio, descripcion);
+            producto = new Product(nombre, precio, descripcion);
             producto.setId_producto(idProducto); // Establecemos la id del producto
         }
 

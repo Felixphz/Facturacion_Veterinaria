@@ -8,14 +8,14 @@ package Model;
  *
  * @author Juan Felipe
  */
-public class Producto {
+public class Product {
     private int id_producto;
     private String nombre;
     private int precio;
     private String Descripcion;
 
     
-    public Producto(String nombre, int precio, String Descripcion) {
+    public Product(String nombre, int precio, String Descripcion) {
         this.nombre = nombre;
         this.precio = precio;
         this.Descripcion = Descripcion;

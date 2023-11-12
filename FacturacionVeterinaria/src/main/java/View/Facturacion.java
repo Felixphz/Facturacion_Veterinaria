@@ -9,7 +9,7 @@ import DataBase.OperacionesBD;
 import Model.Customer;
 import Model.Detalle;
 import Model.Factura;
-import Model.Producto;
+import Model.Product;
 import datechooser.beans.DateChooserCombo;
 import java.sql.Date;
 import java.util.Calendar;
@@ -52,11 +52,11 @@ public class Facturacion extends javax.swing.JFrame {
     public Facturacion() {
         BDcontrol BD = new OperacionesBD();
 
-        List<Producto> productos = BD.obtenerProductos();
+        List<Product> productos = BD.obtenerProductos();
         initComponents();
         DefaultComboBoxModel<String> shareModel = new DefaultComboBoxModel<>();
         shareModel.addElement("Seleccione...");
-        for (Producto producto : productos) {
+        for (Product producto : productos) {
             shareModel.addElement(producto.getNombre());
         }
         jComboBox4.setModel(shareModel);

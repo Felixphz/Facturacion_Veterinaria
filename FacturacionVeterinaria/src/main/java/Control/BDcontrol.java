@@ -7,7 +7,7 @@ package Control;
 import Model.Customer;
 import Model.Detalle;
 import Model.Factura;
-import Model.Producto;
+import Model.Product;
 import java.sql.Date;
 import java.util.List;
 
@@ -19,11 +19,11 @@ public interface BDcontrol {
     public void agregarPersona( Customer persona);
     public void agregarFactura( Factura factura);
     public void agregarDetalles( Detalle detalle);
-    public List<Producto> obtenerProductos();
+    public List<Product> obtenerProductos();
     public List<Factura> obtenerFacturas();
     public List<Detalle> obtenerDetalles();
     public List<Detalle> obtenerDetallesPorIdFactura(int idFactura);
-    public Producto obtenerProductoPorId(int idProducto);
+    public Product obtenerProductoPorId(int idProducto);
     public Customer obtenerPersonaPorId(int idPersona);
     public List<Factura> obtenerBalance(Date fechaInicio, Date fechaFin);
     public List<Factura> buscarFacturasPorFecha(Date fecha);
