@@ -18,6 +18,7 @@ import Model.Product;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -58,51 +59,65 @@ public class OperationsBD implements BDcontrol {
     }
 
     @Override
-    public void addInvoiceDB(Bill factura){
+    public int addInvoiceDB(Bill factura){
+        int idGenerada = -1;  // Valor predeterminado si la inserción falla o no se obtiene la ID generada
+
         try {
-            String insercion = "INSERT INTO facturas (id_persona, fecha, estado) VALUES ( ?, ?, ?)";
-            PreparedStatement preparedStatement = conexion.prepareStatement(insercion);
+            String insercion = "INSERT INTO facturas (id_persona, fecha, estado) VALUES (?, ?, ?)";
+            PreparedStatement preparedStatement = conexion.prepareStatement(insercion, Statement.RETURN_GENERATED_KEYS);
 
             // Establece los valores de los parámetros
             preparedStatement.setInt(1, factura.getIdPerson());
-            preparedStatement.setDate(4, factura.getDate());
+            preparedStatement.setDate(2, factura.getDate());
             preparedStatement.setString(3, factura.getState());
 
             // Ejecuta la inserción
             int filasAfectadas = preparedStatement.executeUpdate();
+
             if (filasAfectadas > 0) {
-                System.out.println("factura agregada exitosamente a la base de datos.");
+                // Obtiene las claves generadas
+                ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
+
+                if (generatedKeys.next()) {
+                    idGenerada = generatedKeys.getInt(1);
+                    System.out.println("Factura agregada exitosamente a la base de datos. ID generada: " + idGenerada);
+                } else {
+                    System.err.println("Error al obtener la ID generada para la factura.");
+                }
+
+                generatedKeys.close();
             } else {
                 System.err.println("Error al agregar factura a la base de datos.");
             }
-
             preparedStatement.close();
         } catch (Exception e) {
             System.err.println("Error al agregar factura: " + e.getMessage());
         }
+        return idGenerada;
     }
 
     @Override
     public void addDetailsDB(Detail detalle) {
         try {
-            String insercion = "INSERT INTO detalles (id_producto1, id_factura) VALUES (?, ?)";
+            String insercion = "INSERT INTO detalles (id_producto1, id_factura1,cantidad) VALUES (?, ?, ?)";
             PreparedStatement preparedStatement = conexion.prepareStatement(insercion);
 
             // Establece los valores de los parámetros
             preparedStatement.setInt(1, detalle.getIdProduct());
             preparedStatement.setInt(2, detalle.getIdBill());
+            preparedStatement.setInt(3, detalle.getAmount());
 
             // Ejecuta la inserción
             int filasAfectadas = preparedStatement.executeUpdate();
             if (filasAfectadas > 0) {
-                System.out.println("factura agregada exitosamente a la base de datos.");
+                System.out.println("detalle agregada exitosamente a la base de datos.");
             } else {
-                System.err.println("Error al agregar factura a la base de datos.");
+                System.err.println("Error al agregar detalle a la base de datos.");
             }
 
             preparedStatement.close();
         } catch (Exception e) {
-            System.err.println("Error al agregar factura: " + e.getMessage());
+            System.err.println("Error al agregar detalle: " + e.getMessage());
         }
     }
 
@@ -134,6 +149,29 @@ public class OperationsBD implements BDcontrol {
     }
     
     @Override
+    public Integer getIdCustomerByidentification(int identification) {
+        Integer idCustomer = -1;
+        try {
+            String consulta = "SELECT id_persona FROM persona WHERE cedula = ?";
+            PreparedStatement preparedStatement = conexion.prepareStatement(consulta);
+            preparedStatement.setInt(1, identification);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                idCustomer = resultSet.getInt("id_persona");
+            
+            
+            }  
+
+            resultSet.close();
+            preparedStatement.close();
+        } catch (SQLException e) {
+            System.err.println("Error al obtener ID de usuario por cédula: " + e.getMessage());
+        }
+        return idCustomer;
+    }
+    
+    @Override
     public List<Detail> getDetailsByInvoiceId(int idFactura){
         List<Detail> productList = new ArrayList<>();
         try {
@@ -145,7 +183,7 @@ public class OperationsBD implements BDcontrol {
             while (resultSet.next()) {
                 int idProducto = resultSet.getInt("id_producto1");
                 int cantidad = resultSet.getInt("cantidad");
-                Detail detalle=new Detail(idFactura,idProducto,cantidad);
+                Detail detalle=new Detail(idProducto,idFactura,cantidad);
                 productList.add(detalle);
             }
 

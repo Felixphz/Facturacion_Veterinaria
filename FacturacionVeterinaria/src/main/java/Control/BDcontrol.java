@@ -17,7 +17,7 @@ import java.util.List;
  */
 public interface BDcontrol {
     public void addPersonDB( Customer persona);
-    public void addInvoiceDB( Bill factura);
+    public int addInvoiceDB( Bill factura);
     public void addDetailsDB( Detail detalle);
     public List<Product> getProductsDB();
     public List<Bill> getInvoicesDB();
@@ -27,5 +27,5 @@ public interface BDcontrol {
     public Customer getPersonById(int idPersona);
     public List<Bill> getBalance(Date fechaInicio, Date fechaFin);
     public List<Bill> searchInvoicesByDate(Date fecha);
-            
+    public Integer getIdCustomerByidentification(int identification);
 }
