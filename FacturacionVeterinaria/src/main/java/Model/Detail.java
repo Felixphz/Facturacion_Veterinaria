@@ -9,49 +9,49 @@ package Model;
  * @author David Gomez
  */
 public class Detail {
-    private int id_detalle;
-    private int id_producto;
-    private int id_factura;
-    private int cantidad;
+    private int idDetail;
+    private int idProduct;
+    private int idBill;
+    private int amount;
     
     
     public Detail(int id_producto, int id_factura, int cantidad) {
-        this.id_producto = id_producto;
-        this.id_factura = id_factura;
-        this.cantidad = cantidad;
+        this.idProduct = id_producto;
+        this.idBill = id_factura;
+        this.amount = cantidad;
     }        
 
-    public int getCantidad() {
-        return cantidad;
+    public int getAmount() {
+        return amount;
     }
 
-    public void setCantidad(int cantidad) {
-        this.cantidad = cantidad;
+    public void setAmount(int amount) {
+        this.amount = amount;
     }
 
-    public int getId_detalle() {
-        return id_detalle;
+    public int getIdDetail() {
+        return idDetail;
     }
 
-    public void setId_detalle(int id_detalle) {
-        this.id_detalle = id_detalle;
+    public void setIdDetail(int idDetail) {
+        this.idDetail = idDetail;
     }
 
     
-    public int getId_producto() {
-        return id_producto;
+    public int getIdProduct() {
+        return idProduct;
     }
 
-    public void setId_producto(int id_producto) {
-        this.id_producto = id_producto;
+    public void setIdProduct(int idProduct) {
+        this.idProduct = idProduct;
     }
 
-    public int getId_factura() {
-        return id_factura;
+    public int getIdBill() {
+        return idBill;
     }
 
-    public void setId_factura(int id_factura) {
-        this.id_factura = id_factura;
+    public void setIdBill(int idBill) {
+        this.idBill = idBill;
     }
     
     

@@ -64,9 +64,9 @@ public class OperationsBD implements BDcontrol {
             PreparedStatement preparedStatement = conexion.prepareStatement(insercion);
 
             // Establece los valores de los parámetros
-            preparedStatement.setInt(1, factura.getId_persona());
-            preparedStatement.setDate(4, factura.getFecha());
-            preparedStatement.setString(3, factura.getEstado());
+            preparedStatement.setInt(1, factura.getIdPerson());
+            preparedStatement.setDate(4, factura.getDate());
+            preparedStatement.setString(3, factura.getState());
 
             // Ejecuta la inserción
             int filasAfectadas = preparedStatement.executeUpdate();
@@ -89,8 +89,8 @@ public class OperationsBD implements BDcontrol {
             PreparedStatement preparedStatement = conexion.prepareStatement(insercion);
 
             // Establece los valores de los parámetros
-            preparedStatement.setInt(1, detalle.getId_producto());
-            preparedStatement.setInt(2, detalle.getId_factura());
+            preparedStatement.setInt(1, detalle.getIdProduct());
+            preparedStatement.setInt(2, detalle.getIdBill());
 
             // Ejecuta la inserción
             int filasAfectadas = preparedStatement.executeUpdate();
@@ -228,7 +228,7 @@ public Customer getPersonById(int idPersona) {
                 Date fechaFactura = resultSet.getDate("fecha");
 
                 Bill factura = new Bill( idPersona, fechaFactura, estado);
-                factura.setId_factura(idFactura);
+                factura.setIdBill(idFactura);
                 facturasEnFecha.add(factura);
             }
 
@@ -254,7 +254,7 @@ public Customer getPersonById(int idPersona) {
                 Date fecha = resultSet.getDate("fecha");
 
                 Bill factura = new Bill(idPersona, fecha, estado);
-                factura.setId_factura(idFactura);
+                factura.setIdBill(idFactura);
                 facturas.add(factura);
             }
 
@@ -280,7 +280,7 @@ public Customer getPersonById(int idPersona) {
                 int cantidad = resultSet.getInt("cantidad");
 
                 Detail detalle = new Detail(idProducto, idFactura,cantidad);
-                detalle.setId_detalle(idFactura);
+                detalle.setIdDetail(idFactura);
                 detalles.add(detalle);
             }
 
@@ -309,7 +309,7 @@ public Customer getPersonById(int idPersona) {
             Date fecha = resultSet.getDate("fecha");
 
             Bill factura = new Bill( idPersona, fecha,estado);
-            factura.setId_factura(idFactura);
+            factura.setIdBill(idFactura);
             facturasEnRango.add(factura);
         }
 

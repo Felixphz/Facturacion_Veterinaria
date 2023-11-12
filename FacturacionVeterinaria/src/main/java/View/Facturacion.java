@@ -33,17 +33,17 @@ public class Facturacion extends javax.swing.JFrame {
                  modeloFactura.setRowCount(0);
 
         for (Bill factura : facturas) {
-            List<Detail> DetallesList = BD.getDetailsByInvoiceId(factura.getId_factura());
+            List<Detail> DetallesList = BD.getDetailsByInvoiceId(factura.getIdBill());
             int Total = 0;
             for (Detail detalle : DetallesList) {
-                Total += BD.getProductById(detalle.getId_producto()).getPrice()* detalle.getCantidad();
+                Total += BD.getProductById(detalle.getIdProduct()).getPrice()* detalle.getAmount();
             }
             modeloFactura.addRow(new Object[]{
-                factura.getId_factura(),
-                BD.getPersonById(factura.getId_persona()).getIdentificationCard(),
+                factura.getIdBill(),
+                BD.getPersonById(factura.getIdPerson()).getIdentificationCard(),
                 Total,
-                factura.getFecha(),
-                factura.getEstado()
+                factura.getDate(),
+                factura.getState()
             });
             TablaFacturas.setModel(modeloFactura);
         }
@@ -529,9 +529,9 @@ public class Facturacion extends javax.swing.JFrame {
         List<Bill> facturas = BD.getBalance(Min, Max);
         int Total = 0;
         for (Bill factura : facturas) {
-            List<Detail> DetallesList = BD.getDetailsByInvoiceId(factura.getId_factura());
+            List<Detail> DetallesList = BD.getDetailsByInvoiceId(factura.getIdBill());
                 for (Detail detalle : DetallesList) {
-                    Total += BD.getProductById(detalle.getId_producto()).getPrice()* detalle.getCantidad();
+                    Total += BD.getProductById(detalle.getIdProduct()).getPrice()* detalle.getAmount();
                 }
             
         }
