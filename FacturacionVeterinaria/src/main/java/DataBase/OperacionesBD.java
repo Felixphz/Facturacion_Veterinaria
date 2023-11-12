@@ -65,7 +65,6 @@ public class OperacionesBD implements BDcontrol {
 
             // Establece los valores de los parámetros
             preparedStatement.setInt(1, factura.getId_persona());
-            preparedStatement.setString(2, factura.getSucursal());
             preparedStatement.setDate(4, factura.getFecha());
             preparedStatement.setString(3, factura.getEstado());
 

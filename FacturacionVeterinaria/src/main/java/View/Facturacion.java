@@ -547,7 +547,7 @@ public class Facturacion extends javax.swing.JFrame {
         Calendar fechaUtil = dateChooserCombo5.getSelectedDate();
         java.util.Date utilDate = fechaUtil.getTime(); 
         java.sql.Date fechaSQL = new java.sql.Date(utilDate.getTime()); 
-        Factura fct = new Factura(3, "central", fechaSQL, "pagada");
+        Factura fct = new Factura(3, fechaSQL, "pagada");
         BD.agregarFactura(fct);
 
     }//GEN-LAST:event_jButton3ActionPerformed
