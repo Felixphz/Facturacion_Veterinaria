@@ -60,7 +60,7 @@ public class OperacionesBD implements BDcontrol {
     @Override
     public void agregarFactura(Factura factura) {
         try {
-            String insercion = "INSERT INTO facturas (id_persona, sucursal, estado, fecha) VALUES (?, ?, ?, ?)";
+            String insercion = "INSERT INTO facturas (id_persona, estado, fecha) VALUES ( ?, ?, ?)";
             PreparedStatement preparedStatement = conexion.prepareStatement(insercion);
 
             // Establece los valores de los parámetros
@@ -217,7 +217,7 @@ public Customer obtenerPersonaPorId(int idPersona) {
     public List<Factura> buscarFacturasPorFecha(Date fecha) {
         List<Factura> facturasEnFecha = new ArrayList<>();
         try {
-            String consulta = "SELECT id_factura, id_persona, sucursal, estado, fecha FROM facturas WHERE fecha = ?";
+            String consulta = "SELECT id_factura, id_persona, estado, fecha FROM facturas WHERE fecha = ?";
             PreparedStatement preparedStatement = conexion.prepareStatement(consulta);
             preparedStatement.setDate(1, fecha);
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -225,11 +225,10 @@ public Customer obtenerPersonaPorId(int idPersona) {
             while (resultSet.next()) {
                 int idFactura = resultSet.getInt("id_factura");
                 int idPersona = resultSet.getInt("id_persona");
-                String sucursal = resultSet.getString("sucursal");
                 String estado = resultSet.getString("estado");
                 Date fechaFactura = resultSet.getDate("fecha");
 
-                Factura factura = new Factura( idPersona, sucursal,fechaFactura, estado);
+                Factura factura = new Factura( idPersona, fechaFactura, estado);
                 factura.setId_factura(idFactura);
                 facturasEnFecha.add(factura);
             }
@@ -245,18 +244,17 @@ public Customer obtenerPersonaPorId(int idPersona) {
     public List<Factura> obtenerFacturas() {
         List<Factura> facturas = new ArrayList<>();
         try {
-            String consulta = "SELECT id_factura, id_persona, sucursal, estado, fecha FROM facturas";
+            String consulta = "SELECT id_factura, id_persona, estado, fecha FROM facturas";
             PreparedStatement preparedStatement = conexion.prepareStatement(consulta);
             ResultSet resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
                 int idFactura = resultSet.getInt("id_factura");
                 int idPersona = resultSet.getInt("id_persona");
-                String sucursal = resultSet.getString("sucursal");
                 String estado = resultSet.getString("estado");
                 Date fecha = resultSet.getDate("fecha");
 
-                Factura factura = new Factura(idPersona, sucursal, fecha, estado);
+                Factura factura = new Factura(idPersona, fecha, estado);
                 factura.setId_factura(idFactura);
                 facturas.add(factura);
             }
@@ -299,7 +297,7 @@ public Customer obtenerPersonaPorId(int idPersona) {
     public List<Factura> obtenerBalance(Date fechaInicio, Date fechaFin) {
     List<Factura> facturasEnRango = new ArrayList<>();
     try {
-        String consulta = "SELECT id_factura, id_persona, sucursal, estado, fecha FROM facturas WHERE fecha BETWEEN ? AND ?";
+        String consulta = "SELECT id_factura, id_person, estado, fecha FROM facturas WHERE fecha BETWEEN ? AND ?";
         PreparedStatement preparedStatement = conexion.prepareStatement(consulta);
         preparedStatement.setDate(1, fechaInicio);
         preparedStatement.setDate(2, fechaFin);
@@ -308,11 +306,10 @@ public Customer obtenerPersonaPorId(int idPersona) {
         while (resultSet.next()) {
             int idFactura = resultSet.getInt("id_factura");
             int idPersona = resultSet.getInt("id_persona");
-            String sucursal = resultSet.getString("sucursal");
             String estado = resultSet.getString("estado");
             Date fecha = resultSet.getDate("fecha");
 
-            Factura factura = new Factura( idPersona, sucursal, fecha,estado);
+            Factura factura = new Factura( idPersona, fecha,estado);
             factura.setId_factura(idFactura);
             facturasEnRango.add(factura);
         }
