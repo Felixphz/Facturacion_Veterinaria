@@ -334,7 +334,7 @@ public Customer getPersonById(int idPersona) {
     public List<Bill> getBalance(Date fechaInicio, Date fechaFin) {
     List<Bill> facturasEnRango = new ArrayList<>();
     try {
-        String consulta = "SELECT id_factura, id_person, estado, fecha FROM facturas WHERE fecha BETWEEN ? AND ?";
+        String consulta = "SELECT id_factura, id_persona, estado, fecha FROM facturas WHERE fecha BETWEEN ? AND ?";
         PreparedStatement preparedStatement = conexion.prepareStatement(consulta);
         preparedStatement.setDate(1, fechaInicio);
         preparedStatement.setDate(2, fechaFin);

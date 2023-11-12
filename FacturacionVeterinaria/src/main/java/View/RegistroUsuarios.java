@@ -241,8 +241,7 @@ public class RegistroUsuarios extends javax.swing.JFrame {
             //Aquí se puede agregar el código para la bd
             Customer cst = new Customer(Integer.parseInt(id.getText()), name.getText(), lastname.getText(), Integer.parseInt(telNum.getText()),  email.getText(), adress.getText());
             BD.addPersonDB(cst);
-            setEmpty(); //Reinicia todos los campos
-            JOptionPane.showMessageDialog(null, "Se ha registrado al usuario correctamente", "Listo!", JOptionPane.INFORMATION_MESSAGE);
+            this.setVisible(false);
         }
 
     }//GEN-LAST:event_button2ActionPerformed

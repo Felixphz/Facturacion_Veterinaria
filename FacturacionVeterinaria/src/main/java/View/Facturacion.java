@@ -852,11 +852,11 @@ public class Facturacion extends javax.swing.JFrame {
                 Detail detail=new Detail(listProducts.get(i).getIdProduct(),ideFact,listCantidad.get(i));
                 BD.addDetailsDB(detail);
             }
-
-        }
-        listCantidad.clear();
+            listCantidad.clear();
         listProducts.clear();
         TableDeProducts();
+        }
+        
 
     }//GEN-LAST:event_jButton8ActionPerformed
 
