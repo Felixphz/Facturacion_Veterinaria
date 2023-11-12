@@ -10,15 +10,15 @@ import java.sql.Date;
  *
  * @author Juan Felipe
  */
-public class Factura {
+public class Bill {
     private int id_factura;
     private int id_persona;
-    private Date fecha;
+    private Date date;
     private String estado;
 
-    public Factura(int id_persona, Date fecha, String estado) {
+    public Bill(int id_persona, Date fecha, String estado) {
         this.id_persona = id_persona;
-        this.fecha = fecha;
+        this.date = fecha;
         this.estado = estado;
     }
 
@@ -39,11 +39,11 @@ public class Factura {
     }
 
     public Date getFecha() {
-        return fecha;
+        return date;
     }
 
     public void setFecha(Date fecha) {
-        this.fecha = fecha;
+        this.date = fecha;
     }
 
     public String getEstado() {

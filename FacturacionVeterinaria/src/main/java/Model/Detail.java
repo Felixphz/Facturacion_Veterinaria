@@ -8,14 +8,14 @@ package Model;
  *
  * @author David Gomez
  */
-public class Detalle {
+public class Detail {
     private int id_detalle;
     private int id_producto;
     private int id_factura;
     private int cantidad;
     
     
-    public Detalle(int id_producto, int id_factura, int cantidad) {
+    public Detail(int id_producto, int id_factura, int cantidad) {
         this.id_producto = id_producto;
         this.id_factura = id_factura;
         this.cantidad = cantidad;

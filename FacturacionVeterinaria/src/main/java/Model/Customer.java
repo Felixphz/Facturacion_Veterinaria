@@ -9,79 +9,78 @@ package Model;
  * @author David Gomez
  */
 public class Customer {
-    private int id_persona;
-    private int cedula;
-    private String nombre;
-    private String apellidos;
-    private int telefono;
-    private String correo;
-    private String direccion;
+    private int idPerson;
+    private int identificationCard;
+    private String name;
+    private String lastName;
+    private int phone;
+    private String mail;
+    private String address;
     
     
     public Customer(int cedula, String nombre, String apellidos, int telefono, String correo, String direccion) {
-        this.cedula = cedula;
-        this.nombre = nombre;
-        this.apellidos = apellidos;
-        this.telefono = telefono;
-        this.correo = correo;
-        this.direccion = direccion;
+        this.identificationCard = cedula;
+        this.name = nombre;
+        this.lastName = apellidos;
+        this.phone = telefono;
+        this.mail = correo;
+        this.address = direccion;
     }
 
-    public int getId_persona() {
-        return id_persona;
+    public int getIdPerson() {
+        return idPerson;
     }
 
-    public void setId_persona(int id_persona) {
-        this.id_persona = id_persona;
+    public void setIdPerson(int idPerson) {
+        this.idPerson = idPerson;
     }
 
-    
-    public int getCedula() {
-        return cedula;
+    public int getIdentificationCard() {
+        return identificationCard;
     }
 
-    public void setCedula(int cedula) {
-        this.cedula = cedula;
-    }
-    
-    
-    public String getNombres() {
-        return nombre;
+    public void setIdentificationCard(int identificationCard) {
+        this.identificationCard = identificationCard;
     }
 
-    public void setNombres(String nombres) {
-        this.nombre = nombres;
+    public String getName() {
+        return name;
     }
 
-    public String getApellidos() {
-        return apellidos;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public void setApellidos(String apellidos) {
-        this.apellidos = apellidos;
+    public String getLastName() {
+        return lastName;
     }
 
-    public int getTelefono() {
-        return telefono;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
-    public void setTelefono(int telefono) {
-        this.telefono = telefono;
+    public int getPhone() {
+        return phone;
     }
 
-    public String getCorreo() {
-        return correo;
+    public void setPhone(int phone) {
+        this.phone = phone;
     }
 
-    public void setCorreo(String correo) {
-        this.correo = correo;
+    public String getMail() {
+        return mail;
     }
 
-    public String getDireccion() {
-        return direccion;
+    public void setMail(String mail) {
+        this.mail = mail;
     }
 
-    public void setDireccion(String dirreccion) {
-        this.direccion = dirreccion;
+    public String getAddress() {
+        return address;
     }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
 }

@@ -9,48 +9,54 @@ package Model;
  * @author Juan Felipe
  */
 public class Product {
-    private int id_producto;
-    private String nombre;
-    private int precio;
-    private String Descripcion;
+    private int idProduct;
+    private String name;
+    private int price;
+    private String description;
 
+    public Product() {
+    }
     
     public Product(String nombre, int precio, String Descripcion) {
-        this.nombre = nombre;
-        this.precio = precio;
-        this.Descripcion = Descripcion;
+        this.name = nombre;
+        this.price = precio;
+        this.description = Descripcion;
     }
+
+    public int getIdProduct() {
+        return idProduct;
+    }
+
+    public void setIdProduct(int idProduct) {
+        this.idProduct = idProduct;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+
     
-    public int getId_producto() {
-        return id_producto;
-    }
-
-    public void setId_producto(int id_producto) {
-        this.id_producto = id_producto;
-    }
-    
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public int getPrecio() {
-        return precio;
-    }
-
-    public void setPrecio(int precio) {
-        this.precio = precio;
-    }
-
-    public String getDescripcion() {
-        return Descripcion;
-    }
-
-    public void setDescripcion(String Descripcion) {
-        this.Descripcion = Descripcion;
-    }
+   
 
 }

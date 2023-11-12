@@ -8,13 +8,11 @@ package DataBase;
  *
  * @author David Gomez
  */
-import Model.Customer;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-public class ConexionBD {
+public class ConnectionBD {
     public static Connection obtenerConexion() {
         Connection conexion = null;
 
@@ -46,32 +44,7 @@ public class ConexionBD {
             System.err.println("Error al cerrar la conexión: " + e.getMessage());
         }
     }
-    public void agregarPersona(Connection conexion, Customer persona) {
-        try {
-            String insercion = "INSERT INTO persona (Nombres, Apellidos, telefono, email, direccion) VALUES (?, ?, ?, ?, ?)";
-            PreparedStatement preparedStatement = conexion.prepareStatement(insercion);
-
-            // Establece los valores de los parámetros
-            preparedStatement.setString(1, persona.getNombres());
-            preparedStatement.setString(2, persona.getApellidos());
-            preparedStatement.setInt(3, persona.getTelefono());
-            preparedStatement.setString(4, persona.getCorreo());
-            preparedStatement.setString(5, persona.getDireccion());
-
-            // Ejecuta la inserción
-            int filasAfectadas = preparedStatement.executeUpdate();
-            if (filasAfectadas > 0) {
-                System.out.println("Persona agregada exitosamente a la base de datos.");
-            } else {
-                System.err.println("Error al agregar persona a la base de datos.");
-            }
-
-            preparedStatement.close();
-        } catch (Exception e) {
-            System.err.println("Error al agregar persona: " + e.getMessage());
-        }
-    }
-
+    
     public static void main(String[] args) {
         Connection conexion = obtenerConexion();
     }

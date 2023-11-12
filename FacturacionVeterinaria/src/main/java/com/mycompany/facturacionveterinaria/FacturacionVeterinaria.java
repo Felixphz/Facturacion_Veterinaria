@@ -4,7 +4,7 @@
 
 package com.mycompany.facturacionveterinaria;
 
-import DataBase.ConexionBD;
+import DataBase.ConnectionBD;
 import java.sql.Connection;
 
 /**
@@ -15,6 +15,6 @@ public class FacturacionVeterinaria {
 
     public static void main(String[] args) {
         System.out.println("Hello World!");
-        Connection conexion = ConexionBD.obtenerConexion();
+        Connection conexion = ConnectionBD.obtenerConexion();
     }
 }

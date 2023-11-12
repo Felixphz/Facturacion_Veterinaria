@@ -12,8 +12,8 @@ import Control.BDcontrol;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import Model.Customer;
-import Model.Detalle;
-import Model.Factura;
+import Model.Detail;
+import Model.Bill;
 import Model.Product;
 import java.sql.Date;
 import java.sql.ResultSet;
@@ -21,27 +21,27 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class OperacionesBD implements BDcontrol {
+public class OperationsBD implements BDcontrol {
 
-    Connection conexion = ConexionBD.obtenerConexion();
+    Connection conexion = ConnectionBD.obtenerConexion();
 
-    public OperacionesBD() {
+    public OperationsBD() {
 
     }
 
     @Override
-    public void agregarPersona(Customer persona) {
+    public void addPersonDB(Customer persona) {
         try {
             String insercion = "INSERT INTO persona (cedula, Nombres, Apellidos, telefono, email, direccion) VALUES (?, ?, ?, ?, ?, ?)";
             PreparedStatement preparedStatement = conexion.prepareStatement(insercion);
 
             // Establece los valores de los parámetros
-            preparedStatement.setInt(1, persona.getCedula());
-            preparedStatement.setString(2, persona.getNombres());
-            preparedStatement.setString(3, persona.getApellidos());
-            preparedStatement.setInt(4, persona.getTelefono());
-            preparedStatement.setString(5, persona.getCorreo());
-            preparedStatement.setString(6, persona.getDireccion());
+            preparedStatement.setInt(1, persona.getIdentificationCard());
+            preparedStatement.setString(2, persona.getName());
+            preparedStatement.setString(3, persona.getLastName());
+            preparedStatement.setInt(4, persona.getPhone());
+            preparedStatement.setString(5, persona.getMail());
+            preparedStatement.setString(6, persona.getAddress());
 
             // Ejecuta la inserción
             int filasAfectadas = preparedStatement.executeUpdate();
@@ -58,7 +58,7 @@ public class OperacionesBD implements BDcontrol {
     }
 
     @Override
-    public void agregarFactura(Factura factura){
+    public void addInvoiceDB(Bill factura){
         try {
             String insercion = "INSERT INTO facturas (id_persona, fecha, estado) VALUES ( ?, ?, ?)";
             PreparedStatement preparedStatement = conexion.prepareStatement(insercion);
@@ -83,7 +83,7 @@ public class OperacionesBD implements BDcontrol {
     }
 
     @Override
-    public void agregarDetalles(Detalle detalle) {
+    public void addDetailsDB(Detail detalle) {
         try {
             String insercion = "INSERT INTO detalles (id_producto1, id_factura) VALUES (?, ?)";
             PreparedStatement preparedStatement = conexion.prepareStatement(insercion);
@@ -107,7 +107,7 @@ public class OperacionesBD implements BDcontrol {
     }
 
     @Override
-    public List<Product> obtenerProductos() {
+    public List<Product> getProductsDB() {
         List<Product> productos = new ArrayList<>();
         try {
             String consulta = "SELECT id_producto, nombre, precio, descripcion FROM productos";
@@ -121,7 +121,7 @@ public class OperacionesBD implements BDcontrol {
                 String descripcion = resultSet.getString("descripcion");
 
                 Product producto = new Product(nombre, precio, descripcion);
-                producto.setId_producto(idProducto);
+                producto.setIdProduct(idProducto);
                 productos.add(producto);
             }
 
@@ -134,8 +134,8 @@ public class OperacionesBD implements BDcontrol {
     }
     
     @Override
-    public List<Detalle> obtenerDetallesPorIdFactura(int idFactura){
-        List<Detalle> productList = new ArrayList<>();
+    public List<Detail> getDetailsByInvoiceId(int idFactura){
+        List<Detail> productList = new ArrayList<>();
         try {
             String consulta = "SELECT id_producto1,cantidad FROM detalles WHERE id_factura1 = ?";
             PreparedStatement preparedStatement = conexion.prepareStatement(consulta);
@@ -145,7 +145,7 @@ public class OperacionesBD implements BDcontrol {
             while (resultSet.next()) {
                 int idProducto = resultSet.getInt("id_producto1");
                 int cantidad = resultSet.getInt("cantidad");
-                Detalle detalle=new Detalle(idFactura,idProducto,cantidad);
+                Detail detalle=new Detail(idFactura,idProducto,cantidad);
                 productList.add(detalle);
             }
 
@@ -159,7 +159,7 @@ public class OperacionesBD implements BDcontrol {
     
     
     @Override
-    public Product obtenerProductoPorId(int idProducto) {
+    public Product getProductById(int idProducto) {
     Product producto = null;
     try {
         String consulta = "SELECT nombre, precio, descripcion FROM productos WHERE id_producto = ?";
@@ -173,7 +173,7 @@ public class OperacionesBD implements BDcontrol {
             String descripcion = resultSet.getString("descripcion");
 
             producto = new Product(nombre, precio, descripcion);
-            producto.setId_producto(idProducto); // Establecemos la id del producto
+            producto.setIdProduct(idProducto); // Establecemos la id del producto
         }
 
         resultSet.close();
@@ -185,7 +185,7 @@ public class OperacionesBD implements BDcontrol {
 }
     
     @Override
-public Customer obtenerPersonaPorId(int idPersona) {
+public Customer getPersonById(int idPersona) {
     Customer persona = null;
     try {
         String consulta = "SELECT cedula, Nombres, Apellidos, telefono, email, direccion FROM persona WHERE id_persona = ?";
@@ -202,7 +202,7 @@ public Customer obtenerPersonaPorId(int idPersona) {
             String direccion = resultSet.getString("direccion");
 
             persona = new Customer(cedula, nombres, apellidos, telefono, email, direccion);
-            persona.setId_persona(idPersona); // Establecemos la id de la persona
+            persona.setIdPerson(idPersona); // Establecemos la id de la persona
         }
 
         resultSet.close();
@@ -213,8 +213,8 @@ public Customer obtenerPersonaPorId(int idPersona) {
     return persona;
 }
     @Override
-    public List<Factura> buscarFacturasPorFecha(Date fecha) {
-        List<Factura> facturasEnFecha = new ArrayList<>();
+    public List<Bill> searchInvoicesByDate(Date fecha) {
+        List<Bill> facturasEnFecha = new ArrayList<>();
         try {
             String consulta = "SELECT id_factura, id_persona, estado, fecha FROM facturas WHERE fecha = ?";
             PreparedStatement preparedStatement = conexion.prepareStatement(consulta);
@@ -227,7 +227,7 @@ public Customer obtenerPersonaPorId(int idPersona) {
                 String estado = resultSet.getString("estado");
                 Date fechaFactura = resultSet.getDate("fecha");
 
-                Factura factura = new Factura( idPersona, fechaFactura, estado);
+                Bill factura = new Bill( idPersona, fechaFactura, estado);
                 factura.setId_factura(idFactura);
                 facturasEnFecha.add(factura);
             }
@@ -240,8 +240,8 @@ public Customer obtenerPersonaPorId(int idPersona) {
         return facturasEnFecha;
     }
     @Override
-    public List<Factura> obtenerFacturas() {
-        List<Factura> facturas = new ArrayList<>();
+    public List<Bill> getInvoicesDB() {
+        List<Bill> facturas = new ArrayList<>();
         try {
             String consulta = "SELECT id_factura, id_persona, estado, fecha FROM facturas";
             PreparedStatement preparedStatement = conexion.prepareStatement(consulta);
@@ -253,7 +253,7 @@ public Customer obtenerPersonaPorId(int idPersona) {
                 String estado = resultSet.getString("estado");
                 Date fecha = resultSet.getDate("fecha");
 
-                Factura factura = new Factura(idPersona, fecha, estado);
+                Bill factura = new Bill(idPersona, fecha, estado);
                 factura.setId_factura(idFactura);
                 facturas.add(factura);
             }
@@ -267,8 +267,8 @@ public Customer obtenerPersonaPorId(int idPersona) {
     }
 
     @Override
-    public List<Detalle> obtenerDetalles() {
-        List<Detalle> detalles = new ArrayList<>();
+    public List<Detail> getDetailsDB() {
+        List<Detail> detalles = new ArrayList<>();
         try {
             String consulta = "SELECT id_producto1, id_factura FROM detalles";
             PreparedStatement preparedStatement = conexion.prepareStatement(consulta);
@@ -279,7 +279,7 @@ public Customer obtenerPersonaPorId(int idPersona) {
                 int idFactura = resultSet.getInt("id_factura1");
                 int cantidad = resultSet.getInt("cantidad");
 
-                Detalle detalle = new Detalle(idProducto, idFactura,cantidad);
+                Detail detalle = new Detail(idProducto, idFactura,cantidad);
                 detalle.setId_detalle(idFactura);
                 detalles.add(detalle);
             }
@@ -293,8 +293,8 @@ public Customer obtenerPersonaPorId(int idPersona) {
     }
     
     @Override
-    public List<Factura> obtenerBalance(Date fechaInicio, Date fechaFin) {
-    List<Factura> facturasEnRango = new ArrayList<>();
+    public List<Bill> getBalance(Date fechaInicio, Date fechaFin) {
+    List<Bill> facturasEnRango = new ArrayList<>();
     try {
         String consulta = "SELECT id_factura, id_person, estado, fecha FROM facturas WHERE fecha BETWEEN ? AND ?";
         PreparedStatement preparedStatement = conexion.prepareStatement(consulta);
@@ -308,7 +308,7 @@ public Customer obtenerPersonaPorId(int idPersona) {
             String estado = resultSet.getString("estado");
             Date fecha = resultSet.getDate("fecha");
 
-            Factura factura = new Factura( idPersona, fecha,estado);
+            Bill factura = new Bill( idPersona, fecha,estado);
             factura.setId_factura(idFactura);
             facturasEnRango.add(factura);
         }
@@ -320,15 +320,5 @@ public Customer obtenerPersonaPorId(int idPersona) {
     }
     return facturasEnRango;
 }
-    /*
-    public static void main(String[] args) {
-        Connection conexion = ConexionBD.obtenerConexion();
-        
-        if (conexion != null) {
-            Customer nuevaPersona = new Customer("1000344432","juan", "felipe", 3214545, "sdf@sdf", "2345465ui");
-            agregarPersona(conexion, nuevaPersona);
-            ConexionBD.cerrarConexion(conexion);
-        }
-    }*/
 
 }

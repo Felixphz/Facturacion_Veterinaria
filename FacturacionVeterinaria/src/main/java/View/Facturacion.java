@@ -5,10 +5,10 @@
 package View;
 
 import Control.BDcontrol;
-import DataBase.OperacionesBD;
+import DataBase.OperationsBD;
 import Model.Customer;
-import Model.Detalle;
-import Model.Factura;
+import Model.Detail;
+import Model.Bill;
 import Model.Product;
 import datechooser.beans.DateChooserCombo;
 import java.sql.Date;
@@ -27,20 +27,20 @@ public class Facturacion extends javax.swing.JFrame {
     /**
      * Creates new form Facturacion
      */
-    public void TablaDeFacturas(List<Factura> facturas){
-        BDcontrol BD = new OperacionesBD();
+    public void TablaDeFacturas(List<Bill> facturas){
+        BDcontrol BD = new OperationsBD();
         DefaultTableModel modeloFactura = (DefaultTableModel) TablaFacturas.getModel();
                  modeloFactura.setRowCount(0);
 
-        for (Factura factura : facturas) {
-            List<Detalle> DetallesList = BD.obtenerDetallesPorIdFactura(factura.getId_factura());
+        for (Bill factura : facturas) {
+            List<Detail> DetallesList = BD.getDetailsByInvoiceId(factura.getId_factura());
             int Total = 0;
-            for (Detalle detalle : DetallesList) {
-                Total += BD.obtenerProductoPorId(detalle.getId_producto()).getPrecio() * detalle.getCantidad();
+            for (Detail detalle : DetallesList) {
+                Total += BD.getProductById(detalle.getId_producto()).getPrice()* detalle.getCantidad();
             }
             modeloFactura.addRow(new Object[]{
                 factura.getId_factura(),
-                BD.obtenerPersonaPorId(factura.getId_persona()).getCedula(),
+                BD.getPersonById(factura.getId_persona()).getIdentificationCard(),
                 Total,
                 factura.getFecha(),
                 factura.getEstado()
@@ -50,35 +50,35 @@ public class Facturacion extends javax.swing.JFrame {
     }
     
     public Facturacion() {
-        BDcontrol BD = new OperacionesBD();
+        BDcontrol BD = new OperationsBD();
 
-        List<Product> productos = BD.obtenerProductos();
+        List<Product> productos = BD.getProductsDB();
         initComponents();
         DefaultComboBoxModel<String> shareModel = new DefaultComboBoxModel<>();
         shareModel.addElement("Seleccione...");
         for (Product producto : productos) {
-            shareModel.addElement(producto.getNombre());
+            shareModel.addElement(producto.getName());
         }
         jComboBox4.setModel(shareModel);
         jComboBox5.setModel(shareModel);
         jComboBox3.setModel(shareModel);
         jComboBox6.setModel(shareModel);
-        List<Factura> facturas = BD.obtenerFacturas();
+        List<Bill> facturas = BD.getInvoicesDB();
         TablaDeFacturas(facturas);
         
       /*  
         DefaultTableModel modeloFactura = (DefaultTableModel) TablaFacturas.getModel();
-        List<Factura> facturas = BD.obtenerFacturas();
+        List<Factura> facturas = BD.getInvoicesDB();
 
-        for (Factura factura : facturas) {
-            List<Detalle> DetallesList = BD.obtenerDetallesPorIdFactura(factura.getId_factura());
+        for (Bill factura : facturas) {
+            List<Detalle> DetallesList = BD.getDetailsByInvoiceId(factura.getId_factura());
             int Total = 0;
-            for (Detalle detalle : DetallesList) {
-                Total += BD.obtenerProductoPorId(detalle.getId_producto()).getPrecio() * detalle.getCantidad();
+            for (Detail detalle : DetallesList) {
+                Total += BD.getProductById(detalle.getId_producto()).getPrecio() * detalle.getCantidad();
             }
             modeloFactura.addRow(new Object[]{
                 factura.getId_factura(),
-                BD.obtenerPersonaPorId(factura.getId_persona()).getCedula(),
+                BD.getPersonById(factura.getId_persona()).getCedula(),
                 Total,
                 factura.getFecha(),
                 factura.getEstado()
@@ -516,7 +516,7 @@ public class Facturacion extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        BDcontrol BD = new OperacionesBD();
+        BDcontrol BD = new OperationsBD();
 
         Calendar fechaMin = ComboFechaMin.getSelectedDate();
         java.util.Date utilMin = fechaMin.getTime(); // Obtener el java.util.Date directamente
@@ -526,12 +526,12 @@ public class Facturacion extends javax.swing.JFrame {
         java.util.Date utilDate = fechaMax.getTime(); // Obtener el java.util.Date directamente
         java.sql.Date Max = new java.sql.Date(utilDate.getTime());
 
-        List<Factura> facturas = BD.obtenerBalance(Min, Max);
+        List<Bill> facturas = BD.getBalance(Min, Max);
         int Total = 0;
-        for (Factura factura : facturas) {
-            List<Detalle> DetallesList = BD.obtenerDetallesPorIdFactura(factura.getId_factura());
-                for (Detalle detalle : DetallesList) {
-                    Total += BD.obtenerProductoPorId(detalle.getId_producto()).getPrecio() * detalle.getCantidad();
+        for (Bill factura : facturas) {
+            List<Detail> DetallesList = BD.getDetailsByInvoiceId(factura.getId_factura());
+                for (Detail detalle : DetallesList) {
+                    Total += BD.getProductById(detalle.getId_producto()).getPrice()* detalle.getCantidad();
                 }
             
         }
@@ -543,19 +543,19 @@ public class Facturacion extends javax.swing.JFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
 
-        BDcontrol BD = new OperacionesBD();
+        BDcontrol BD = new OperationsBD();
         Calendar fechaUtil = dateChooserCombo5.getSelectedDate();
         java.util.Date utilDate = fechaUtil.getTime(); 
         java.sql.Date fechaSQL = new java.sql.Date(utilDate.getTime()); 
-        Factura fct = new Factura(3, fechaSQL, "pagada");
-        BD.agregarFactura(fct);
+        Bill fct = new Bill(3, fechaSQL, "pagada");
+        BD.addInvoiceDB(fct);
 
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
        
-        BDcontrol BD = new OperacionesBD();
-        TablaDeFacturas(BD.obtenerFacturas());
+        BDcontrol BD = new OperationsBD();
+        TablaDeFacturas(BD.getInvoicesDB());
         
     }//GEN-LAST:event_jButton4ActionPerformed
 
@@ -569,11 +569,11 @@ public class Facturacion extends javax.swing.JFrame {
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         // TODO add your handling code here:
-        BDcontrol BD = new OperacionesBD();
+        BDcontrol BD = new OperationsBD();
         Calendar fechaUtil = FechaObj.getSelectedDate();
         java.util.Date utilDate = fechaUtil.getTime(); 
         java.sql.Date fecha = new java.sql.Date(utilDate.getTime());
-        TablaDeFacturas(BD.buscarFacturasPorFecha(fecha));
+        TablaDeFacturas(BD.searchInvoicesByDate(fecha));
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jComboBox4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox4ActionPerformed
