@@ -186,6 +186,11 @@ public class Facturacion extends javax.swing.JFrame {
 
         jComboBox4.setFont(new java.awt.Font("Berlin Sans FB", 0, 18)); // NOI18N
         jComboBox4.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox4ActionPerformed(evt);
+            }
+        });
 
         jComboBox5.setFont(new java.awt.Font("Berlin Sans FB", 0, 18)); // NOI18N
         jComboBox5.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
@@ -542,7 +547,7 @@ public class Facturacion extends javax.swing.JFrame {
         Calendar fechaUtil = dateChooserCombo5.getSelectedDate();
         java.util.Date utilDate = fechaUtil.getTime(); 
         java.sql.Date fechaSQL = new java.sql.Date(utilDate.getTime()); 
-        Factura fct = new Factura(33, "central", fechaSQL, "pagada");
+        Factura fct = new Factura(3, "central", fechaSQL, "pagada");
         BD.agregarFactura(fct);
 
     }//GEN-LAST:event_jButton3ActionPerformed
@@ -570,6 +575,10 @@ public class Facturacion extends javax.swing.JFrame {
         java.sql.Date fecha = new java.sql.Date(utilDate.getTime());
         TablaDeFacturas(BD.buscarFacturasPorFecha(fecha));
     }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jComboBox4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox4ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBox4ActionPerformed
 
     /**
      * @param args the command line arguments

@@ -14,6 +14,13 @@ public class Producto {
     private int precio;
     private String Descripcion;
 
+    
+    public Producto(String nombre, int precio, String Descripcion) {
+        this.nombre = nombre;
+        this.precio = precio;
+        this.Descripcion = Descripcion;
+    }
+    
     public int getId_producto() {
         return id_producto;
     }
@@ -46,9 +53,4 @@ public class Producto {
         this.Descripcion = Descripcion;
     }
 
-    public Producto(String nombre, int precio, String Descripcion) {
-        this.nombre = nombre;
-        this.precio = precio;
-        this.Descripcion = Descripcion;
-    }
 }
