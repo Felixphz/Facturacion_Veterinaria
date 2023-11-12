@@ -10,13 +10,13 @@ import java.sql.Date;
  *
  * @author Juan Felipe
  */
-public class Bills {
+public class Bill {
     private int id_factura;
     private int id_persona;
     private Date date;
     private String estado;
 
-    public Bills(int id_persona, Date fecha, String estado) {
+    public Bill(int id_persona, Date fecha, String estado) {
         this.id_persona = id_persona;
         this.date = fecha;
         this.estado = estado;
