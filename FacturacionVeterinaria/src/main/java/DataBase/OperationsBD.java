@@ -13,7 +13,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import Model.Customer;
 import Model.Detail;
-import Model.Bill;
+import Model.Bills;
 import Model.Product;
 import java.sql.Date;
 import java.sql.ResultSet;
@@ -58,7 +58,7 @@ public class OperationsBD implements BDcontrol {
     }
 
     @Override
-    public void addInvoiceDB(Bill factura){
+    public void addInvoiceDB(Bills factura){
         try {
             String insercion = "INSERT INTO facturas (id_persona, fecha, estado) VALUES ( ?, ?, ?)";
             PreparedStatement preparedStatement = conexion.prepareStatement(insercion);
@@ -213,8 +213,8 @@ public Customer getPersonById(int idPersona) {
     return persona;
 }
     @Override
-    public List<Bill> searchInvoicesByDate(Date fecha) {
-        List<Bill> facturasEnFecha = new ArrayList<>();
+    public List<Bills> searchInvoicesByDate(Date fecha) {
+        List<Bills> facturasEnFecha = new ArrayList<>();
         try {
             String consulta = "SELECT id_factura, id_persona, estado, fecha FROM facturas WHERE fecha = ?";
             PreparedStatement preparedStatement = conexion.prepareStatement(consulta);
@@ -227,7 +227,7 @@ public Customer getPersonById(int idPersona) {
                 String estado = resultSet.getString("estado");
                 Date fechaFactura = resultSet.getDate("fecha");
 
-                Bill factura = new Bill( idPersona, fechaFactura, estado);
+                Bills factura = new Bills( idPersona, fechaFactura, estado);
                 factura.setId_factura(idFactura);
                 facturasEnFecha.add(factura);
             }
@@ -240,8 +240,8 @@ public Customer getPersonById(int idPersona) {
         return facturasEnFecha;
     }
     @Override
-    public List<Bill> getInvoicesDB() {
-        List<Bill> facturas = new ArrayList<>();
+    public List<Bills> getInvoicesDB() {
+        List<Bills> facturas = new ArrayList<>();
         try {
             String consulta = "SELECT id_factura, id_persona, estado, fecha FROM facturas";
             PreparedStatement preparedStatement = conexion.prepareStatement(consulta);
@@ -253,7 +253,7 @@ public Customer getPersonById(int idPersona) {
                 String estado = resultSet.getString("estado");
                 Date fecha = resultSet.getDate("fecha");
 
-                Bill factura = new Bill(idPersona, fecha, estado);
+                Bills factura = new Bills(idPersona, fecha, estado);
                 factura.setId_factura(idFactura);
                 facturas.add(factura);
             }
@@ -293,8 +293,8 @@ public Customer getPersonById(int idPersona) {
     }
     
     @Override
-    public List<Bill> getBalance(Date fechaInicio, Date fechaFin) {
-    List<Bill> facturasEnRango = new ArrayList<>();
+    public List<Bills> getBalance(Date fechaInicio, Date fechaFin) {
+    List<Bills> facturasEnRango = new ArrayList<>();
     try {
         String consulta = "SELECT id_factura, id_person, estado, fecha FROM facturas WHERE fecha BETWEEN ? AND ?";
         PreparedStatement preparedStatement = conexion.prepareStatement(consulta);
@@ -308,7 +308,7 @@ public Customer getPersonById(int idPersona) {
             String estado = resultSet.getString("estado");
             Date fecha = resultSet.getDate("fecha");
 
-            Bill factura = new Bill( idPersona, fecha,estado);
+            Bills factura = new Bills( idPersona, fecha,estado);
             factura.setId_factura(idFactura);
             facturasEnRango.add(factura);
         }

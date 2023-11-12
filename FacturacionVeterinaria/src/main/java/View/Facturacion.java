@@ -8,7 +8,7 @@ import Control.BDcontrol;
 import DataBase.OperationsBD;
 import Model.Customer;
 import Model.Detail;
-import Model.Bill;
+import Model.Bills;
 import Model.Product;
 import datechooser.beans.DateChooserCombo;
 import java.sql.Date;
@@ -27,12 +27,12 @@ public class Facturacion extends javax.swing.JFrame {
     /**
      * Creates new form Facturacion
      */
-    public void TablaDeFacturas(List<Bill> facturas){
+    public void TablaDeFacturas(List<Bills> facturas){
         BDcontrol BD = new OperationsBD();
         DefaultTableModel modeloFactura = (DefaultTableModel) TablaFacturas.getModel();
                  modeloFactura.setRowCount(0);
 
-        for (Bill factura : facturas) {
+        for (Bills factura : facturas) {
             List<Detail> DetallesList = BD.getDetailsByInvoiceId(factura.getId_factura());
             int Total = 0;
             for (Detail detalle : DetallesList) {
@@ -63,14 +63,14 @@ public class Facturacion extends javax.swing.JFrame {
         jComboBox5.setModel(shareModel);
         jComboBox3.setModel(shareModel);
         jComboBox6.setModel(shareModel);
-        List<Bill> facturas = BD.getInvoicesDB();
+        List<Bills> facturas = BD.getInvoicesDB();
         TablaDeFacturas(facturas);
         
       /*  
         DefaultTableModel modeloFactura = (DefaultTableModel) TablaFacturas.getModel();
         List<Factura> facturas = BD.getInvoicesDB();
 
-        for (Bill factura : facturas) {
+        for (Bills factura : facturas) {
             List<Detalle> DetallesList = BD.getDetailsByInvoiceId(factura.getId_factura());
             int Total = 0;
             for (Detail detalle : DetallesList) {
@@ -526,9 +526,9 @@ public class Facturacion extends javax.swing.JFrame {
         java.util.Date utilDate = fechaMax.getTime(); // Obtener el java.util.Date directamente
         java.sql.Date Max = new java.sql.Date(utilDate.getTime());
 
-        List<Bill> facturas = BD.getBalance(Min, Max);
+        List<Bills> facturas = BD.getBalance(Min, Max);
         int Total = 0;
-        for (Bill factura : facturas) {
+        for (Bills factura : facturas) {
             List<Detail> DetallesList = BD.getDetailsByInvoiceId(factura.getId_factura());
                 for (Detail detalle : DetallesList) {
                     Total += BD.getProductById(detalle.getId_producto()).getPrice()* detalle.getCantidad();
@@ -547,7 +547,7 @@ public class Facturacion extends javax.swing.JFrame {
         Calendar fechaUtil = dateChooserCombo5.getSelectedDate();
         java.util.Date utilDate = fechaUtil.getTime(); 
         java.sql.Date fechaSQL = new java.sql.Date(utilDate.getTime()); 
-        Bill fct = new Bill(3, fechaSQL, "pagada");
+        Bills fct = new Bills(3, fechaSQL, "pagada");
         BD.addInvoiceDB(fct);
 
     }//GEN-LAST:event_jButton3ActionPerformed
