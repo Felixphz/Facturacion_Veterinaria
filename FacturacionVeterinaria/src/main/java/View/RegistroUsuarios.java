@@ -232,13 +232,13 @@ public class RegistroUsuarios extends javax.swing.JFrame {
     }//GEN-LAST:event_telNumActionPerformed
 
     private void button2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button2ActionPerformed
-        // TODO add your handling code here:
+        
         BDcontrol BD = new OperationsBD();
         if (id.getText().equals("") || name.getText().equals("") || lastname.getText().equals("") || telNum.getText().equals("") ||
                  email.getText().equals("") || adress.getText().equals("")) {
             JOptionPane.showMessageDialog(null, "Por favor complete todo el formulario para poder continuar", "Error", JOptionPane.ERROR_MESSAGE);
         }else{
-            //Aquí se puede agregar el código para la bd
+            
             Customer cst = new Customer(Integer.parseInt(id.getText()), name.getText(), lastname.getText(), Integer.parseInt(telNum.getText()),  email.getText(), adress.getText());
             BD.addPersonDB(cst);
             this.setVisible(false);

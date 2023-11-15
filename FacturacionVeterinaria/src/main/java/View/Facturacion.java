@@ -29,20 +29,30 @@ public class Facturacion extends javax.swing.JFrame {
      * Creates new form Facturacion
      */
     final BDcontrol BD = new OperationsBD();
+    // Lista de productos obtenida de la base de datos
     List<Product> products = BD.getProductsDB();
+    // Listas para almacenar productos y cantidades
     List<Product> listProducts = new ArrayList<>();
     List<Integer> listAmount = new ArrayList<>();
     
+    
+    //Construye una tabla de facturas a partir de una lista de facturas dada.
     public void TablaDeFacturas(List<Bill> bills){
+        //// Obtener el modelo de la tabla de facturas
         DefaultTableModel modeloBill = (DefaultTableModel) TablaFacturas.getModel();
-                 modeloBill.setRowCount(0);
-
+        // Limpiar la tabla antes de agregar datos
+        modeloBill.setRowCount(0);
+        
+        // Iterar sobre las facturas
         for (Bill bill : bills) {
+            // Obtener la lista de detalles asociados a cada factura
             List<Detail> DetailList = BD.getDetailsByInvoiceId(bill.getIdBill());
             int Total = 0;
+            // Calcular el total sumando el precio de los productos por la cantidad
             for (Detail detail : DetailList) {
                 Total += BD.getProductById(detail.getIdProduct()).getPrice()* detail.getAmount();
             }
+            // Agregar una fila a la tabla de facturas
             modeloBill.addRow(new Object[]{
                 bill.getIdBill(),
                 BD.getPersonById(bill.getIdPerson()).getIdentificationCard(),
@@ -50,31 +60,44 @@ public class Facturacion extends javax.swing.JFrame {
                 bill.getDate(),
                 bill.getState()
             });
+             // Establecer el modelo actualizado en la tabla
             TablaFacturas.setModel(modeloBill);
         }
     }
     
+    //construye una tabla de productos a partir de la lista de productos y cantidades.
     public void TableDeProducts(){
+         // Obtener el modelo de la tabla de productos
         DefaultTableModel modelproduct = (DefaultTableModel) TableProducts.getModel();
+        // Limpiar la tabla antes de agregar datos
         modelproduct.setRowCount(0);
+        // Iterar sobre la lista de productos y cantidades
         for (int i = 0; i < listProducts.size(); i++) {
+            // Agregar una fila a la tabla de productos
             modelproduct.addRow(new Object[]{
                 listProducts.get(i).getName(),
                 listAmount.get(i),
             });
+            // Establecer el modelo actualizado en la tabla
             TableProducts.setModel(modelproduct);
         }
     }
     
+    //Inicializa componentes gráficos y carga datos iniciales.
     public Facturacion() {
-
+        
+        
         initComponents();
+        // Crear un modelo de combobox para compartir productos
         DefaultComboBoxModel<String> shareModel = new DefaultComboBoxModel<>();
         shareModel.addElement("Seleccione...");
+        // Agregar nombres de productos al modelo
         for (Product producto : products) {
             shareModel.addElement(producto.getName());
         }
+        // Establecer el modelo en el ComboBox
         ComboProduct.setModel(shareModel);
+        // Obtener la lista de facturas desde la base de datos y construir la tabla de facturas
         List<Bill> bills = BD.getInvoicesDB();
         TablaDeFacturas(bills);
         
@@ -731,9 +754,10 @@ public class Facturacion extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+        //instancia de BDcontrol 
         BDcontrol BD = new OperationsBD();
 
+        // Obtener las fechas mínima y máxima seleccionadas
         Calendar fechaMin = ComboFechaMin.getSelectedDate();
         java.util.Date utilMin = fechaMin.getTime(); // Obtener el java.util.Date directamente
         java.sql.Date Min = new java.sql.Date(utilMin.getTime());
@@ -742,15 +766,22 @@ public class Facturacion extends javax.swing.JFrame {
         java.util.Date utilDate = fechaMax.getTime(); // Obtener el java.util.Date directamente
         java.sql.Date Max = new java.sql.Date(utilDate.getTime());
 
+        // Obtener la lista de facturas en el rango de fechas proporcionado
         List<Bill> bills = BD.getBalance(Min, Max);
+        // Inicializar una variable para almacenar el total
         int Total = 0;
+        // Iterar sobre las facturas
         for (Bill bill : bills) {
+            // Obtener la lista de detalles asociados a cada factura
             List<Detail> DetailList = BD.getDetailsByInvoiceId(bill.getIdBill());
+                // Iterar sobre los detalles y calcular el total
                 for (Detail detail : DetailList) {
+                    // Obtener el precio del producto multiplicado por la cantidad y sumarlo al total
                     Total += BD.getProductById(detail.getIdProduct()).getPrice()* detail.getAmount();
                 }
             
         }
+                // Mostrar el balance total
                 JOptionPane.showMessageDialog(null, "El balance entre " + Min + " y " + Max + " es de: " + Total);
             
         
@@ -784,11 +815,13 @@ public class Facturacion extends javax.swing.JFrame {
     }//GEN-LAST:event_jComboBox3ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        // TODO add your handling code here:
+        //conexion
         BDcontrol BD = new OperationsBD();
+        // Obtener la fecha seleccionada
         Calendar fechaUtil = FechaObj.getSelectedDate();
         java.util.Date utilDate = fechaUtil.getTime(); 
         java.sql.Date fecha = new java.sql.Date(utilDate.getTime());
+        // Realizar la búsqueda de facturas por fecha y construir la tabla de facturas
         TablaDeFacturas(BD.searchInvoicesByDate(fecha));
     }//GEN-LAST:event_jButton5ActionPerformed
 
@@ -836,24 +869,35 @@ public class Facturacion extends javax.swing.JFrame {
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
 
         BDcontrol BD = new OperationsBD();
+        // Obtener la fecha seleccionada 
         Calendar fechaUtil = dateChooserCombo5.getSelectedDate();
         java.util.Date utilDate = fechaUtil.getTime();
         java.sql.Date fechaSQL = new java.sql.Date(utilDate.getTime());
+        // Obtener la cedula ingresada
         int ident= Integer.parseInt(Txtidentification.getText());
+        // Obtener la ID del cliente a partir de la cedula
         int idCustomer=BD.getIdCustomerByidentification(ident);
+        // Verificar si la ID del cliente es -1 (no existe en la base de datos)
         if(idCustomer == -1){
+            //manda al formalario de registro de usuarios
             new RegistroUsuarios().setVisible(true);
         }
+        
         else{
+             // Crear una nueva factura con la ID del cliente, la fecha convertida y un estado
             Bill fct = new Bill(idCustomer, fechaSQL, "pagada");
+            // Agregar la factura a la base de datos y obtener la ID generada
             int ideFact=BD.addInvoiceDB(fct);
-
+            
+            // Iterar sobre la lista de productos y agregar detalles asociados a la factura en la base de datos
             for (int i = 0; i < listProducts.size(); i++) {
                 Detail detail=new Detail(listProducts.get(i).getIdProduct(),ideFact,listAmount.get(i));
                 BD.addDetailsDB(detail);
             }
+             // Limpiar las listas listAmount y listProducts
             listAmount.clear();
         listProducts.clear();
+        // Llamar al método TableDeProducts para limpiarla de valores
         TableDeProducts();
         }
         

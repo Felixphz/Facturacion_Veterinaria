@@ -17,9 +17,9 @@ public class ConnectionBD {
         Connection conexion = null;
 
         // Configura la información de la base de datos
-        String url = "jdbc:mysql://localhost:3306/veterinaria"; // Cambia 'tu_basedatos' por el nombre de tu base de datos
-        String usuario = "root"; // Cambia 'tu_usuario' por tu nombre de usuario de MySQL
-        String contraseña = ""; // Cambia 'tu_contraseña' por tu contraseña de MySQL
+        String url = "jdbc:mysql://localhost:3306/veterinaria"; 
+        String usuario = "root"; 
+        String contraseña = ""; 
 
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
