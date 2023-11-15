@@ -29,28 +29,28 @@ public class Facturacion extends javax.swing.JFrame {
      * Creates new form Facturacion
      */
     final BDcontrol BD = new OperationsBD();
-    List<Product> productos = BD.getProductsDB();
+    List<Product> products = BD.getProductsDB();
     List<Product> listProducts = new ArrayList<>();
-    List<Integer> listCantidad = new ArrayList<>();
+    List<Integer> listAmount = new ArrayList<>();
     
-    public void TablaDeFacturas(List<Bill> facturas){
-        DefaultTableModel modeloFactura = (DefaultTableModel) TablaFacturas.getModel();
-                 modeloFactura.setRowCount(0);
+    public void TablaDeFacturas(List<Bill> bills){
+        DefaultTableModel modeloBill = (DefaultTableModel) TablaFacturas.getModel();
+                 modeloBill.setRowCount(0);
 
-        for (Bill factura : facturas) {
-            List<Detail> DetallesList = BD.getDetailsByInvoiceId(factura.getIdBill());
+        for (Bill bill : bills) {
+            List<Detail> DetailList = BD.getDetailsByInvoiceId(bill.getIdBill());
             int Total = 0;
-            for (Detail detalle : DetallesList) {
-                Total += BD.getProductById(detalle.getIdProduct()).getPrice()* detalle.getAmount();
+            for (Detail detail : DetailList) {
+                Total += BD.getProductById(detail.getIdProduct()).getPrice()* detail.getAmount();
             }
-            modeloFactura.addRow(new Object[]{
-                factura.getIdBill(),
-                BD.getPersonById(factura.getIdPerson()).getIdentificationCard(),
+            modeloBill.addRow(new Object[]{
+                bill.getIdBill(),
+                BD.getPersonById(bill.getIdPerson()).getIdentificationCard(),
                 Total,
-                factura.getDate(),
-                factura.getState()
+                bill.getDate(),
+                bill.getState()
             });
-            TablaFacturas.setModel(modeloFactura);
+            TablaFacturas.setModel(modeloBill);
         }
     }
     
@@ -60,7 +60,7 @@ public class Facturacion extends javax.swing.JFrame {
         for (int i = 0; i < listProducts.size(); i++) {
             modelproduct.addRow(new Object[]{
                 listProducts.get(i).getName(),
-                listCantidad.get(i),
+                listAmount.get(i),
             });
             TableProducts.setModel(modelproduct);
         }
@@ -71,31 +71,31 @@ public class Facturacion extends javax.swing.JFrame {
         initComponents();
         DefaultComboBoxModel<String> shareModel = new DefaultComboBoxModel<>();
         shareModel.addElement("Seleccione...");
-        for (Product producto : productos) {
+        for (Product producto : products) {
             shareModel.addElement(producto.getName());
         }
         ComboProduct.setModel(shareModel);
-        List<Bill> facturas = BD.getInvoicesDB();
-        TablaDeFacturas(facturas);
+        List<Bill> bills = BD.getInvoicesDB();
+        TablaDeFacturas(bills);
         
       /*  
-        DefaultTableModel modeloFactura = (DefaultTableModel) TablaFacturas.getModel();
-        List<Factura> facturas = BD.getInvoicesDB();
+        DefaultTableModel modeloBill = (DefaultTableModel) TablaFacturas.getModel();
+        List<Factura> bills = BD.getInvoicesDB();
 
-        for (Bill factura : facturas) {
-            List<Detalle> DetallesList = BD.getDetailsByInvoiceId(factura.getIdBill());
+        for (Bill bill : bills) {
+            List<Detalle> DetallesList = BD.getDetailsByInvoiceId(bill.getIdBill());
             int Total = 0;
             for (Detail detalle : DetallesList) {
                 Total += BD.getProductById(detalle.getId_producto()).getPrecio() * detalle.getCantidad();
             }
-            modeloFactura.addRow(new Object[]{
-                factura.getIdBill(),
-                BD.getPersonById(factura.getId_persona()).getCedula(),
+            modeloBill.addRow(new Object[]{
+                bill.getIdBill(),
+                BD.getPersonById(bill.getId_persona()).getCedula(),
                 Total,
-                factura.getFecha(),
-                factura.getEstado()
+                bill.getFecha(),
+                bill.getEstado()
             });
-            TablaFacturas.setModel(modeloFactura);
+            TablaFacturas.setModel(modeloBill);
        }*/ 
     }
 
@@ -742,12 +742,12 @@ public class Facturacion extends javax.swing.JFrame {
         java.util.Date utilDate = fechaMax.getTime(); // Obtener el java.util.Date directamente
         java.sql.Date Max = new java.sql.Date(utilDate.getTime());
 
-        List<Bill> facturas = BD.getBalance(Min, Max);
+        List<Bill> bills = BD.getBalance(Min, Max);
         int Total = 0;
-        for (Bill factura : facturas) {
-            List<Detail> DetallesList = BD.getDetailsByInvoiceId(factura.getIdBill());
-                for (Detail detalle : DetallesList) {
-                    Total += BD.getProductById(detalle.getIdProduct()).getPrice()* detalle.getAmount();
+        for (Bill bill : bills) {
+            List<Detail> DetailList = BD.getDetailsByInvoiceId(bill.getIdBill());
+                for (Detail detail : DetailList) {
+                    Total += BD.getProductById(detail.getIdProduct()).getPrice()* detail.getAmount();
                 }
             
         }
@@ -809,9 +809,9 @@ public class Facturacion extends javax.swing.JFrame {
         int Cant=Integer.parseInt(TxtCantidad.getText());
         int selection=ComboProduct.getSelectedIndex();
         if(selection!=0){
-            String Product=productos.get(selection-1).getName();
-            listCantidad.add(Cant);
-            listProducts.add(productos.get(selection-1));
+            String Product=products.get(selection-1).getName();
+            listAmount.add(Cant);
+            listProducts.add(products.get(selection-1));
             TableDeProducts();
         }
 
@@ -849,10 +849,10 @@ public class Facturacion extends javax.swing.JFrame {
             int ideFact=BD.addInvoiceDB(fct);
 
             for (int i = 0; i < listProducts.size(); i++) {
-                Detail detail=new Detail(listProducts.get(i).getIdProduct(),ideFact,listCantidad.get(i));
+                Detail detail=new Detail(listProducts.get(i).getIdProduct(),ideFact,listAmount.get(i));
                 BD.addDetailsDB(detail);
             }
-            listCantidad.clear();
+            listAmount.clear();
         listProducts.clear();
         TableDeProducts();
         }
