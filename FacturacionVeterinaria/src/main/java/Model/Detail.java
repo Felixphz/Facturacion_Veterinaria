@@ -14,7 +14,6 @@ public class Detail {
     private int idBill;
     private int amount;
     
-    
     public Detail(int id_producto, int id_factura, int cantidad) {
         this.idProduct = id_producto;
         this.idBill = id_factura;
