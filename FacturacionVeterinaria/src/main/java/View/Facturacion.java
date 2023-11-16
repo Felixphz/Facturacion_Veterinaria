@@ -5,16 +5,20 @@
 package View;
 
 import Control.BDcontrol;
+import Control.GeneratePdf;
 import DataBase.OperationsBD;
 import Model.Customer;
 import Model.Detail;
 import Model.Bill;
 import Model.Product;
 import datechooser.beans.DateChooserCombo;
+import java.io.IOException;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -24,35 +28,25 @@ import javax.swing.table.DefaultTableModel;
  * @author juani
  */
 public class Facturacion extends javax.swing.JFrame {
-    
+
     /**
      * Creates new form Facturacion
      */
     final BDcontrol BD = new OperationsBD();
-    // Lista de productos obtenida de la base de datos
     List<Product> products = BD.getProductsDB();
-    // Listas para almacenar productos y cantidades
     List<Product> listProducts = new ArrayList<>();
     List<Integer> listAmount = new ArrayList<>();
-    
-    
-    //Construye una tabla de facturas a partir de una lista de facturas dada.
-    public void TablaDeFacturas(List<Bill> bills){
-        //// Obtener el modelo de la tabla de facturas
+
+    public void TablaDeFacturas(List<Bill> bills) {
         DefaultTableModel modeloBill = (DefaultTableModel) TablaFacturas.getModel();
-        // Limpiar la tabla antes de agregar datos
         modeloBill.setRowCount(0);
-        
-        // Iterar sobre las facturas
+
         for (Bill bill : bills) {
-            // Obtener la lista de detalles asociados a cada factura
             List<Detail> DetailList = BD.getDetailsByInvoiceId(bill.getIdBill());
             int Total = 0;
-            // Calcular el total sumando el precio de los productos por la cantidad
             for (Detail detail : DetailList) {
-                Total += BD.getProductById(detail.getIdProduct()).getPrice()* detail.getAmount();
+                Total += BD.getProductById(detail.getIdProduct()).getPrice() * detail.getAmount();
             }
-            // Agregar una fila a la tabla de facturas
             modeloBill.addRow(new Object[]{
                 bill.getIdBill(),
                 BD.getPersonById(bill.getIdPerson()).getIdentificationCard(),
@@ -60,48 +54,34 @@ public class Facturacion extends javax.swing.JFrame {
                 bill.getDate(),
                 bill.getState()
             });
-             // Establecer el modelo actualizado en la tabla
             TablaFacturas.setModel(modeloBill);
         }
     }
-    
-    //construye una tabla de productos a partir de la lista de productos y cantidades.
-    public void TableDeProducts(){
-         // Obtener el modelo de la tabla de productos
+
+    public void TableDeProducts() {
         DefaultTableModel modelproduct = (DefaultTableModel) TableProducts.getModel();
-        // Limpiar la tabla antes de agregar datos
         modelproduct.setRowCount(0);
-        // Iterar sobre la lista de productos y cantidades
         for (int i = 0; i < listProducts.size(); i++) {
-            // Agregar una fila a la tabla de productos
             modelproduct.addRow(new Object[]{
                 listProducts.get(i).getName(),
-                listAmount.get(i),
-            });
-            // Establecer el modelo actualizado en la tabla
+                listAmount.get(i),});
             TableProducts.setModel(modelproduct);
         }
     }
-    
-    //Inicializa componentes gráficos y carga datos iniciales.
+
     public Facturacion() {
-        
-        
+
         initComponents();
-        // Crear un modelo de combobox para compartir productos
         DefaultComboBoxModel<String> shareModel = new DefaultComboBoxModel<>();
         shareModel.addElement("Seleccione...");
-        // Agregar nombres de productos al modelo
         for (Product producto : products) {
             shareModel.addElement(producto.getName());
         }
-        // Establecer el modelo en el ComboBox
         ComboProduct.setModel(shareModel);
-        // Obtener la lista de facturas desde la base de datos y construir la tabla de facturas
         List<Bill> bills = BD.getInvoicesDB();
         TablaDeFacturas(bills);
-        
-      /*  
+
+        /*  
         DefaultTableModel modeloBill = (DefaultTableModel) TablaFacturas.getModel();
         List<Factura> bills = BD.getInvoicesDB();
 
@@ -119,7 +99,7 @@ public class Facturacion extends javax.swing.JFrame {
                 bill.getEstado()
             });
             TablaFacturas.setModel(modeloBill);
-       }*/ 
+       }*/
     }
 
     /**
@@ -134,44 +114,6 @@ public class Facturacion extends javax.swing.JFrame {
         dateChooserDialog1 = new datechooser.beans.DateChooserDialog();
         jPanel1 = new javax.swing.JPanel();
         jTabbedPane1 = new javax.swing.JTabbedPane();
-        jPanel3 = new javax.swing.JPanel();
-        label11 = new java.awt.Label();
-        label16 = new java.awt.Label();
-        jComboBox1 = new javax.swing.JComboBox<>();
-        label17 = new java.awt.Label();
-        jComboBox2 = new javax.swing.JComboBox<>();
-        label18 = new java.awt.Label();
-        dateChooserCombo5 = new datechooser.beans.DateChooserCombo();
-        label19 = new java.awt.Label();
-        label20 = new java.awt.Label();
-        label21 = new java.awt.Label();
-        jComboBox3 = new javax.swing.JComboBox<>();
-        jTextField1 = new javax.swing.JTextField();
-        jComboBox4 = new javax.swing.JComboBox<>();
-        jTextField2 = new javax.swing.JTextField();
-        jComboBox5 = new javax.swing.JComboBox<>();
-        jTextField3 = new javax.swing.JTextField();
-        jComboBox6 = new javax.swing.JComboBox<>();
-        jTextField4 = new javax.swing.JTextField();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jPanel5 = new javax.swing.JPanel();
-        label22 = new java.awt.Label();
-        label23 = new java.awt.Label();
-        jComboBox7 = new javax.swing.JComboBox<>();
-        label24 = new java.awt.Label();
-        dateChooserCombo6 = new datechooser.beans.DateChooserCombo();
-        label25 = new java.awt.Label();
-        label26 = new java.awt.Label();
-        label27 = new java.awt.Label();
-        Txtidentification = new javax.swing.JTextField();
-        ComboProduct = new javax.swing.JComboBox<>();
-        TxtCantidad = new javax.swing.JTextField();
-        jButton6 = new javax.swing.JButton();
-        jButton7 = new javax.swing.JButton();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        TableProducts = new javax.swing.JTable();
-        jButton8 = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         label8 = new java.awt.Label();
         label12 = new java.awt.Label();
@@ -189,387 +131,26 @@ public class Facturacion extends javax.swing.JFrame {
         label14 = new java.awt.Label();
         label15 = new java.awt.Label();
         jButton1 = new javax.swing.JButton();
+        jPanel5 = new javax.swing.JPanel();
+        label22 = new java.awt.Label();
+        label24 = new java.awt.Label();
+        dateChooserCombo6 = new datechooser.beans.DateChooserCombo();
+        label25 = new java.awt.Label();
+        label26 = new java.awt.Label();
+        label27 = new java.awt.Label();
+        Txtidentification = new javax.swing.JTextField();
+        ComboProduct = new javax.swing.JComboBox<>();
+        TxtCantidad = new javax.swing.JTextField();
+        jButton6 = new javax.swing.JButton();
+        jButton7 = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        TableProducts = new javax.swing.JTable();
+        jButton8 = new javax.swing.JButton();
+        label28 = new java.awt.Label();
+        label29 = new java.awt.Label();
+        label30 = new java.awt.Label();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        label11.setAlignment(java.awt.Label.CENTER);
-        label11.setFont(new java.awt.Font("Berlin Sans FB", 0, 34)); // NOI18N
-        label11.setForeground(new java.awt.Color(51, 204, 255));
-        label11.setText("Generación de factura");
-
-        label16.setAlignment(java.awt.Label.CENTER);
-        label16.setFont(new java.awt.Font("Berlin Sans FB", 0, 22)); // NOI18N
-        label16.setText("Cantidad");
-
-        jComboBox1.setFont(new java.awt.Font("Berlin Sans FB", 0, 18)); // NOI18N
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        label17.setAlignment(java.awt.Label.CENTER);
-        label17.setFont(new java.awt.Font("Berlin Sans FB", 0, 22)); // NOI18N
-        label17.setText("Atendido por");
-
-        jComboBox2.setFont(new java.awt.Font("Berlin Sans FB", 0, 18)); // NOI18N
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        label18.setAlignment(java.awt.Label.CENTER);
-        label18.setFont(new java.awt.Font("Berlin Sans FB", 0, 22)); // NOI18N
-        label18.setText("Fecha de expedición");
-
-        label19.setAlignment(java.awt.Label.CENTER);
-        label19.setFont(new java.awt.Font("Berlin Sans FB", 0, 34)); // NOI18N
-        label19.setForeground(new java.awt.Color(51, 204, 255));
-        label19.setText("Productos");
-
-        label20.setAlignment(java.awt.Label.CENTER);
-        label20.setFont(new java.awt.Font("Berlin Sans FB", 0, 22)); // NOI18N
-        label20.setText("Cliente (Dueño)");
-
-        label21.setAlignment(java.awt.Label.CENTER);
-        label21.setFont(new java.awt.Font("Berlin Sans FB", 0, 22)); // NOI18N
-        label21.setText("Producto");
-
-        jComboBox3.setFont(new java.awt.Font("Berlin Sans FB", 0, 18)); // NOI18N
-        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione..." }));
-        jComboBox3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox3ActionPerformed(evt);
-            }
-        });
-
-        jComboBox4.setFont(new java.awt.Font("Berlin Sans FB", 0, 18)); // NOI18N
-        jComboBox4.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jComboBox4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox4ActionPerformed(evt);
-            }
-        });
-
-        jComboBox5.setFont(new java.awt.Font("Berlin Sans FB", 0, 18)); // NOI18N
-        jComboBox5.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        jTextField3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField3ActionPerformed(evt);
-            }
-        });
-
-        jComboBox6.setFont(new java.awt.Font("Berlin Sans FB", 0, 18)); // NOI18N
-        jComboBox6.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        jButton2.setForeground(new java.awt.Color(51, 204, 255));
-        jButton2.setText("+");
-
-        jButton3.setBackground(new java.awt.Color(51, 204, 255));
-        jButton3.setFont(new java.awt.Font("Berlin Sans FB", 0, 18)); // NOI18N
-        jButton3.setText("Generar factura");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(75, 75, 75)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(10, 10, 10)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(dateChooserCombo5, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 279, Short.MAX_VALUE)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                                .addComponent(label19, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(173, 173, 173))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel3Layout.createSequentialGroup()
-                                        .addGap(187, 187, 187)
-                                        .addComponent(label16, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(jPanel3Layout.createSequentialGroup()
-                                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jComboBox5, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jComboBox6, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGap(19, 19, 19)
-                                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                                .addGap(58, 58, 58))))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(label18, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(label17, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap())))
-            .addComponent(label11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(344, 344, 344))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(label21, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jButton2)
-                                .addComponent(jComboBox4, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(204, 204, 204))))
-            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel3Layout.createSequentialGroup()
-                    .addGap(85, 85, 85)
-                    .addComponent(label20, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(744, Short.MAX_VALUE)))
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(22, 22, 22)
-                .addComponent(label11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(21, 21, 21)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(label19, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(label16, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(label21, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jComboBox3)
-                            .addComponent(jTextField1))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jComboBox4, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jTextField2, javax.swing.GroupLayout.DEFAULT_SIZE, 29, Short.MAX_VALUE))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jComboBox5)
-                            .addComponent(jTextField3, javax.swing.GroupLayout.DEFAULT_SIZE, 27, Short.MAX_VALUE))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jComboBox6)
-                            .addComponent(jTextField4, javax.swing.GroupLayout.DEFAULT_SIZE, 27, Short.MAX_VALUE))
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton2)
-                        .addGap(31, 31, 31)
-                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(77, 77, 77))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(39, 39, 39)
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(26, 26, 26)
-                        .addComponent(label17, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(20, 20, 20)
-                        .addComponent(label18, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(dateChooserCombo5, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel3Layout.createSequentialGroup()
-                    .addGap(95, 95, 95)
-                    .addComponent(label20, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(409, Short.MAX_VALUE)))
-        );
-
-        jTabbedPane1.addTab("Facturación", jPanel3);
-
-        label22.setAlignment(java.awt.Label.CENTER);
-        label22.setFont(new java.awt.Font("Berlin Sans FB", 0, 22)); // NOI18N
-        label22.setText("Cantidad");
-
-        label23.setAlignment(java.awt.Label.CENTER);
-        label23.setFont(new java.awt.Font("Berlin Sans FB", 0, 22)); // NOI18N
-        label23.setText("Atendido por");
-
-        jComboBox7.setFont(new java.awt.Font("Berlin Sans FB", 0, 18)); // NOI18N
-        jComboBox7.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        label24.setAlignment(java.awt.Label.CENTER);
-        label24.setFont(new java.awt.Font("Berlin Sans FB", 0, 22)); // NOI18N
-        label24.setText("Fecha de expedición");
-
-        label25.setAlignment(java.awt.Label.CENTER);
-        label25.setFont(new java.awt.Font("Berlin Sans FB", 0, 34)); // NOI18N
-        label25.setForeground(new java.awt.Color(51, 204, 255));
-        label25.setText("Productos");
-
-        label26.setAlignment(java.awt.Label.CENTER);
-        label26.setFont(new java.awt.Font("Berlin Sans FB", 0, 22)); // NOI18N
-        label26.setText("Cedula");
-
-        label27.setAlignment(java.awt.Label.CENTER);
-        label27.setFont(new java.awt.Font("Berlin Sans FB", 0, 22)); // NOI18N
-        label27.setText("Producto");
-
-        Txtidentification.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                TxtidentificationActionPerformed(evt);
-            }
-        });
-
-        ComboProduct.setFont(new java.awt.Font("Berlin Sans FB", 0, 18)); // NOI18N
-        ComboProduct.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        ComboProduct.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ComboProductActionPerformed(evt);
-            }
-        });
-
-        jButton6.setForeground(new java.awt.Color(51, 204, 255));
-        jButton6.setText("+");
-        jButton6.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton6ActionPerformed(evt);
-            }
-        });
-
-        jButton7.setBackground(new java.awt.Color(51, 204, 255));
-        jButton7.setFont(new java.awt.Font("Berlin Sans FB", 0, 18)); // NOI18N
-        jButton7.setText("Generar factura");
-        jButton7.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton7ActionPerformed(evt);
-            }
-        });
-
-        TableProducts.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "Producto", "Cantidad"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.Integer.class
-            };
-            boolean[] canEdit = new boolean [] {
-                false, false
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        jScrollPane2.setViewportView(TableProducts);
-
-        jButton8.setBackground(new java.awt.Color(51, 204, 255));
-        jButton8.setFont(new java.awt.Font("Berlin Sans FB", 0, 18)); // NOI18N
-        jButton8.setText("Generar factura");
-        jButton8.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton8ActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
-        jPanel5.setLayout(jPanel5Layout);
-        jPanel5Layout.setHorizontalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel5Layout.createSequentialGroup()
-                .addGap(75, 75, 75)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addComponent(label23, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())
-                    .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
-                                    .addGap(11, 11, 11)
-                                    .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(label26, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(Txtidentification, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGroup(jPanel5Layout.createSequentialGroup()
-                                    .addGap(10, 10, 10)
-                                    .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addComponent(dateChooserCombo6, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jComboBox7, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                            .addComponent(label24, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 279, Short.MAX_VALUE)
-                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
-                                .addComponent(label27, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(label22, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(58, 58, 58))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
-                                .addComponent(label25, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(173, 173, 173))
-                            .addGroup(jPanel5Layout.createSequentialGroup()
-                                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(TxtCantidad, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
-                                        .addComponent(ComboProduct, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(135, 135, 135)))
-                                .addGap(18, 18, 18)
-                                .addComponent(jButton6)
-                                .addGap(28, 28, 28))))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(42, 42, 42)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 432, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(20, 20, 20))))
-        );
-        jPanel5Layout.setVerticalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel5Layout.createSequentialGroup()
-                .addGap(85, 85, 85)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addComponent(label25, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(label22, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(label27, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(ComboProduct, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(TxtCantidad, javax.swing.GroupLayout.DEFAULT_SIZE, 29, Short.MAX_VALUE)
-                                .addComponent(jButton6)))
-                        .addGap(28, 28, 28)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(305, 305, 305))
-                    .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addGap(6, 6, 6)
-                        .addComponent(label26, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(Txtidentification, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(20, 20, 20)
-                        .addComponent(label23, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jComboBox7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(20, 20, 20)
-                        .addComponent(label24, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(dateChooserCombo6, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(139, 139, 139)
-                        .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(45, 45, 45))))
-        );
-
-        jTabbedPane1.addTab("Facturación", jPanel5);
 
         jPanel4.setPreferredSize(new java.awt.Dimension(700, 479));
         jPanel4.setLayout(null);
@@ -684,15 +265,16 @@ public class Facturacion extends javax.swing.JFrame {
                     .addComponent(ComboFechaMax, javax.swing.GroupLayout.PREFERRED_SIZE, 293, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(95, 95, 95))
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(59, 59, 59)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(label13, javax.swing.GroupLayout.PREFERRED_SIZE, 429, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(label10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(59, 59, 59)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(label13, javax.swing.GroupLayout.PREFERRED_SIZE, 429, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(label10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(440, 440, 440)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(347, 347, 347))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -709,12 +291,151 @@ public class Facturacion extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(ComboFechaMin, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(ComboFechaMax, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(31, 31, 31)
+                .addGap(29, 29, 29)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(279, Short.MAX_VALUE))
+                .addContainerGap(281, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Balance", jPanel2);
+
+        jPanel5.setPreferredSize(new java.awt.Dimension(907, 785));
+        jPanel5.setLayout(null);
+
+        label22.setAlignment(java.awt.Label.CENTER);
+        label22.setFont(new java.awt.Font("Berlin Sans FB", 0, 22)); // NOI18N
+        label22.setText("Cantidad");
+        jPanel5.add(label22);
+        label22.setBounds(680, 130, 130, 29);
+
+        label24.setAlignment(java.awt.Label.CENTER);
+        label24.setFont(new java.awt.Font("Berlin Sans FB", 0, 22)); // NOI18N
+        label24.setText("Fecha de expedición");
+        jPanel5.add(label24);
+        label24.setBounds(150, 270, 220, 29);
+        jPanel5.add(dateChooserCombo6);
+        dateChooserCombo6.setBounds(150, 310, 220, 32);
+
+        label25.setAlignment(java.awt.Label.CENTER);
+        label25.setFont(new java.awt.Font("Berlin Sans FB", 0, 34)); // NOI18N
+        label25.setForeground(new java.awt.Color(51, 204, 255));
+        label25.setText("Info Factura");
+        jPanel5.add(label25);
+        label25.setBounds(150, 100, 220, 42);
+
+        label26.setAlignment(java.awt.Label.CENTER);
+        label26.setFont(new java.awt.Font("Berlin Sans FB", 0, 22)); // NOI18N
+        label26.setText("Número de cédula");
+        jPanel5.add(label26);
+        label26.setBounds(150, 170, 220, 29);
+
+        label27.setAlignment(java.awt.Label.CENTER);
+        label27.setFont(new java.awt.Font("Berlin Sans FB", 0, 22)); // NOI18N
+        label27.setText("Producto");
+        jPanel5.add(label27);
+        label27.setBounds(451, 130, 200, 29);
+
+        Txtidentification.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                TxtidentificationActionPerformed(evt);
+            }
+        });
+        jPanel5.add(Txtidentification);
+        Txtidentification.setBounds(150, 220, 219, 27);
+
+        ComboProduct.setFont(new java.awt.Font("Berlin Sans FB", 0, 18)); // NOI18N
+        ComboProduct.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        ComboProduct.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ComboProductActionPerformed(evt);
+            }
+        });
+        jPanel5.add(ComboProduct);
+        ComboProduct.setBounds(450, 170, 202, 29);
+        jPanel5.add(TxtCantidad);
+        TxtCantidad.setBounds(680, 170, 130, 30);
+
+        jButton6.setForeground(new java.awt.Color(51, 204, 255));
+        jButton6.setText("+");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
+        jPanel5.add(jButton6);
+        jButton6.setBounds(820, 170, 30, 30);
+
+        jButton7.setBackground(new java.awt.Color(51, 204, 255));
+        jButton7.setFont(new java.awt.Font("Berlin Sans FB", 0, 18)); // NOI18N
+        jButton7.setText("Generar factura");
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
+        jPanel5.add(jButton7);
+        jButton7.setBounds(85, 708, 179, 32);
+
+        TableProducts.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Producto", "Cantidad"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.Integer.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane2.setViewportView(TableProducts);
+
+        jPanel5.add(jScrollPane2);
+        jScrollPane2.setBounds(450, 220, 400, 170);
+
+        jButton8.setBackground(new java.awt.Color(51, 204, 255));
+        jButton8.setFont(new java.awt.Font("Berlin Sans FB", 0, 18)); // NOI18N
+        jButton8.setText("Generar factura");
+        jButton8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton8ActionPerformed(evt);
+            }
+        });
+        jPanel5.add(jButton8);
+        jButton8.setBounds(410, 440, 170, 32);
+
+        label28.setAlignment(java.awt.Label.CENTER);
+        label28.setFont(new java.awt.Font("Berlin Sans FB", 0, 34)); // NOI18N
+        label28.setForeground(new java.awt.Color(51, 204, 255));
+        label28.setText("Generación de factura");
+        jPanel5.add(label28);
+        label28.setBounds(0, 20, 990, 42);
+
+        label29.setAlignment(java.awt.Label.CENTER);
+        label29.setFont(new java.awt.Font("Berlin Sans FB", 0, 34)); // NOI18N
+        label29.setForeground(new java.awt.Color(51, 204, 255));
+        label29.setText("Productos");
+        jPanel5.add(label29);
+        label29.setBounds(450, 80, 400, 42);
+
+        label30.setAlignment(java.awt.Label.CENTER);
+        label30.setFont(new java.awt.Font("Berlin Sans FB", 0, 34)); // NOI18N
+        label30.setForeground(new java.awt.Color(51, 204, 255));
+        label30.setText("Productos");
+        jPanel5.add(label30);
+        label30.setBounds(450, 80, 400, 42);
+
+        jTabbedPane1.addTab("Facturación", jPanel5);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -733,7 +454,7 @@ public class Facturacion extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1002, Short.MAX_VALUE)
+            .addGap(0, 990, Short.MAX_VALUE)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(0, 0, Short.MAX_VALUE)
@@ -753,11 +474,78 @@ public class Facturacion extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+
+        BDcontrol BD = new OperationsBD();
+        Calendar fechaUtil = dateChooserCombo6.getSelectedDate();
+        java.util.Date utilDate = fechaUtil.getTime();
+        java.sql.Date fechaSQL = new java.sql.Date(utilDate.getTime());
+        int ident = Integer.parseInt(Txtidentification.getText());
+        int idCustomer = BD.getIdCustomerByidentification(ident);
+        String date = dateChooserCombo6.getText();
+
+        if (idCustomer == -1) {
+            new RegistroUsuarios().setVisible(true);
+        } else {
+            Bill fct = new Bill(idCustomer, fechaSQL, "pagada");
+            int ideFact = BD.addInvoiceDB(fct);
+
+            for (int i = 0; i < listProducts.size(); i++) {
+                Detail detail = new Detail(listProducts.get(i).getIdProduct(), ideFact, listAmount.get(i));
+                BD.addDetailsDB(detail);
+                System.out.println(listProducts.get(i).getName());
+            }
+
+            try {
+                GeneratePdf.genPDF(ideFact, date, ident, products, listAmount);
+            } catch (IOException ex) {
+                Logger.getLogger(Facturacion.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            setEmpty();
+        }
+
+    }//GEN-LAST:event_jButton8ActionPerformed
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+
+        int idPerson = Integer.parseInt(Txtidentification.getText());
+        if (BD.getIdCustomerByidentification(idPerson) == null) {
+            new RegistroUsuarios().setVisible(true);
+        } else {
+            Calendar fechaUtil = dateChooserCombo6.getSelectedDate();
+            java.util.Date utilDate = fechaUtil.getTime();
+            java.sql.Date fechaSQL = new java.sql.Date(utilDate.getTime());
+            Bill fct = new Bill(idPerson, fechaSQL, "pagada");
+            int idBill = BD.addInvoiceDB(fct);
+
+        }
+    }//GEN-LAST:event_jButton7ActionPerformed
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        // TODO add your handling code here:
+        int Cant = Integer.parseInt(TxtCantidad.getText());
+        int selection = ComboProduct.getSelectedIndex();
+        if (selection != 0) {
+            String Product = products.get(selection - 1).getName();
+            listAmount.add(Cant);
+            listProducts.add(products.get(selection - 1));
+            TableDeProducts();
+        }
+    }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void ComboProductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ComboProductActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ComboProductActionPerformed
+
+    private void TxtidentificationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TxtidentificationActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_TxtidentificationActionPerformed
+
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        //instancia de BDcontrol 
+        // TODO add your handling code here:
         BDcontrol BD = new OperationsBD();
 
-        // Obtener las fechas mínima y máxima seleccionadas
         Calendar fechaMin = ComboFechaMin.getSelectedDate();
         java.util.Date utilMin = fechaMin.getTime(); // Obtener el java.util.Date directamente
         java.sql.Date Min = new java.sql.Date(utilMin.getTime());
@@ -766,143 +554,43 @@ public class Facturacion extends javax.swing.JFrame {
         java.util.Date utilDate = fechaMax.getTime(); // Obtener el java.util.Date directamente
         java.sql.Date Max = new java.sql.Date(utilDate.getTime());
 
-        // Obtener la lista de facturas en el rango de fechas proporcionado
         List<Bill> bills = BD.getBalance(Min, Max);
-        // Inicializar una variable para almacenar el total
         int Total = 0;
-        // Iterar sobre las facturas
         for (Bill bill : bills) {
-            // Obtener la lista de detalles asociados a cada factura
             List<Detail> DetailList = BD.getDetailsByInvoiceId(bill.getIdBill());
-                // Iterar sobre los detalles y calcular el total
-                for (Detail detail : DetailList) {
-                    // Obtener el precio del producto multiplicado por la cantidad y sumarlo al total
-                    Total += BD.getProductById(detail.getIdProduct()).getPrice()* detail.getAmount();
-                }
-            
+            for (Detail detail : DetailList) {
+                Total += BD.getProductById(detail.getIdProduct()).getPrice() * detail.getAmount();
+            }
+
         }
-                // Mostrar el balance total
-                JOptionPane.showMessageDialog(null, "El balance entre " + Min + " y " + Max + " es de: " + Total);
-            
-        
+        JOptionPane.showMessageDialog(null, "El balance entre " + Min + " y " + Max + " es de: " + Total);
 
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-
-        BDcontrol BD = new OperationsBD();
-        Calendar fechaUtil = dateChooserCombo5.getSelectedDate();
-        java.util.Date utilDate = fechaUtil.getTime(); 
-        java.sql.Date fechaSQL = new java.sql.Date(utilDate.getTime()); 
-        Bill fct = new Bill(3, fechaSQL, "pagada");
-        BD.addInvoiceDB(fct);
-
-    }//GEN-LAST:event_jButton3ActionPerformed
-
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-       
-        BDcontrol BD = new OperationsBD();
-        TablaDeFacturas(BD.getInvoicesDB());
-        
-    }//GEN-LAST:event_jButton4ActionPerformed
-
-    private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField3ActionPerformed
-
-    private void jComboBox3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox3ActionPerformed
-
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        //conexion
+        // TODO add your handling code here:
         BDcontrol BD = new OperationsBD();
-        // Obtener la fecha seleccionada
         Calendar fechaUtil = FechaObj.getSelectedDate();
-        java.util.Date utilDate = fechaUtil.getTime(); 
+        java.util.Date utilDate = fechaUtil.getTime();
         java.sql.Date fecha = new java.sql.Date(utilDate.getTime());
-        // Realizar la búsqueda de facturas por fecha y construir la tabla de facturas
         TablaDeFacturas(BD.searchInvoicesByDate(fecha));
     }//GEN-LAST:event_jButton5ActionPerformed
 
-    private void jComboBox4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox4ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox4ActionPerformed
-
-    private void TxtidentificationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TxtidentificationActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_TxtidentificationActionPerformed
-
-    private void ComboProductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ComboProductActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_ComboProductActionPerformed
-
-    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-        // TODO add your handling code here:
-        int Cant=Integer.parseInt(TxtCantidad.getText());
-        int selection=ComboProduct.getSelectedIndex();
-        if(selection!=0){
-            String Product=products.get(selection-1).getName();
-            listAmount.add(Cant);
-            listProducts.add(products.get(selection-1));
-            TableDeProducts();
-        }
-
-    }//GEN-LAST:event_jButton6ActionPerformed
-
-    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
-
-        int idPerson = Integer.parseInt(Txtidentification.getText());
-        if(BD.getIdCustomerByidentification(idPerson)==null){
-            new RegistroUsuarios().setVisible(true);
-        }
-        else{
-            Calendar fechaUtil = dateChooserCombo5.getSelectedDate();
-            java.util.Date utilDate = fechaUtil.getTime();
-            java.sql.Date fechaSQL = new java.sql.Date(utilDate.getTime());
-            Bill fct = new Bill(idPerson, fechaSQL, "pagada");
-            int idBill=BD.addInvoiceDB(fct);
-
-        }
-    }//GEN-LAST:event_jButton7ActionPerformed
-
-    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
 
         BDcontrol BD = new OperationsBD();
-        // Obtener la fecha seleccionada 
-        Calendar fechaUtil = dateChooserCombo5.getSelectedDate();
-        java.util.Date utilDate = fechaUtil.getTime();
-        java.sql.Date fechaSQL = new java.sql.Date(utilDate.getTime());
-        // Obtener la cedula ingresada
-        int ident= Integer.parseInt(Txtidentification.getText());
-        // Obtener la ID del cliente a partir de la cedula
-        int idCustomer=BD.getIdCustomerByidentification(ident);
-        // Verificar si la ID del cliente es -1 (no existe en la base de datos)
-        if(idCustomer == -1){
-            //manda al formalario de registro de usuarios
-            new RegistroUsuarios().setVisible(true);
-        }
-        
-        else{
-             // Crear una nueva factura con la ID del cliente, la fecha convertida y un estado
-            Bill fct = new Bill(idCustomer, fechaSQL, "pagada");
-            // Agregar la factura a la base de datos y obtener la ID generada
-            int ideFact=BD.addInvoiceDB(fct);
-            
-            // Iterar sobre la lista de productos y agregar detalles asociados a la factura en la base de datos
-            for (int i = 0; i < listProducts.size(); i++) {
-                Detail detail=new Detail(listProducts.get(i).getIdProduct(),ideFact,listAmount.get(i));
-                BD.addDetailsDB(detail);
-            }
-             // Limpiar las listas listAmount y listProducts
-            listAmount.clear();
-        listProducts.clear();
-        // Llamar al método TableDeProducts para limpiarla de valores
-        TableDeProducts();
-        }
-        
+        TablaDeFacturas(BD.getInvoicesDB());
 
-    }//GEN-LAST:event_jButton8ActionPerformed
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    public void setEmpty() {
+        listAmount.clear();
+        listProducts.clear();
+        TableDeProducts();
+        Txtidentification.setText("");
+        ComboProduct.setSelectedIndex(0);
+        TxtCantidad.setText("");
+    }
 
     /**
      * @param args the command line arguments
@@ -948,54 +636,34 @@ public class Facturacion extends javax.swing.JFrame {
     private javax.swing.JTable TableProducts;
     private javax.swing.JTextField TxtCantidad;
     private javax.swing.JTextField Txtidentification;
-    private datechooser.beans.DateChooserCombo dateChooserCombo5;
     private datechooser.beans.DateChooserCombo dateChooserCombo6;
     private datechooser.beans.DateChooserDialog dateChooserDialog1;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
-    private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JComboBox<String> jComboBox2;
-    private javax.swing.JComboBox<String> jComboBox3;
-    private javax.swing.JComboBox<String> jComboBox4;
-    private javax.swing.JComboBox<String> jComboBox5;
-    private javax.swing.JComboBox<String> jComboBox6;
-    private javax.swing.JComboBox<String> jComboBox7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
     private java.awt.Label label10;
-    private java.awt.Label label11;
     private java.awt.Label label12;
     private java.awt.Label label13;
     private java.awt.Label label14;
     private java.awt.Label label15;
-    private java.awt.Label label16;
-    private java.awt.Label label17;
-    private java.awt.Label label18;
-    private java.awt.Label label19;
-    private java.awt.Label label20;
-    private java.awt.Label label21;
     private java.awt.Label label22;
-    private java.awt.Label label23;
     private java.awt.Label label24;
     private java.awt.Label label25;
     private java.awt.Label label26;
     private java.awt.Label label27;
+    private java.awt.Label label28;
+    private java.awt.Label label29;
+    private java.awt.Label label30;
     private java.awt.Label label8;
     private java.awt.Label label9;
     // End of variables declaration//GEN-END:variables
