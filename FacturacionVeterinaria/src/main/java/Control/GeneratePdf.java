@@ -14,7 +14,6 @@ import Model.Customer;
 import java.util.List;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import javax.swing.JTable;
 
 /**
  *

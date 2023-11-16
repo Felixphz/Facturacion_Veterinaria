@@ -140,7 +140,6 @@ public class Facturacion extends javax.swing.JFrame {
         label27 = new java.awt.Label();
         Txtidentification = new javax.swing.JTextField();
         ComboProduct = new javax.swing.JComboBox<>();
-        TxtCantidad = new javax.swing.JTextField();
         jButton6 = new javax.swing.JButton();
         jButton7 = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -149,6 +148,7 @@ public class Facturacion extends javax.swing.JFrame {
         label28 = new java.awt.Label();
         label29 = new java.awt.Label();
         label30 = new java.awt.Label();
+        Cantidad = new javax.swing.JSpinner();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -351,8 +351,6 @@ public class Facturacion extends javax.swing.JFrame {
         });
         jPanel5.add(ComboProduct);
         ComboProduct.setBounds(450, 170, 202, 29);
-        jPanel5.add(TxtCantidad);
-        TxtCantidad.setBounds(680, 170, 130, 30);
 
         jButton6.setForeground(new java.awt.Color(51, 204, 255));
         jButton6.setText("+");
@@ -434,6 +432,12 @@ public class Facturacion extends javax.swing.JFrame {
         label30.setText("Productos");
         jPanel5.add(label30);
         label30.setBounds(450, 80, 400, 42);
+
+        Cantidad.setModel(new javax.swing.SpinnerNumberModel(1, 1, null, 1));
+        Cantidad.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        Cantidad.setEditor(new javax.swing.JSpinner.NumberEditor(Cantidad, ""));
+        jPanel5.add(Cantidad);
+        Cantidad.setBounds(680, 170, 130, 30);
 
         jTabbedPane1.addTab("Facturación", jPanel5);
 
@@ -524,7 +528,7 @@ public class Facturacion extends javax.swing.JFrame {
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         // TODO add your handling code here:
-        int Cant = Integer.parseInt(TxtCantidad.getText());
+        int Cant = (int)Cantidad.getValue();
         int selection = ComboProduct.getSelectedIndex();
         if (selection != 0) {
             String Product = products.get(selection - 1).getName();
@@ -589,7 +593,7 @@ public class Facturacion extends javax.swing.JFrame {
         TableDeProducts();
         Txtidentification.setText("");
         ComboProduct.setSelectedIndex(0);
-        TxtCantidad.setText("");
+        Cantidad.setValue(1);
     }
 
     /**
@@ -629,13 +633,13 @@ public class Facturacion extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JSpinner Cantidad;
     private datechooser.beans.DateChooserCombo ComboFechaMax;
     private datechooser.beans.DateChooserCombo ComboFechaMin;
     private javax.swing.JComboBox<String> ComboProduct;
     private datechooser.beans.DateChooserCombo FechaObj;
     private javax.swing.JTable TablaFacturas;
     private javax.swing.JTable TableProducts;
-    private javax.swing.JTextField TxtCantidad;
     private javax.swing.JTextField Txtidentification;
     private datechooser.beans.DateChooserCombo dateChooserCombo6;
     private datechooser.beans.DateChooserDialog dateChooserDialog1;
