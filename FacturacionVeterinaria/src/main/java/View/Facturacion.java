@@ -6,12 +6,15 @@ package View;
 
 import Control.BDcontrol;
 import Control.GeneratePdf;
+import Control.ValidationsForms;
 import DataBase.OperationsBD;
 import Model.Customer;
 import Model.Detail;
 import Model.Bill;
 import Model.Product;
 import datechooser.beans.DateChooserCombo;
+import java.awt.Desktop;
+import java.io.File;
 import java.io.IOException;
 import java.sql.Date;
 import java.util.ArrayList;
@@ -38,6 +41,7 @@ public class Facturacion extends javax.swing.JFrame {
     List<Integer> listAmount = new ArrayList<>();
 
     public void TablaDeFacturas(List<Bill> bills) {
+        //Muestra la tabla con las facturas consultadas
         DefaultTableModel modeloBill = (DefaultTableModel) TablaFacturas.getModel();
         modeloBill.setRowCount(0);
 
@@ -59,6 +63,7 @@ public class Facturacion extends javax.swing.JFrame {
     }
 
     public void TableDeProducts() {
+        //Adjunta todos los productos a la tabla de productos
         DefaultTableModel modelproduct = (DefaultTableModel) TableProducts.getModel();
         modelproduct.setRowCount(0);
         for (int i = 0; i < listProducts.size(); i++) {
@@ -70,7 +75,7 @@ public class Facturacion extends javax.swing.JFrame {
     }
 
     public Facturacion() {
-
+        // Obtiene todos los productos de la base de datos y los agrega a la comboBox
         initComponents();
         DefaultComboBoxModel<String> shareModel = new DefaultComboBoxModel<>();
         shareModel.addElement("Seleccione...");
@@ -123,14 +128,6 @@ public class Facturacion extends javax.swing.JFrame {
         TablaFacturas = new javax.swing.JTable();
         jButton4 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
-        jPanel2 = new javax.swing.JPanel();
-        label10 = new java.awt.Label();
-        label13 = new java.awt.Label();
-        ComboFechaMin = new datechooser.beans.DateChooserCombo();
-        ComboFechaMax = new datechooser.beans.DateChooserCombo();
-        label14 = new java.awt.Label();
-        label15 = new java.awt.Label();
-        jButton1 = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         label22 = new java.awt.Label();
         label24 = new java.awt.Label();
@@ -149,6 +146,14 @@ public class Facturacion extends javax.swing.JFrame {
         label29 = new java.awt.Label();
         label30 = new java.awt.Label();
         Cantidad = new javax.swing.JSpinner();
+        jPanel2 = new javax.swing.JPanel();
+        label10 = new java.awt.Label();
+        label13 = new java.awt.Label();
+        ComboFechaMin = new datechooser.beans.DateChooserCombo();
+        ComboFechaMax = new datechooser.beans.DateChooserCombo();
+        label14 = new java.awt.Label();
+        label15 = new java.awt.Label();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -222,82 +227,6 @@ public class Facturacion extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Consultas", jPanel4);
 
-        label10.setAlignment(java.awt.Label.CENTER);
-        label10.setFont(new java.awt.Font("Berlin Sans FB", 0, 34)); // NOI18N
-        label10.setForeground(new java.awt.Color(51, 204, 255));
-        label10.setText("Generación de balance por periodo");
-
-        label13.setAlignment(java.awt.Label.CENTER);
-        label13.setFont(new java.awt.Font("Berlin Sans FB", 0, 24)); // NOI18N
-        label13.setText("Seleccione el rango entre fechas ");
-
-        label14.setAlignment(java.awt.Label.CENTER);
-        label14.setFont(new java.awt.Font("Berlin Sans FB", 0, 20)); // NOI18N
-        label14.setForeground(new java.awt.Color(51, 204, 255));
-        label14.setText("Fecha final");
-
-        label15.setAlignment(java.awt.Label.CENTER);
-        label15.setFont(new java.awt.Font("Berlin Sans FB", 0, 20)); // NOI18N
-        label15.setForeground(new java.awt.Color(51, 204, 255));
-        label15.setText("Fecha inicial");
-
-        jButton1.setBackground(new java.awt.Color(51, 204, 255));
-        jButton1.setFont(new java.awt.Font("Berlin Sans FB", 0, 14)); // NOI18N
-        jButton1.setText("Generar");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addGap(95, 95, 95)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(ComboFechaMin, javax.swing.GroupLayout.DEFAULT_SIZE, 293, Short.MAX_VALUE)
-                    .addComponent(label15, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 214, Short.MAX_VALUE)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(label14, javax.swing.GroupLayout.PREFERRED_SIZE, 293, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(ComboFechaMax, javax.swing.GroupLayout.PREFERRED_SIZE, 293, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(95, 95, 95))
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(59, 59, 59)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(label13, javax.swing.GroupLayout.PREFERRED_SIZE, 429, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(label10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(440, 440, 440)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addComponent(label10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(label13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(19, 19, 19)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(label14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(label15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(ComboFechaMin, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(ComboFechaMax, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(29, 29, 29)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(281, Short.MAX_VALUE))
-        );
-
-        jTabbedPane1.addTab("Balance", jPanel2);
-
         jPanel5.setPreferredSize(new java.awt.Dimension(907, 785));
         jPanel5.setLayout(null);
 
@@ -337,6 +266,11 @@ public class Facturacion extends javax.swing.JFrame {
         Txtidentification.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 TxtidentificationActionPerformed(evt);
+            }
+        });
+        Txtidentification.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                TxtidentificationKeyTyped(evt);
             }
         });
         jPanel5.add(Txtidentification);
@@ -441,6 +375,82 @@ public class Facturacion extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Facturación", jPanel5);
 
+        label10.setAlignment(java.awt.Label.CENTER);
+        label10.setFont(new java.awt.Font("Berlin Sans FB", 0, 34)); // NOI18N
+        label10.setForeground(new java.awt.Color(51, 204, 255));
+        label10.setText("Generación de balance por periodo");
+
+        label13.setAlignment(java.awt.Label.CENTER);
+        label13.setFont(new java.awt.Font("Berlin Sans FB", 0, 24)); // NOI18N
+        label13.setText("Seleccione el rango entre fechas ");
+
+        label14.setAlignment(java.awt.Label.CENTER);
+        label14.setFont(new java.awt.Font("Berlin Sans FB", 0, 20)); // NOI18N
+        label14.setForeground(new java.awt.Color(51, 204, 255));
+        label14.setText("Fecha final");
+
+        label15.setAlignment(java.awt.Label.CENTER);
+        label15.setFont(new java.awt.Font("Berlin Sans FB", 0, 20)); // NOI18N
+        label15.setForeground(new java.awt.Color(51, 204, 255));
+        label15.setText("Fecha inicial");
+
+        jButton1.setBackground(new java.awt.Color(51, 204, 255));
+        jButton1.setFont(new java.awt.Font("Berlin Sans FB", 0, 14)); // NOI18N
+        jButton1.setText("Generar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addGap(95, 95, 95)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(ComboFechaMin, javax.swing.GroupLayout.DEFAULT_SIZE, 293, Short.MAX_VALUE)
+                    .addComponent(label15, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 214, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(label14, javax.swing.GroupLayout.PREFERRED_SIZE, 293, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ComboFechaMax, javax.swing.GroupLayout.PREFERRED_SIZE, 293, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(95, 95, 95))
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(59, 59, 59)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(label13, javax.swing.GroupLayout.PREFERRED_SIZE, 429, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(label10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(440, 440, 440)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addComponent(label10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(label13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(19, 19, 19)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(label14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(label15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(ComboFechaMin, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ComboFechaMax, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(29, 29, 29)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(281, Short.MAX_VALUE))
+        );
+
+        jTabbedPane1.addTab("Balance", jPanel2);
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -479,34 +489,57 @@ public class Facturacion extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+        //Ingresa la factura a la base de datos y genera el pdf
+        String id = Txtidentification.getText();
+        String dateInput = dateChooserCombo6.getText();
 
-        BDcontrol BD = new OperationsBD();
-        Calendar fechaUtil = dateChooserCombo6.getSelectedDate();
-        java.util.Date utilDate = fechaUtil.getTime();
-        java.sql.Date fechaSQL = new java.sql.Date(utilDate.getTime());
-        int ident = Integer.parseInt(Txtidentification.getText());
-        int idCustomer = BD.getIdCustomerByidentification(ident);
-        String date = dateChooserCombo6.getText();
-
-        if (idCustomer == -1) {
-            new RegistroUsuarios().setVisible(true);
+        
+        if (ValidationsForms.isEmpty(id) || ValidationsForms.isEmpty(dateInput)) {
+            JOptionPane.showMessageDialog(null, "Por favor ingrese toda la información de la factura para poder continuar", "Error", JOptionPane.ERROR_MESSAGE);
+        } else if (TableProducts.getRowCount() == 0) {
+            JOptionPane.showMessageDialog(null, "Por favor ingrese al menos un producto a la factura para poder continuar", "Error", JOptionPane.ERROR_MESSAGE);
         } else {
-            Bill fct = new Bill(idCustomer, fechaSQL, "pagada");
-            int ideFact = BD.addInvoiceDB(fct);
+            BDcontrol BD = new OperationsBD();
+            Calendar fechaUtil = dateChooserCombo6.getSelectedDate();
+            java.util.Date utilDate = fechaUtil.getTime();
+            java.sql.Date fechaSQL = new java.sql.Date(utilDate.getTime());
+            int ident = Integer.parseInt(id);
+            int idCustomer = BD.getIdCustomerByidentification(ident);
+            String date = dateInput;
 
-            for (int i = 0; i < listProducts.size(); i++) {
-                Detail detail = new Detail(listProducts.get(i).getIdProduct(), ideFact, listAmount.get(i));
-                BD.addDetailsDB(detail);
-                System.out.println(listProducts.get(i).getName());
-            }
+            if (idCustomer == -1) {
+                JOptionPane.showMessageDialog(null, "No se ha encontrado al usuario ingresado, por favor registrelo en el sistema", "Usuario no encontrado", JOptionPane.INFORMATION_MESSAGE);
+                new RegistroUsuarios().setVisible(true);
+            } else {
+                //Se crea la factura en la bd
+                Bill fct = new Bill(idCustomer, fechaSQL, "pagada");
+                int ideFact = BD.addInvoiceDB(fct);
 
-            try {
-                GeneratePdf.genPDF(ideFact, date, ident, products, listAmount);
-            } catch (IOException ex) {
-                Logger.getLogger(Facturacion.class.getName()).log(Level.SEVERE, null, ex);
+                for (int i = 0; i < listProducts.size(); i++) {
+                    //Se ingresan los detalles de la factura a la bd
+                    Detail detail = new Detail(listProducts.get(i).getIdProduct(), ideFact, listAmount.get(i));
+                    BD.addDetailsDB(detail);
+                }
+
+                
+                try {
+                    //Se llama la función de GeneratePdf que va a generar el pdf
+                    GeneratePdf.genPDF(ideFact, date, ident, products, listAmount);
+                } catch (IOException ex) {
+                    Logger.getLogger(Facturacion.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+                JOptionPane.showMessageDialog(null, "Se ha registrado la factura. Se va a mostrar la factura.", "Error", JOptionPane.INFORMATION_MESSAGE);
+
+                try {
+                    //Se abre el pdf de la factura creada
+                    File path = new File("src\\main\\java\\Bill\\Factura#" + ideFact + ".pdf");
+                    Desktop.getDesktop().open(path);
+                } catch (IOException ex) {
+                    JOptionPane.showMessageDialog(null, "No se ha encontrado el archivo solicitado, tal vez ha sido eliminado", "Usuario no encontrado", JOptionPane.INFORMATION_MESSAGE);
+                }
+                setEmpty();
             }
-            
-            setEmpty();
         }
 
     }//GEN-LAST:event_jButton8ActionPerformed
@@ -528,7 +561,7 @@ public class Facturacion extends javax.swing.JFrame {
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         // TODO add your handling code here:
-        int Cant = (int)Cantidad.getValue();
+        int Cant = (int) Cantidad.getValue();
         int selection = ComboProduct.getSelectedIndex();
         if (selection != 0) {
             String Product = products.get(selection - 1).getName();
@@ -548,36 +581,51 @@ public class Facturacion extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        BDcontrol BD = new OperationsBD();
+        // Consulta el balance en el rango de fechas
+        String dateMin = ComboFechaMin.getText();
+        String dateMax = ComboFechaMax.getText();
+        
+        if (ValidationsForms.isEmpty(dateMin) || ValidationsForms.isEmpty(dateMax)) {
+            JOptionPane.showMessageDialog(null, "Por favor ingrese las dos fechas para poder continuar", "Error", JOptionPane.ERROR_MESSAGE);
+        } else {
+            BDcontrol BD = new OperationsBD();
 
-        Calendar fechaMin = ComboFechaMin.getSelectedDate();
-        java.util.Date utilMin = fechaMin.getTime(); // Obtener el java.util.Date directamente
-        java.sql.Date Min = new java.sql.Date(utilMin.getTime());
+            Calendar fechaMin = ComboFechaMin.getSelectedDate();
+            java.util.Date utilMin = fechaMin.getTime(); // Obtener el java.util.Date directamente
+            java.sql.Date Min = new java.sql.Date(utilMin.getTime());
 
-        Calendar fechaMax = ComboFechaMax.getSelectedDate();
-        java.util.Date utilDate = fechaMax.getTime(); // Obtener el java.util.Date directamente
-        java.sql.Date Max = new java.sql.Date(utilDate.getTime());
+            Calendar fechaMax = ComboFechaMax.getSelectedDate();
+            java.util.Date utilDate = fechaMax.getTime(); // Obtener el java.util.Date directamente
+            java.sql.Date Max = new java.sql.Date(utilDate.getTime());
 
-        List<Bill> bills = BD.getBalance(Min, Max);
-        int Total = 0;
-        for (Bill bill : bills) {
-            List<Detail> DetailList = BD.getDetailsByInvoiceId(bill.getIdBill());
-            for (Detail detail : DetailList) {
-                Total += BD.getProductById(detail.getIdProduct()).getPrice() * detail.getAmount();
+            List<Bill> bills = BD.getBalance(Min, Max);
+            int Total = 0;
+            for (Bill bill : bills) {
+                List<Detail> DetailList = BD.getDetailsByInvoiceId(bill.getIdBill());
+                for (Detail detail : DetailList) {
+                    Total += BD.getProductById(detail.getIdProduct()).getPrice() * detail.getAmount();
+                }
+
             }
-
+            JOptionPane.showMessageDialog(null, "El balance entre " + Min + " y " + Max + " es de: " + Total);
         }
-        JOptionPane.showMessageDialog(null, "El balance entre " + Min + " y " + Max + " es de: " + Total);
 
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         // TODO add your handling code here:
-        BDcontrol BD = new OperationsBD();
-        Calendar fechaUtil = FechaObj.getSelectedDate();
-        java.util.Date utilDate = fechaUtil.getTime();
-        java.sql.Date fecha = new java.sql.Date(utilDate.getTime());
-        TablaDeFacturas(BD.searchInvoicesByDate(fecha));
+        // Busca las facturas de x fecha 
+        String dateObj = FechaObj.getText();
+        if (ValidationsForms.isEmpty(dateObj)) {
+            JOptionPane.showMessageDialog(null, "Por favor ingrese una fecha para poder continuar", "Error", JOptionPane.ERROR_MESSAGE);
+        } else {
+            BDcontrol BD = new OperationsBD();
+            Calendar fechaUtil = FechaObj.getSelectedDate();
+            java.util.Date utilDate = fechaUtil.getTime();
+            java.sql.Date fecha = new java.sql.Date(utilDate.getTime());
+            TablaDeFacturas(BD.searchInvoicesByDate(fecha));
+        }
+
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
@@ -587,7 +635,23 @@ public class Facturacion extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jButton4ActionPerformed
 
+    private void TxtidentificationKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TxtidentificationKeyTyped
+        // TODO add your handling code here:
+        int key = evt.getKeyChar();
+
+        boolean num = (key >= 48 && key <= 57);
+
+        if (!num) {
+            evt.consume();
+        }
+
+        if (Txtidentification.getText().length() >= 10) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_TxtidentificationKeyTyped
+
     public void setEmpty() {
+        // Vacía los campos de la facturación
         listAmount.clear();
         listProducts.clear();
         TableDeProducts();

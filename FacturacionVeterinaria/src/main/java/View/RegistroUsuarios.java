@@ -15,7 +15,7 @@ import Control.ValidationsForms;
  * @author juani
  */
 public class RegistroUsuarios extends javax.swing.JFrame {
-    
+
     /**
      * Creates new form RegistroUsuarios
      */
@@ -79,6 +79,11 @@ public class RegistroUsuarios extends javax.swing.JFrame {
                 idActionPerformed(evt);
             }
         });
+        id.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                idKeyTyped(evt);
+            }
+        });
 
         label4.setAlignment(java.awt.Label.CENTER);
         label4.setFont(new java.awt.Font("Times New Roman", 0, 16)); // NOI18N
@@ -113,6 +118,11 @@ public class RegistroUsuarios extends javax.swing.JFrame {
         telNum.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 telNumActionPerformed(evt);
+            }
+        });
+        telNum.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                telNumKeyTyped(evt);
             }
         });
 
@@ -233,16 +243,17 @@ public class RegistroUsuarios extends javax.swing.JFrame {
     }//GEN-LAST:event_telNumActionPerformed
 
     private void button2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button2ActionPerformed
-        
+
         BDcontrol BD = new OperationsBD();
-        if (ValidationsForms.isCorrect(name,email,adress,telNum,id,lastname)){
+        if (ValidationsForms.isCorrect(name, email, adress, telNum, id, lastname)) {
             JOptionPane.showMessageDialog(null, "Por favor complete todo el formulario para poder continuar", "Error", JOptionPane.ERROR_MESSAGE);
         } else {
-            Customer cst = new Customer(Integer.parseInt(id.getText()), name.getText(), lastname.getText(), Integer.parseInt(telNum.getText()),  email.getText(), adress.getText());
+            Customer cst = new Customer(Integer.parseInt(id.getText()), name.getText(), lastname.getText(), Integer.parseInt(telNum.getText()), email.getText(), adress.getText());
             BD.addPersonDB(cst);
-            this.setVisible(false); 
+            JOptionPane.showMessageDialog(null, "Se ha registrado correctamente al usuario", "Usuario registrado", JOptionPane.INFORMATION_MESSAGE);
+            this.setVisible(false);
         }
-        
+
 //        if (id.getText().equals("") || name.getText().equals("") || lastname.getText().equals("") || telNum.getText().equals("") ||
 //                 email.getText().equals("") || adress.getText().equals("")) {
 //            JOptionPane.showMessageDialog(null, "Por favor complete todo el formulario para poder continuar", "Error", JOptionPane.ERROR_MESSAGE);
@@ -259,6 +270,36 @@ public class RegistroUsuarios extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_idActionPerformed
 
+    private void idKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_idKeyTyped
+        // TODO add your handling code here:
+        int key = evt.getKeyChar();
+        
+        boolean num = (key >= 48 && key <= 57);
+        
+        if(!num){
+           evt.consume(); 
+        }
+        
+        if(id.getText().length() >= 10){
+            evt.consume();
+        }
+    }//GEN-LAST:event_idKeyTyped
+
+    private void telNumKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_telNumKeyTyped
+        // TODO add your handling code here:
+        int key = evt.getKeyChar();
+        
+        boolean num = (key >= 48 && key <= 57);
+        
+        if(!num){
+           evt.consume(); 
+        }
+        
+        if(telNum.getText().length() >= 10){
+            evt.consume();
+        }
+    }//GEN-LAST:event_telNumKeyTyped
+
     public void setEmpty() {
         id.setText("");
         name.setText("");
@@ -267,7 +308,7 @@ public class RegistroUsuarios extends javax.swing.JFrame {
         email.setText("");
         adress.setText("");
     }
-    
+
     /**
      * @param args the command line arguments
      */

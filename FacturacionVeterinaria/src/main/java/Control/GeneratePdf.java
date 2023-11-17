@@ -84,7 +84,7 @@ public class GeneratePdf {
             cb.addImage(img);
             ColumnText.showTextAligned(cb, Element.ALIGN_CENTER, logo, 525, 805, 0);
             ColumnText.showTextAligned(cb, Element.ALIGN_CENTER, nit, 525, 715, 0);
-            ColumnText.showTextAligned(cb, Element.ALIGN_LEFT, date, 65, 728, 0);
+            ColumnText.showTextAligned(cb, Element.ALIGN_LEFT, date, 72, 728, 0);
             cb.setColorStroke(new BaseColor(92, 225, 230));
             cb.setLineWidth(3);
             cb.moveTo(38, 570);

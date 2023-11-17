@@ -26,4 +26,13 @@ public class ValidationsForms {
         return confirmation;
     }
      
+    public static boolean isEmpty(String text){
+        text.replaceAll(" ", "");
+        
+        if (text.length() == 0) {
+            return true;
+        }else{
+            return false;
+        }
+    }
 }
