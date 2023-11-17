@@ -5,9 +5,9 @@
 package View;
 
 import Control.BDcontrol;
-import Control.GeneratePdf;
+import Model.GeneratePdf;
 import Control.ValidationsForms;
-import DataBase.OperationsBD;
+import Control.OperationsBD;
 import Model.Customer;
 import Model.Detail;
 import Model.Bill;
@@ -85,26 +85,6 @@ public class Facturacion extends javax.swing.JFrame {
         ComboProduct.setModel(shareModel);
         List<Bill> bills = BD.getInvoicesDB();
         TablaDeFacturas(bills);
-
-        /*  
-        DefaultTableModel modeloBill = (DefaultTableModel) TablaFacturas.getModel();
-        List<Factura> bills = BD.getInvoicesDB();
-
-        for (Bill bill : bills) {
-            List<Detalle> DetallesList = BD.getDetailsByInvoiceId(bill.getIdBill());
-            int Total = 0;
-            for (Detail detalle : DetallesList) {
-                Total += BD.getProductById(detalle.getId_producto()).getPrecio() * detalle.getCantidad();
-            }
-            modeloBill.addRow(new Object[]{
-                bill.getIdBill(),
-                BD.getPersonById(bill.getId_persona()).getCedula(),
-                Total,
-                bill.getFecha(),
-                bill.getEstado()
-            });
-            TablaFacturas.setModel(modeloBill);
-       }*/
     }
 
     /**

@@ -3,13 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Control;
+package Model;
 
 import Model.Product;
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.*;
 import Control.BDcontrol;
-import DataBase.OperationsBD;
+import Control.BDcontrol;
+import Control.OperationBills;
+import Control.OperationsBD;
 import Model.Customer;
 import java.util.List;
 import java.io.FileOutputStream;

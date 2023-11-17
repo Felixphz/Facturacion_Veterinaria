@@ -2,13 +2,14 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package DataBase;
+package Control;
 
 /**
  *
  * @author David Gomez
  */
 import Control.BDcontrol;
+import DataBase.ConnectionBD;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import Model.Customer;
