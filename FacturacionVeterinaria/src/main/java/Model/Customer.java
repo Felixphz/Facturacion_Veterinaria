@@ -13,12 +13,12 @@ public class Customer {
     private int identificationCard;
     private String name;
     private String lastName;
-    private int phone;
+    private long phone;
     private String mail;
     private String address;
     
     
-    public Customer(int cedula, String nombre, String apellidos, int telefono, String correo, String direccion) {
+    public Customer(int cedula, String nombre, String apellidos, long telefono, String correo, String direccion) {
         this.identificationCard = cedula;
         this.name = nombre;
         this.lastName = apellidos;
@@ -59,11 +59,11 @@ public class Customer {
         this.lastName = lastName;
     }
 
-    public int getPhone() {
+    public long getPhone() {
         return phone;
     }
 
-    public void setPhone(int phone) {
+    public void setPhone(Long phone) {
         this.phone = phone;
     }
 

@@ -248,7 +248,7 @@ public class RegistroUsuarios extends javax.swing.JFrame {
         if (ValidationsForms.isCorrect(name, email, adress, telNum, id, lastname)) {
             JOptionPane.showMessageDialog(null, "Por favor complete todo el formulario para poder continuar", "Error", JOptionPane.ERROR_MESSAGE);
         } else {
-            Customer cst = new Customer(Integer.parseInt(id.getText()), name.getText(), lastname.getText(), Integer.parseInt(telNum.getText()), email.getText(), adress.getText());
+            Customer cst = new Customer(Integer.parseInt(id.getText()), name.getText(), lastname.getText(), Long.parseLong(telNum.getText()), email.getText(), adress.getText());
             BD.addPersonDB(cst);
             JOptionPane.showMessageDialog(null, "Se ha registrado correctamente al usuario", "Usuario registrado", JOptionPane.INFORMATION_MESSAGE);
             this.setVisible(false);

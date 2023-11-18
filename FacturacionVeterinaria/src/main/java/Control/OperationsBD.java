@@ -41,7 +41,7 @@ public class OperationsBD implements BDcontrol {
             preparedStatement.setInt(1, persona.getIdentificationCard());
             preparedStatement.setString(2, persona.getName());
             preparedStatement.setString(3, persona.getLastName());
-            preparedStatement.setInt(4, persona.getPhone());
+            preparedStatement.setLong(4, persona.getPhone());
             preparedStatement.setString(5, persona.getMail());
             preparedStatement.setString(6, persona.getAddress());
 
@@ -256,7 +256,7 @@ public class OperationsBD implements BDcontrol {
                 int cedula = resultSet.getInt("cedula");
                 String nombres = resultSet.getString("Nombres");
                 String apellidos = resultSet.getString("Apellidos");
-                int telefono = resultSet.getInt("telefono");
+                long telefono = resultSet.getLong("telefono");
                 String email = resultSet.getString("email");
                 String direccion = resultSet.getString("direccion");
 
