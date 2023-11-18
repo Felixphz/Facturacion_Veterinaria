@@ -32,7 +32,7 @@ public class OperationsBD implements BDcontrol {
     // Método para agregar una persona a la base de datos
     @Override
     public void addPersonDB(Customer persona) {
-        Connection conexion = ConnectionBD.obtenerConexion();
+        Connection conexion = ConnectionBD.getConnection();
         try {
             String insercion = "INSERT INTO persona (cedula, Nombres, Apellidos, telefono, email, direccion) VALUES (?, ?, ?, ?, ?, ?)";
             PreparedStatement preparedStatement = conexion.prepareStatement(insercion);
@@ -58,13 +58,13 @@ public class OperationsBD implements BDcontrol {
             System.err.println("Error al agregar persona: " + e.getMessage());
         }
         
-        ConnectionBD.cerrarConexion(conexion);
+        ConnectionBD.closeConnection(conexion);
     }
 
     // Método para agregar una factura a la base de datos y obtener la ID generada
     @Override
     public int addInvoiceDB(Bill factura){
-        Connection conexion = ConnectionBD.obtenerConexion();
+        Connection conexion = ConnectionBD.getConnection();
         int idGenerada = -1;  // Valor predeterminado si la inserción falla o no se obtiene la ID generada
 
         try {
@@ -98,14 +98,14 @@ public class OperationsBD implements BDcontrol {
         } catch (Exception e) {
             System.err.println("Error al agregar factura: " + e.getMessage());
         }
-        ConnectionBD.cerrarConexion(conexion);
+        ConnectionBD.closeConnection(conexion);
         return idGenerada;
     }
 
     // Método para agregar detalles a la base de datos
     @Override
     public void addDetailsDB(Detail detalle) {
-        Connection conexion = ConnectionBD.obtenerConexion();
+        Connection conexion = ConnectionBD.getConnection();
         try {
             String insercion = "INSERT INTO detalles (id_producto1, id_factura1,cantidad) VALUES (?, ?, ?)";
             PreparedStatement preparedStatement = conexion.prepareStatement(insercion);
@@ -127,13 +127,13 @@ public class OperationsBD implements BDcontrol {
         } catch (Exception e) {
             System.err.println("Error al agregar detalle: " + e.getMessage());
         }
-        ConnectionBD.cerrarConexion(conexion);
+        ConnectionBD.closeConnection(conexion);
     }
 
     // Método para obtener la lista de productos desde la base de datos
     @Override
     public List<Product> getProductsDB() {
-        Connection conexion = ConnectionBD.obtenerConexion();
+        Connection conexion = ConnectionBD.getConnection();
         List<Product> productos = new ArrayList<>();
         try {
             String consulta = "SELECT id_producto, nombre, precio, descripcion FROM productos";
@@ -156,14 +156,14 @@ public class OperationsBD implements BDcontrol {
         } catch (SQLException e) {
             System.err.println("Error al obtener productos: " + e.getMessage());
         }
-        ConnectionBD.cerrarConexion(conexion);
+        ConnectionBD.closeConnection(conexion);
         return productos;
     }
     
     // Método para obtener la ID de una persona a partir de su cédula
     @Override
     public Integer getIdCustomerByidentification(int identification) {
-        Connection conexion = ConnectionBD.obtenerConexion();
+        Connection conexion = ConnectionBD.getConnection();
         Integer idCustomer = -1;
         try {
             String consulta = "SELECT id_persona FROM persona WHERE cedula = ?";
@@ -180,14 +180,14 @@ public class OperationsBD implements BDcontrol {
         } catch (SQLException e) {
             System.err.println("Error al obtener ID de usuario por cédula: " + e.getMessage());
         }
-        ConnectionBD.cerrarConexion(conexion);
+        ConnectionBD.closeConnection(conexion);
         return idCustomer;
     }
     
     // Método para obtener la lista de detalles de una factura por su ID
     @Override
     public List<Detail> getDetailsByInvoiceId(int idFactura){
-        Connection conexion = ConnectionBD.obtenerConexion();
+        Connection conexion = ConnectionBD.getConnection();
         List<Detail> productList = new ArrayList<>();
         try {
             String consulta = "SELECT id_producto1,cantidad FROM detalles WHERE id_factura1 = ?";
@@ -207,7 +207,7 @@ public class OperationsBD implements BDcontrol {
         } catch (SQLException e) {
             System.err.println("Error al obtener detalles: " + e.getMessage());
         }
-        ConnectionBD.cerrarConexion(conexion);
+        ConnectionBD.closeConnection(conexion);
         return productList;
     }
     
@@ -215,7 +215,7 @@ public class OperationsBD implements BDcontrol {
     // Método para obtener un producto por su ID
     @Override
     public Product getProductById(int idProducto) {
-        Connection conexion = ConnectionBD.obtenerConexion();
+        Connection conexion = ConnectionBD.getConnection();
         Product producto = null;
         try {
             String consulta = "SELECT nombre, precio, descripcion FROM productos WHERE id_producto = ?";
@@ -237,14 +237,14 @@ public class OperationsBD implements BDcontrol {
         } catch (SQLException e) {
             System.err.println("Error al obtener producto: " + e.getMessage());
         }
-        ConnectionBD.cerrarConexion(conexion);
+        ConnectionBD.closeConnection(conexion);
         return producto;
     }
     
     // Método para obtener una persona por su ID
     @Override
     public Customer getPersonById(int idPersona) {
-        Connection conexion = ConnectionBD.obtenerConexion();
+        Connection conexion = ConnectionBD.getConnection();
         Customer persona = null;
         try {
             String consulta = "SELECT cedula, Nombres, Apellidos, telefono, email, direccion FROM persona WHERE id_persona = ?";
@@ -269,14 +269,14 @@ public class OperationsBD implements BDcontrol {
         } catch (SQLException e) {
             System.err.println("Error al obtener persona: " + e.getMessage());
         }
-        ConnectionBD.cerrarConexion(conexion);
+        ConnectionBD.closeConnection(conexion);
         return persona;
     }
     
     // Método para buscar facturas por fecha
     @Override
     public List<Bill> searchInvoicesByDate(Date fecha) {
-        Connection conexion = ConnectionBD.obtenerConexion();
+        Connection conexion = ConnectionBD.getConnection();
         List<Bill> facturasEnFecha = new ArrayList<>();
         try {
             String consulta = "SELECT id_factura, id_persona, estado, fecha FROM facturas WHERE fecha = ?";
@@ -300,14 +300,14 @@ public class OperationsBD implements BDcontrol {
         } catch (SQLException e) {
             System.err.println("Error al buscar facturas por fecha: " + e.getMessage());
         }
-        ConnectionBD.cerrarConexion(conexion);
+        ConnectionBD.closeConnection(conexion);
         return facturasEnFecha;
     }
     
     // Método para obtener la lista de todas las facturas
     @Override
     public List<Bill> getInvoicesDB() {
-        Connection conexion = ConnectionBD.obtenerConexion();
+        Connection conexion = ConnectionBD.getConnection();
         List<Bill> facturas = new ArrayList<>();
         try {
             String consulta = "SELECT id_factura, id_persona, estado, fecha FROM facturas";
@@ -330,14 +330,14 @@ public class OperationsBD implements BDcontrol {
         } catch (SQLException e) {
             System.err.println("Error al obtener facturas: " + e.getMessage());
         }
-        ConnectionBD.cerrarConexion(conexion);
+        ConnectionBD.closeConnection(conexion);
         return facturas;
     }
 
     // Método para obtener la lista de todos los detalles
     @Override
     public List<Detail> getDetailsDB() {
-        Connection conexion = ConnectionBD.obtenerConexion();
+        Connection conexion = ConnectionBD.getConnection();
         List<Detail> detalles = new ArrayList<>();
         try {
             String consulta = "SELECT id_producto1, id_factura FROM detalles";
@@ -359,14 +359,14 @@ public class OperationsBD implements BDcontrol {
         } catch (SQLException e) {
             System.err.println("Error al obtener detalles: " + e.getMessage());
         }
-        ConnectionBD.cerrarConexion(conexion);
+        ConnectionBD.closeConnection(conexion);
         return detalles;
     }
     
     // Método para obtener la lista de facturas en un rango de tiempo
     @Override
     public List<Bill> getBalance(Date fechaInicio, Date fechaFin) {
-        Connection conexion = ConnectionBD.obtenerConexion();
+        Connection conexion = ConnectionBD.getConnection();
         List<Bill> facturasEnRango = new ArrayList<>();
         try {
             String consulta = "SELECT id_factura, id_persona, estado, fecha FROM facturas WHERE fecha BETWEEN ? AND ?";
@@ -391,7 +391,7 @@ public class OperationsBD implements BDcontrol {
         } catch (SQLException e) {
             System.err.println("Error al obtener facturas en rango de tiempo: " + e.getMessage());
         }
-        ConnectionBD.cerrarConexion(conexion);
+        ConnectionBD.closeConnection(conexion);
         return facturasEnRango;
     }
 }

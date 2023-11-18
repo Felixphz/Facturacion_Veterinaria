@@ -13,7 +13,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class ConnectionBD {
-    public static Connection obtenerConexion() {
+    public static Connection getConnection() {
         Connection conexion = null;
 
         // Configura la información de la base de datos
@@ -34,7 +34,7 @@ public class ConnectionBD {
         return conexion;
     }
 
-    public static void cerrarConexion(Connection conexion) {
+    public static void closeConnection(Connection conexion) {
         try {
             if (conexion != null) {
                 conexion.close();
