@@ -1,0 +1,57 @@
+@options
+@packages
+-classpath
+'C:/Users/Juan Felipe/.m2/repository/Date/DateChooser/1.0.0/DateChooser-1.0.0.jar;C:/Users/Juan Felipe/.m2/repository/unknown/binary/SelectorTiempo/SNAPSHOT/SelectorTiempo-SNAPSHOT.jar;C:/Users/Juan Felipe/.m2/repository/com/mysql/mysql-connector-j/8.0.33/mysql-connector-j-8.0.33.jar;C:/Users/Juan Felipe/.m2/repository/com/google/protobuf/protobuf-java/3.21.9/protobuf-java-3.21.9.jar;C:/Users/Juan Felipe/.m2/repository/pdf/itextpdf/5.5/itextpdf-5.5.jar'
+-encoding
+'UTF-8'
+-protected
+-source
+'20'
+-sourcepath
+'D:/Tecnicas de programacion/Facturacion_Veterinaria/FacturacionVeterinaria/src/main/java'
+-author
+-bottom
+'Copyright &#169; 2023. All rights reserved.'
+-charset
+'UTF-8'
+-d
+'D:/Tecnicas de programacion/Facturacion_Veterinaria/FacturacionVeterinaria/target/site/apidocs'
+-docencoding
+'UTF-8'
+-doctitle
+'FacturacionVeterinaria 1.0-SNAPSHOT API'
+-use
+-version
+-windowtitle
+'FacturacionVeterinaria 1.0-SNAPSHOT API'
+com.mycompany.facturacionveterinaria
+Control
+DataBase
+Model
+View
+C:\Users\Juan Felipe\.m2\repository\Date\DateChooser\1.0.0\DateChooser-1.0.0.jar = 1699305707717
+C:\Users\Juan Felipe\.m2\repository\unknown\binary\SelectorTiempo\SNAPSHOT\SelectorTiempo-SNAPSHOT.jar = 1699305707720
+C:\Users\Juan Felipe\.m2\repository\com\mysql\mysql-connector-j\8.0.33\mysql-connector-j-8.0.33.jar = 1699449316671
+C:\Users\Juan Felipe\.m2\repository\com\google\protobuf\protobuf-java\3.21.9\protobuf-java-3.21.9.jar = 1699449320192
+C:\Users\Juan Felipe\.m2\repository\pdf\itextpdf\5.5\itextpdf-5.5.jar = 1700103876623
+D:\Tecnicas de programacion\Facturacion_Veterinaria\FacturacionVeterinaria\src\main\java = 1700232638719
+D:\Tecnicas de programacion\Facturacion_Veterinaria\FacturacionVeterinaria\target\site\apidocs\allclasses-index.html = 1700267023691
+D:\Tecnicas de programacion\Facturacion_Veterinaria\FacturacionVeterinaria\target\site\apidocs\allpackages-index.html = 1700267023695
+D:\Tecnicas de programacion\Facturacion_Veterinaria\FacturacionVeterinaria\target\site\apidocs\copy.svg = 1700267023740
+D:\Tecnicas de programacion\Facturacion_Veterinaria\FacturacionVeterinaria\target\site\apidocs\element-list = 1700267023469
+D:\Tecnicas de programacion\Facturacion_Veterinaria\FacturacionVeterinaria\target\site\apidocs\help-doc.html = 1700267023733
+D:\Tecnicas de programacion\Facturacion_Veterinaria\FacturacionVeterinaria\target\site\apidocs\index-all.html = 1700267023722
+D:\Tecnicas de programacion\Facturacion_Veterinaria\FacturacionVeterinaria\target\site\apidocs\index.html = 1700267023671
+D:\Tecnicas de programacion\Facturacion_Veterinaria\FacturacionVeterinaria\target\site\apidocs\member-search-index.js = 1700267023699
+D:\Tecnicas de programacion\Facturacion_Veterinaria\FacturacionVeterinaria\target\site\apidocs\module-search-index.js = 1700267023696
+D:\Tecnicas de programacion\Facturacion_Veterinaria\FacturacionVeterinaria\target\site\apidocs\overview-summary.html = 1700267023727
+D:\Tecnicas de programacion\Facturacion_Veterinaria\FacturacionVeterinaria\target\site\apidocs\overview-tree.html = 1700267023667
+D:\Tecnicas de programacion\Facturacion_Veterinaria\FacturacionVeterinaria\target\site\apidocs\package-search-index.js = 1700267023697
+D:\Tecnicas de programacion\Facturacion_Veterinaria\FacturacionVeterinaria\target\site\apidocs\script.js = 1700267023738
+D:\Tecnicas de programacion\Facturacion_Veterinaria\FacturacionVeterinaria\target\site\apidocs\search-page.js = 1700267023745
+D:\Tecnicas de programacion\Facturacion_Veterinaria\FacturacionVeterinaria\target\site\apidocs\search.html = 1700267023725
+D:\Tecnicas de programacion\Facturacion_Veterinaria\FacturacionVeterinaria\target\site\apidocs\search.js = 1700267023742
+D:\Tecnicas de programacion\Facturacion_Veterinaria\FacturacionVeterinaria\target\site\apidocs\serialized-form.html = 1700267023585
+D:\Tecnicas de programacion\Facturacion_Veterinaria\FacturacionVeterinaria\target\site\apidocs\stylesheet.css = 1700267023737
+D:\Tecnicas de programacion\Facturacion_Veterinaria\FacturacionVeterinaria\target\site\apidocs\tag-search-index.js = 1700267023700
+D:\Tecnicas de programacion\Facturacion_Veterinaria\FacturacionVeterinaria\target\site\apidocs\type-search-index.js = 1700267023698
