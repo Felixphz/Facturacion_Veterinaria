@@ -500,8 +500,6 @@ public class Facturacion extends javax.swing.JFrame {
                     Detail detail = new Detail(listProducts.get(i).getIdProduct(), ideFact, listAmount.get(i));
                     BD.addDetailsDB(detail);
                 }
-
-                
                 try {
                     //Se llama la función de GeneratePdf que va a generar el pdf
                     GeneratePdf.genPDF(ideFact, date, ident, products, listAmount);
@@ -535,7 +533,6 @@ public class Facturacion extends javax.swing.JFrame {
             java.sql.Date fechaSQL = new java.sql.Date(utilDate.getTime());
             Bill fct = new Bill(idPerson, fechaSQL, "pagada");
             int idBill = BD.addInvoiceDB(fct);
-
         }
     }//GEN-LAST:event_jButton7ActionPerformed
 
@@ -585,7 +582,6 @@ public class Facturacion extends javax.swing.JFrame {
                 for (Detail detail : DetailList) {
                     Total += BD.getProductById(detail.getIdProduct()).getPrice() * detail.getAmount();
                 }
-
             }
             JOptionPane.showMessageDialog(null, "El balance entre " + Min + " y " + Max + " es de: " + Total);
         }
@@ -618,13 +614,10 @@ public class Facturacion extends javax.swing.JFrame {
     private void TxtidentificationKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TxtidentificationKeyTyped
         // TODO add your handling code here:
         int key = evt.getKeyChar();
-
         boolean num = (key >= 48 && key <= 57);
-
         if (!num) {
             evt.consume();
         }
-
         if (Txtidentification.getText().length() >= 10) {
             evt.consume();
         }
